@@ -1,10 +1,12 @@
 #pragma once
 #include "EventDispatcher.h"
-class ComaRenderer :
-	public EventDispatcher
+namespace Coma2D
 {
-public:
-	ComaRenderer();
-	~ComaRenderer();
-};
-
+	class ComaRenderer :
+		public EventDispatcher
+	{
+	public:
+		ComaRenderer();
+		~ComaRenderer();
+	};
+}

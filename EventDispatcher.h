@@ -1,8 +1,10 @@
 #pragma once
-class EventDispatcher
+namespace Coma2D
 {
-public:
-	EventDispatcher();
-	virtual ~EventDispatcher();
-};
-
+	class EventDispatcher
+	{
+	public:
+		EventDispatcher();
+		virtual ~EventDispatcher();
+	};
+}

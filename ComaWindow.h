@@ -1,10 +1,14 @@
 #pragma once
 #include "EventDispatcher.h"
-class ComaWindow :
-	public EventDispatcher
+
+namespace Coma2D
 {
-public:
-	ComaWindow();
-	~ComaWindow();
-};
+	class ComaWindow :
+		public EventDispatcher
+	{
+	public:
+		ComaWindow();
+		~ComaWindow();
+	};
+}
 
