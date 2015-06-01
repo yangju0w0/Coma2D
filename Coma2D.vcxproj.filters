@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Coma2D">
+      <UniqueIdentifier>{425e7e5e-d622-490e-85a7-b5b4d8aed58c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\stdafx.h">
@@ -21,7 +24,10 @@
     <ClInclude Include="src\targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="ComaWindow.h">
+    <ClInclude Include="src\ComaWindow.h">
+      <Filter>Coma2D</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +35,10 @@
     <ClCompile Include="src\stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="ComaWindow.cpp">
+    <ClCompile Include="src\ComaWindow.cpp">
+      <Filter>Coma2D</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
