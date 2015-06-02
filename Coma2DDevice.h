@@ -5,6 +5,6 @@ namespace Coma2D
 	{
 	public:
 		Coma2DDevice();
-		~Coma2DDevice();
+		virtual ~Coma2DDevice();
 	};
 }

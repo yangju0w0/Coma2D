@@ -7,6 +7,6 @@ namespace Coma2D
 	{
 	public:
 		ComaRenderer();
-		~ComaRenderer();
+		virtual ~ComaRenderer();
 	};
 }

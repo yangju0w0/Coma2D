@@ -8,7 +8,7 @@ namespace Coma2D
 	{
 	public:
 		ComaWindow();
-		~ComaWindow();
+		virtual ~ComaWindow();
 	};
 }
 
