@@ -13,6 +13,7 @@ namespace Coma2D
 		//Window Running Func
 		bool	createWindow();
 		bool	run();
+		void	close();
 		LRESULT messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 		
 	public:
@@ -37,6 +38,24 @@ namespace Coma2D
 		bool isMaximized(){ return maximized; }
 		bool isResizing(){ return resizing; }
 		bool isRunning(){ return running; }
+		bool isFullScreen(){ return fullscreen; }
+
+		//Window Status Changer
+		void minimizeWindow();
+		void maximizeWindow();
+		void restoreWindow();
+		bool setFullScreen(bool mode=true, int width=800, int height=600);
+		void showCursor(){ShowCursor(TRUE);}
+		void hideCursor(){ ShowCursor(FALSE); }
+
+		//Window Status Setter
+		bool setIcon(HICON hIcon);
+		bool setCursor(HCURSOR hCursor);
+		bool setStyle(DWORD dwStyle);
+		bool setStyleEx(DWORD dwStyleEx);
+		bool removeStyle(DWORD dwStyle);
+		bool removeStyleEx(DWORD dwStyleEx);
+		bool setTitle(const char* name);
 
 	private:
 		bool changeWindowSize(POINT position, RECT size);	//윈도우 크기,위치 변경 후 각종 정보 갱신
@@ -49,11 +68,18 @@ namespace Coma2D
 		POINT	windowPosition;
 		RECT	screenRect;
 		RECT	windowRect;
+		POINT	fullscreenSize;
+		HICON	hIcon;
+		HCURSOR hCursor;
+		DWORD	dwStyle;
+		DWORD	dwStyleEx;
+		const char* windowTitle;
 		
 		//Window Status
 		bool activated;
 		bool minimized;
 		bool maximized;
+		bool fullscreen;
 		bool resizing;
 		bool running;
 

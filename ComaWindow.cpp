@@ -11,13 +11,19 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 ComaWindow::ComaWindow(HINSTANCE hInstance)
-	:hInstance(0), hWnd(0), activated(false), minimized(false), maximized(false), resizing(false), running(false)
+	:hInstance(0), hWnd(0), activated(false), minimized(false), maximized(false), resizing(false), running(false), fullscreen(false)
 {
 	this->hInstance = hInstance;
 	comaWindow = this;
 
 	setWindowPosition(CW_USEDEFAULT, CW_USEDEFAULT);
 	setScreenSize(800, 480);
+
+	hIcon = LoadIcon(0, IDI_APPLICATION);
+	hCursor = LoadCursor(0, IDC_ARROW);
+	dwStyle = WS_OVERLAPPEDWINDOW;
+	dwStyleEx = 0;
+	windowTitle = "Coma2DWindow";
 }
 
 
@@ -38,8 +44,8 @@ bool ComaWindow::createWindow()
 	windowClass.cbClsExtra = 0;
 	windowClass.cbWndExtra = 0;
 	windowClass.hInstance = hInstance;
-	windowClass.hIcon = LoadIcon(0, IDI_APPLICATION);
-	windowClass.hCursor = LoadCursor(0, IDC_ARROW);
+	windowClass.hIcon = hIcon;
+	windowClass.hCursor = hCursor;
 	windowClass.hbrBackground = (HBRUSH)GetStockObject(NULL_BRUSH);
 	windowClass.lpszMenuName = 0;
 	windowClass.lpszClassName = className;
@@ -48,12 +54,13 @@ bool ComaWindow::createWindow()
 		return false;
 
 	RECT rect = screenRect;
-	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
-	
-	hWnd = CreateWindow(
+	AdjustWindowRectEx(&rect, dwStyle, false, dwStyleEx);
+
+	hWnd = CreateWindowEx(
+		dwStyleEx,
 		className,
-		"Coma2DWindow",
-		WS_OVERLAPPEDWINDOW,
+		windowTitle,
+		dwStyle,
 		windowPosition.x, windowPosition.y, 
 		rect.right - rect.left, rect.bottom - rect.top,
 		0, 0, hInstance, 0);
@@ -66,7 +73,20 @@ bool ComaWindow::createWindow()
 
 	GetWindowRect(hWnd, &windowRect);
 	windowPosition = { windowRect.left, windowRect.top };
+
+	if (fullscreen)
+	{
+		fullscreen = false;
+		setFullScreen(true, fullscreenSize.x, fullscreenSize.y);
+	}
+	else if (minimized)
+		PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MINIMIZE, 0);
+	else if (maximized)
+		PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MAXIMIZE, 0);
 	
+	dwStyle = GetWindowLong(hWnd, GWL_STYLE);
+	dwStyleEx = GetWindowLong(hWnd, GWL_EXSTYLE);
+
 	return true;
 }
 
@@ -86,29 +106,39 @@ bool ComaWindow::run()
 		}
 		else
 		{
-			//=============For Debug================
-			std::ostringstream outs;
-			outs.precision(6);
-			outs << "X: " << windowPosition.x << "  Y: " << windowPosition.y << "  Width: " << screenRect.right << "  Height: " << screenRect.bottom << "   Resizing: " << isResizing();
-			//======================================
-
-			SetWindowText(hWnd, outs.str().c_str());
 			Sleep(5);
 		}
 	}
 	return true;
 }
+void ComaWindow::close()
+{
+	if (hWnd)
+		PostMessage(hWnd, WM_CLOSE, 0, 0);
+}
 
 LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	
 	switch (uMsg)
 	{
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE)
+		{
 			activated = false;
+			if (fullscreen)
+			{
+				ChangeDisplaySettings(NULL, 0);
+				minimizeWindow();
+			}
+		}
 		else
+		{
 			activated = true;
+			if (fullscreen)
+			{
+				setFullScreen(true, fullscreenSize.x, fullscreenSize.y);
+			}
+		}
 		return 0;
 	case WM_ENTERSIZEMOVE:
 		resizing = true;
@@ -155,6 +185,7 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		PostQuitMessage(0);
 		return 0;
 	}
+	
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
@@ -212,16 +243,23 @@ bool ComaWindow::setWindowRect(int x, int y, int width, int height)
 //Window Size Getter
 RECT ComaWindow::getWindowRect()
 {
+	if (fullscreen)
+		return{ 0, 0, fullscreenSize.x, fullscreenSize.y };
 	updateRectData();
 	return windowRect;
 }
 POINT ComaWindow::getWindowPosition()
 {
+	if (fullscreen)
+		return POINT{ 0, 0 };
 	updateRectData();
 	return windowPosition;
 }
 RECT ComaWindow::getScreenSize()
 {
+	if (fullscreen)
+		return RECT{ 0, 0, fullscreenSize.x, fullscreenSize.y };
+	updateRectData();
 	return screenRect;
 }
 
@@ -232,9 +270,11 @@ bool ComaWindow::changeWindowSize(POINT position, RECT screenSize)
 {
 	if (!hWnd)
 		return false;
+	if (fullscreen)
+		return false;
 
 	RECT rect = screenSize;
-	AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+	AdjustWindowRectEx(&rect, dwStyle, false, dwStyleEx);
 
 	if (!SetWindowPos(
 		hWnd, NULL, position.x, position.y,
@@ -247,6 +287,9 @@ bool ComaWindow::changeWindowSize(POINT position, RECT screenSize)
 }
 bool ComaWindow::updateRectData()
 {
+	if (fullscreen)
+		return false;
+
 	if (isMinimized())
 		return false;
 	if (!GetWindowRect(hWnd, &windowRect))
@@ -254,6 +297,175 @@ bool ComaWindow::updateRectData()
 	if (!GetClientRect(hWnd, &screenRect))
 		return false;
 	windowPosition = { windowRect.left, windowRect.top };
-
+	
 	return true;
+}
+
+void ComaWindow::minimizeWindow()
+{
+	if (hWnd) 
+		PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MINIMIZE, 0);
+	else
+	{
+		minimized = true;
+		maximized = false;
+	}
+}
+void ComaWindow::maximizeWindow()
+{
+	if (hWnd)
+		PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MAXIMIZE, 0);
+	else
+	{
+		minimized = false;
+		maximized = true;
+	}
+}
+void ComaWindow::restoreWindow()
+{
+	if (hWnd)
+		PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_RESTORE, 0);
+	else
+	{
+		minimized = false;
+		maximized = false;
+	}
+}
+bool ComaWindow::setFullScreen(bool mode, int width, int height)
+{
+	if (mode)
+		fullscreenSize = { width, height };
+	if (!hWnd)
+	{
+		fullscreen = mode;
+		return true;
+	}
+	
+	if (mode)
+	{
+		fullscreen = true;
+		LONG style = GetWindowLong(hWnd, GWL_STYLE);
+		LONG styleEx = GetWindowLong(hWnd, GWL_EXSTYLE);
+		SetWindowLong(hWnd, GWL_STYLE, style&~WS_OVERLAPPEDWINDOW | WS_POPUP);
+		SetWindowLong(hWnd, GWL_EXSTYLE, style | WS_EX_TOPMOST);
+		DEVMODE dm;
+		ZeroMemory(&dm, sizeof(DEVMODE));
+		dm.dmSize = sizeof(DEVMODE);
+		dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+		dm.dmBitsPerPel = 32;
+		dm.dmPelsWidth = width;
+		dm.dmPelsHeight = height;
+		if (ChangeDisplaySettings(&dm, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+		{
+			ChangeDisplaySettings(&dm, 0);
+			fullscreen = false;
+			SetWindowLong(hWnd, GWL_STYLE, dwStyle);
+			SetWindowLong(hWnd, GWL_EXSTYLE, dwStyleEx);
+			changeWindowSize(windowPosition, screenRect);
+			return false;
+		}
+		fullscreenSize = { width, height };
+		SetWindowPos(hWnd, NULL, 0, 0, width, height, 0);
+		return true;
+	}
+	else if (!mode)
+	{
+		ChangeDisplaySettings(NULL, 0);
+		SetWindowLong(hWnd, GWL_STYLE, dwStyle);
+		SetWindowLong(hWnd, GWL_EXSTYLE, dwStyleEx);
+		fullscreen = false;
+
+		changeWindowSize(windowPosition, screenRect);
+		return true;
+	}
+	return false;
+}
+
+//Window Status Setter
+bool ComaWindow::setIcon(HICON hIcon)
+{
+	if (hWnd)
+		return false;
+	this->hIcon = hIcon;
+	return true;
+}
+bool ComaWindow::setCursor(HCURSOR hCursor)
+{
+	if (hWnd)
+		return false;
+	this->hCursor = hCursor;
+	return true;
+}
+bool ComaWindow::setStyle(DWORD dwStyle)
+{
+	if (!hWnd)
+	{
+		this->dwStyle |= dwStyle;
+		return true;
+	}
+	if (!fullscreen)
+	{
+		this->dwStyle = GetWindowLong(hWnd, GWL_STYLE);
+		this->dwStyle |= dwStyle;
+		SetWindowLong(hWnd, GWL_STYLE, this->dwStyle);
+		return true;
+	}
+	return false;
+}
+bool ComaWindow::setStyleEx(DWORD dwStyleEx)
+{
+	if (!hWnd)
+	{
+		this->dwStyleEx |= dwStyleEx;
+		return true;
+	}
+	if (!fullscreen)
+	{
+		this->dwStyleEx = GetWindowLong(hWnd, GWL_EXSTYLE);
+		this->dwStyleEx |= dwStyleEx;
+		SetWindowLongPtr(hWnd, GWL_EXSTYLE, this->dwStyleEx);
+		return true;
+	}
+	return false;
+}
+bool ComaWindow::removeStyle(DWORD dwStyle)
+{
+	if (!hWnd)
+	{
+		this->dwStyle &= ~dwStyle;
+		return true;
+	}
+	if (!fullscreen)
+	{
+		this->dwStyle = GetWindowLong(hWnd, GWL_STYLE);
+		this->dwStyle &= ~dwStyle;
+		SetWindowLong(hWnd, GWL_STYLE, this->dwStyle);
+		return true;
+	}
+	return false;
+}
+bool ComaWindow::removeStyleEx(DWORD dwStyleEx)
+{
+	if (!hWnd)
+	{
+		this->dwStyleEx &= ~dwStyleEx;
+		return true;
+	}
+	if (!fullscreen)
+	{
+		this->dwStyleEx = GetWindowLong(hWnd, GWL_EXSTYLE);
+		this->dwStyleEx &= ~dwStyleEx;
+		SetWindowLongPtr(hWnd, GWL_EXSTYLE, this->dwStyleEx);
+		return true;
+	}
+	return false;
+}
+bool ComaWindow::setTitle(const char* name)
+{
+	windowTitle = name;
+	if (!hWnd)
+		return true;
+	if (SetWindowText(hWnd, windowTitle))
+		return true;
+	return false;
 }
