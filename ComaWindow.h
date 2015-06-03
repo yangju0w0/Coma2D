@@ -10,13 +10,38 @@ namespace Coma2D
 		ComaWindow(HINSTANCE hInstance);
 		virtual ~ComaWindow();
 
+		//Window Running Func
 		bool	createWindow();
 		bool	run();
-		
 		LRESULT messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		
+	public:
+		bool	updateRectData();	//windowRect, windowPosition 갱신
+
+		//Window Size Getter
+		RECT	getWindowRect();
+		POINT	getWindowPosition();
+		RECT	getScreenSize();
+
+		//Window Size Setter
+		bool setWindowPosition	(int x, int y);
+		bool setWindowPosition	(POINT position);
+		bool setScreenSize		(int width, int height);
+		bool setScreenSize		(RECT size);
+		bool setWindowRect		(int x, int y, int width, int height);
+		bool setWindowRect		(RECT rect);
+
 	private:
+		bool changeWindowSize(POINT position, RECT size);	//윈도우 크기,위치 변경 후 각종 정보 갱신
+	private:
+		//Window Essencials
 		HINSTANCE	hInstance;
 		HWND		hWnd;
+
+		//Window Attributes
+		POINT	windowPosition;
+		RECT	screenRect;
+		RECT	windowRect;
 		
 
 		/*
