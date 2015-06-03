@@ -10,7 +10,7 @@ namespace Coma2D
 	
 	struct Listener
 	{
-		const char* type;
+		std::string type;
 		EventFunction function;
 	};
 	class EventDispatcher
@@ -19,9 +19,9 @@ namespace Coma2D
 		EventDispatcher();
 		virtual ~EventDispatcher();
 		
-		void setEventListener(const char* type, EventFunction function);
-		void removeEventListener(const char* type, EventFunction function);
-		bool hasEventListener(const char* type);
+		void setEventListener(std::string type, EventFunction function);
+		void removeEventListener(std::string type, EventFunction function);
+		bool hasEventListener(std::string type);
 		void dispatchEvent(Event* event);
 	private:
 		std::vector<Listener> listenerList;

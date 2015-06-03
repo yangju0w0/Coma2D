@@ -1,16 +1,17 @@
 #pragma once
+#include <string>
 namespace Coma2D
 {
 	class Event
 	{
 	public:
-		Event(const char* type);
+		Event(std::string type);
 		virtual ~Event();
-		const char* getType()
+		std::string getType()
 		{
 			return type;
 		}
 	private:
-		const char* type;
+		std::string type;
 	};
 }

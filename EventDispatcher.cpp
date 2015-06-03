@@ -12,7 +12,7 @@ EventDispatcher::~EventDispatcher()
 	
 }
 
-void EventDispatcher::setEventListener(const char* type, EventFunction function)
+void EventDispatcher::setEventListener(std::string type, EventFunction function)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{
@@ -25,7 +25,7 @@ void EventDispatcher::setEventListener(const char* type, EventFunction function)
 	listenerList.push_back(Listener{ type, function });
 }
 
-void EventDispatcher::removeEventListener(const char* type, EventFunction function)
+void EventDispatcher::removeEventListener(std::string type, EventFunction function)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{
@@ -39,7 +39,7 @@ void EventDispatcher::removeEventListener(const char* type, EventFunction functi
 		}
 	}
 }
-bool EventDispatcher::hasEventListener(const char* type)
+bool EventDispatcher::hasEventListener(std::string type)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{

@@ -2,7 +2,7 @@
 #include "Event.h"
 using namespace Coma2D;
 
-Event::Event(const char* type)
+Event::Event(std::string type)
 {
 	this->type = type;
 }
