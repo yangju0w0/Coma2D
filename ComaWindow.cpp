@@ -11,7 +11,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 ComaWindow::ComaWindow(HINSTANCE hInstance)
-	:hInstance(0), hWnd(0)
+	:hInstance(0), hWnd(0), activated(false), minimized(false), maximized(false), resizing(false), running(false)
 {
 	this->hInstance = hInstance;
 	comaWindow = this;
@@ -65,6 +65,7 @@ bool ComaWindow::createWindow()
 	UpdateWindow(hWnd);
 
 	GetWindowRect(hWnd, &windowRect);
+	windowPosition = { windowRect.left, windowRect.top };
 	
 	return true;
 }
@@ -73,6 +74,7 @@ bool ComaWindow::run()
 {
 	if (!hWnd)
 		return false;
+	running = true;
 	MSG msg = { 0 };
 
 	while (msg.message != WM_QUIT)
@@ -84,6 +86,13 @@ bool ComaWindow::run()
 		}
 		else
 		{
+			//=============For Debug================
+			std::ostringstream outs;
+			outs.precision(6);
+			outs << "X: " << windowPosition.x << "  Y: " << windowPosition.y << "  Width: " << screenRect.right << "  Height: " << screenRect.bottom << "   Resizing: " << isResizing();
+			//======================================
+
+			SetWindowText(hWnd, outs.str().c_str());
 			Sleep(5);
 		}
 	}
@@ -92,19 +101,55 @@ bool ComaWindow::run()
 
 LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
+	
 	switch (uMsg)
 	{
-	case WM_SIZE:
-		updateRectData();
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE)
+			activated = false;
+		else
+			activated = true;
 		return 0;
-	case WM_SIZING:
+	case WM_ENTERSIZEMOVE:
+		resizing = true;
+		return 0;
+	case WM_EXITSIZEMOVE:
+		resizing = false;
+		return 0;
+	case WM_SIZE:
+		if (wParam == SIZE_MAXIMIZED)
+		{
+			minimized = false;
+			maximized = true;
+		}
+		else if (wParam == SIZE_MINIMIZED)
+		{
+			minimized = true;
+			maximized = false;
+		}
+		else if (wParam == SIZE_RESTORED)
+		{
+			if (maximized)
+			{
+				maximized = false;
+				minimized = false;
+			}
+			else if (minimized)
+			{
+				maximized = false;
+				minimized = false;
+				changeWindowSize(windowPosition, screenRect);
+			}
+			else if (resizing)
+			{
+
+			}
+		}
 		updateRectData();
 		return 0;
 	case WM_MOVE:
-		updateRectData();
-		return 0;
-	case WM_MOVING:
-		updateRectData();
+		if (resizing)
+			updateRectData();
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);
@@ -202,14 +247,13 @@ bool ComaWindow::changeWindowSize(POINT position, RECT screenSize)
 }
 bool ComaWindow::updateRectData()
 {
+	if (isMinimized())
+		return false;
 	if (!GetWindowRect(hWnd, &windowRect))
 		return false;
 	if (!GetClientRect(hWnd, &screenRect))
 		return false;
 	windowPosition = { windowRect.left, windowRect.top };
-	std::ostringstream outs;
-	outs.precision(6);
-	outs << "X: " << windowPosition.x << "  Y: " << windowPosition.y << "  Width: " << screenRect.right << "  Height: " << screenRect.bottom;
-	SetWindowText(hWnd, outs.str().c_str());
+
 	return true;
 }

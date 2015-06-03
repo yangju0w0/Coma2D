@@ -31,6 +31,13 @@ namespace Coma2D
 		bool setWindowRect		(int x, int y, int width, int height);
 		bool setWindowRect		(RECT rect);
 
+		//Window Status Getter
+		bool isActivated(){ return activated; }
+		bool isMinimized(){ return minimized; }
+		bool isMaximized(){ return maximized; }
+		bool isResizing(){ return resizing; }
+		bool isRunning(){ return running; }
+
 	private:
 		bool changeWindowSize(POINT position, RECT size);	//윈도우 크기,위치 변경 후 각종 정보 갱신
 	private:
@@ -43,6 +50,12 @@ namespace Coma2D
 		RECT	screenRect;
 		RECT	windowRect;
 		
+		//Window Status
+		bool activated;
+		bool minimized;
+		bool maximized;
+		bool resizing;
+		bool running;
 
 		/*
 		//Getter
