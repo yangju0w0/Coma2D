@@ -18,6 +18,8 @@ ComaWindow::ComaWindow(HINSTANCE hInstance)
 
 	setWindowPosition(CW_USEDEFAULT, CW_USEDEFAULT);
 	setScreenSize(800, 480);
+	setMaxScreenSize(-1, -1);
+	setMinScreenSize(-1, -1);
 
 	hIcon = LoadIcon(0, IDI_APPLICATION);
 	hCursor = LoadCursor(0, IDC_ARROW);
@@ -71,6 +73,8 @@ bool ComaWindow::createWindow()
 	ShowWindow(hWnd, SW_SHOW);
 	UpdateWindow(hWnd);
 
+
+	//SetWindowStatus
 	GetWindowRect(hWnd, &windowRect);
 	windowPosition = { windowRect.left, windowRect.top };
 
@@ -184,6 +188,16 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		return 0;
+	case WM_GETMINMAXINFO:
+		if (maxScreenRect.right - maxScreenRect.left > 0)
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.x = maxScreenRect.right - maxScreenRect.left;
+		if (maxScreenRect.bottom - maxScreenRect.top > 0)
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.y = maxScreenRect.bottom - maxScreenRect.top;
+		if (minScreenRect.right - minScreenRect.left > 0)
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = minScreenRect.right - minScreenRect.left;
+		if (minScreenRect.bottom - minScreenRect.top > 0)
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = minScreenRect.bottom - minScreenRect.top;
+		return 0;
 	}
 	
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
@@ -220,6 +234,25 @@ bool ComaWindow::setScreenSize(RECT size)
 bool ComaWindow::setScreenSize(int width, int height)
 {
 	return setScreenSize(RECT{ 0, 0, width, height });
+}
+
+bool ComaWindow::setMaxScreenSize(RECT size)
+{
+	maxScreenRect = size;
+	return true;
+}
+bool ComaWindow::setMaxScreenSize(int width, int height)
+{
+	return setMaxScreenSize({ 0, 0, width, height });
+}
+bool ComaWindow::setMinScreenSize(RECT size)
+{
+	minScreenRect = size;
+	return true;
+}
+bool ComaWindow::setMinScreenSize(int width, int height)
+{
+	return setMinScreenSize({ 0, 0, width, height });
 }
 
 bool ComaWindow::setWindowRect(RECT rect)
@@ -468,4 +501,8 @@ bool ComaWindow::setTitle(const char* name)
 	if (SetWindowText(hWnd, windowTitle))
 		return true;
 	return false;
+}
+bool ComaWindow::setTitle(std::string name)
+{
+	return setTitle(name.c_str());
 }

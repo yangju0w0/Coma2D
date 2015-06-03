@@ -1,6 +1,7 @@
 #pragma once
 #include "EventDispatcher.h"
 #include "ComaRenderer.h"
+#include <string>
 namespace Coma2D
 {
 	class ComaWindow :
@@ -29,6 +30,10 @@ namespace Coma2D
 		bool setWindowPosition	(POINT position);
 		bool setScreenSize		(int width, int height);
 		bool setScreenSize		(RECT size);
+		bool setMinScreenSize	(int width, int height);
+		bool setMinScreenSize	(RECT size);
+		bool setMaxScreenSize	(int width, int height);
+		bool setMaxScreenSize	(RECT size);
 		bool setWindowRect		(int x, int y, int width, int height);
 		bool setWindowRect		(RECT rect);
 
@@ -56,6 +61,7 @@ namespace Coma2D
 		bool removeStyle(DWORD dwStyle);
 		bool removeStyleEx(DWORD dwStyleEx);
 		bool setTitle(const char* name);
+		bool setTitle(std::string name);
 
 	private:
 		bool changeWindowSize(POINT position, RECT size);	//윈도우 크기,위치 변경 후 각종 정보 갱신
@@ -67,6 +73,8 @@ namespace Coma2D
 		//Window Attributes
 		POINT	windowPosition;
 		RECT	screenRect;
+		RECT	minScreenRect;
+		RECT	maxScreenRect;
 		RECT	windowRect;
 		POINT	fullscreenSize;
 		HICON	hIcon;
@@ -82,43 +90,7 @@ namespace Coma2D
 		bool fullscreen;
 		bool resizing;
 		bool running;
-
-		/*
-		//Getter
-		HINSTANCE		getInstance()	{return hInstance;}
-		HWND			getWindow()		{return hWnd;}
-		ComaRenderer*	getRenderer()	{return renderer;}
-		bool			isRunning()		{return isRunning;}
-
-
-		//Setter
-		bool			setRenderer(ComaRenderer* renderer);
-		bool			setSize(int width, int height);
-		bool			setMinimumSize(int width, int height);
-		bool			setMaximumSize(int width, int height);
-		void			setTitle(const char* title);
-		
-
-	private:
-		//Windows Essensials
-		HINSTANCE		hInstance;
-		HWND			hWnd;
-		ComaRenderer*	renderer;
-		
-		
-		//Windows Attributes
-		POINT			clientPosition;
-		RECT			clientRect;
-		RECT			minimumClientSize;
-		RECT			maximumClientSize;
-		bool			resizable;
-		const char*		title;
-
-		//Windows Status
-		
-		bool			isAvailable;
-		bool			isResizing;
-		bool			isRunning; */
 	};
 }
 
+//TODO: 이벤트 플로우 추가
