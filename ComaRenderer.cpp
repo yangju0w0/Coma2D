@@ -44,9 +44,10 @@ void ComaRenderer::resizeWindow()
 }
 void ComaRenderer::render()
 {
-	renderTarget->BeginDraw();
-	renderTarget->Clear(backgroundColor);
 	timer->tick();
 	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
+	renderTarget->BeginDraw();
+	renderTarget->Clear(backgroundColor);
+	dispatchEvent(new RendererEvent(RendererEvent::DRAW, this));
 	renderTarget->EndDraw();
 }
