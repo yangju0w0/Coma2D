@@ -16,6 +16,10 @@ namespace Coma2D
 		bool	run();
 		void	close();
 		LRESULT messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+		//Window Contents Getter
+		HINSTANCE	getInstance(){ return hInstance; }
+		HWND		getWindow(){ return hWnd; }
 		
 	public:
 		bool	updateRectData();	//windowRect, windowPosition °»½Å
