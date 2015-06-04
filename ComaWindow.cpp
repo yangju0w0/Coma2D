@@ -159,7 +159,8 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		dispatchEvent(new WindowEvent(WindowEvent::EXIT_RESIZE, this));
 		return 0;
 	case WM_SIZE:
-		updateRectData();
+		if (wParam!=SIZE_MINIMIZED)
+			updateRectData();
 		if (wParam == SIZE_MAXIMIZED)
 		{
 			minimized = false;
@@ -347,6 +348,11 @@ bool ComaWindow::updateRectData()
 		return false;
 	windowPosition = { windowRect.left, windowRect.top };
 	
+	std::ostringstream outs;
+	outs.precision(6);
+	outs << "X: " << windowPosition.x << "  Y: " << windowPosition.y << "  Width: " << screenRect.right << "  Height: " << screenRect.bottom<<"  Resizing: "<<isResizing();
+	SetWindowText(hWnd, outs.str().c_str());
+
 	return true;
 }
 
