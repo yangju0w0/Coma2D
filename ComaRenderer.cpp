@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ComaRenderer.h"
+#include "RendererEvent.h"
 using namespace Coma2D;
 
 
@@ -7,6 +8,7 @@ ComaRenderer::ComaRenderer()
 	:factory(NULL), renderTarget(NULL), initialized(false)
 {
 	backgroundColor = D2D1::ColorF(0.0f, 0.0f, 0.0f, 1.0f);
+	timer = new GameTimer();
 }
 
 ComaRenderer::~ComaRenderer()
@@ -22,6 +24,7 @@ bool ComaRenderer::initRenderer(HWND hWnd)
 
 	initialized = true;
 	this->hWnd = hWnd;
+	timer->reset();
 	return true;
 }
 void ComaRenderer::createRenderTarget(HWND hWnd)
@@ -43,5 +46,7 @@ void ComaRenderer::render()
 {
 	renderTarget->BeginDraw();
 	renderTarget->Clear(backgroundColor);
+	timer->tick();
+	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
 	renderTarget->EndDraw();
 }

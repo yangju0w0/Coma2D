@@ -2,9 +2,12 @@
 #include "RendererEvent.h"
 using namespace Coma2D;
 
-RendererEvent::RendererEvent(std::string type)
+const std::string RendererEvent::UPDATE = "update";
+
+RendererEvent::RendererEvent(std::string type, ComaRenderer* target)
 	:Event(type)
 {
+	renderer = target;
 }
 
 
