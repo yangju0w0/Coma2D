@@ -59,7 +59,7 @@ bool ComaDevice::run()
 		return false;
 
 	comaWindow->setEventListener(WindowEvent::UPDATE, BIND(ComaDevice::updateWindowListener));
-
+	comaWindow->setEventListener(WindowEvent::EXIT_RESIZE, BIND(ComaDevice::windowResizeListener));
 	if (!comaWindow->isRunning())
 		comaWindow->run();
 
@@ -70,4 +70,8 @@ bool ComaDevice::run()
 void ComaDevice::updateWindowListener(Event* event)
 {
 	comaRenderer->render();
+}
+void ComaDevice::windowResizeListener(Event* event)
+{
+	comaRenderer->resizeWindow();
 }
