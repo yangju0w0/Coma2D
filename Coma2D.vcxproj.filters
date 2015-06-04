@@ -36,9 +36,6 @@
     <ClInclude Include="ComaRenderer.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Coma2DDevice.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
       <Filter>헤더 파일\Event</Filter>
     </ClInclude>
@@ -46,6 +43,12 @@
       <Filter>헤더 파일\Event</Filter>
     </ClInclude>
     <ClInclude Include="WindowEvent.h">
+      <Filter>헤더 파일\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ComaDevice.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="RendererEvent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -59,9 +62,6 @@
     <ClCompile Include="ComaRenderer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Coma2DDevice.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
       <Filter>소스 파일\Event</Filter>
     </ClCompile>
@@ -69,6 +69,12 @@
       <Filter>소스 파일\Event</Filter>
     </ClCompile>
     <ClCompile Include="WindowEvent.cpp">
+      <Filter>소스 파일\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ComaDevice.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererEvent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
