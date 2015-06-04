@@ -114,7 +114,6 @@ bool ComaWindow::run()
 		else
 		{
 			dispatchEvent(new WindowEvent(WindowEvent::UPDATE, this));
-			Sleep(5);
 		}
 	}
 	return true;
@@ -347,11 +346,6 @@ bool ComaWindow::updateRectData()
 	if (!GetClientRect(hWnd, &screenRect))
 		return false;
 	windowPosition = { windowRect.left, windowRect.top };
-	
-	std::ostringstream outs;
-	outs.precision(6);
-	outs << "X: " << windowPosition.x << "  Y: " << windowPosition.y << "  Width: " << screenRect.right << "  Height: " << screenRect.bottom<<"  Resizing: "<<isResizing();
-	SetWindowText(hWnd, outs.str().c_str());
 
 	return true;
 }
