@@ -15,6 +15,10 @@ namespace Coma2D
 		bool initDevice();
 		bool run();
 
+		//Device Getter
+		ComaWindow* getWindow(){ return comaWindow; }
+		ComaRenderer* getRenderer(){ return comaRenderer; }
+
 		//Status Getter
 		bool isRunning(){ return running; }
 		bool isInitialized(){ return initialized; }
