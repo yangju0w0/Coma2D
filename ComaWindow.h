@@ -48,6 +48,7 @@ namespace Coma2D
 		bool isResizing(){ return resizing; }
 		bool isRunning(){ return running; }
 		bool isFullScreen(){ return fullscreen; }
+		bool isCreated(){ return created; }
 
 		//Window Status Changer
 		void minimizeWindow();
@@ -94,5 +95,6 @@ namespace Coma2D
 		bool fullscreen;
 		bool resizing;
 		bool running;
+		bool created;
 	};
 }

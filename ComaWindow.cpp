@@ -12,7 +12,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 ComaWindow::ComaWindow(HINSTANCE hInstance)
-	:hInstance(0), hWnd(0), activated(false), minimized(false), maximized(false), resizing(false), running(false), fullscreen(false)
+	:hInstance(0), hWnd(0), activated(false), minimized(false), maximized(false), resizing(false), running(false), fullscreen(false), created(false)
 {
 	this->hInstance = hInstance;
 	comaWindow = this;
@@ -91,6 +91,7 @@ bool ComaWindow::createWindow()
 	
 	dwStyle = GetWindowLong(hWnd, GWL_STYLE);
 	dwStyleEx = GetWindowLong(hWnd, GWL_EXSTYLE);
+	created = true;
 	dispatchEvent(new WindowEvent(WindowEvent::CREATED, this));
 
 	return true;
@@ -199,6 +200,7 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		dispatchEvent(new WindowEvent(WindowEvent::MOVING, this));
 		return 0;
 	case WM_DESTROY:
+		created = false;
 		dispatchEvent(new WindowEvent(WindowEvent::DESTROYED, this));
 		PostQuitMessage(0);
 		return 0;
