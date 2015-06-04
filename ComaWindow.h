@@ -92,5 +92,3 @@ namespace Coma2D
 		bool running;
 	};
 }
-
-//TODO: 이벤트 플로우 추가
