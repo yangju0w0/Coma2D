@@ -16,15 +16,18 @@
     <Filter Include="Coma2D">
       <UniqueIdentifier>{425e7e5e-d622-490e-85a7-b5b4d8aed58c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Event">
+      <UniqueIdentifier>{68dedcce-963a-4df3-88a5-dc4d3f09510f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\Event">
+      <UniqueIdentifier>{63d5bbd3-0286-443e-8cd8-d29c2da63b24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="EventDispatcher.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="ComaWindow.h">
@@ -37,14 +40,17 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Event.h">
+      <Filter>헤더 파일\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>헤더 파일\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowEvent.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="EventDispatcher.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="ComaWindow.cpp">
@@ -57,6 +63,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="Event.cpp">
+      <Filter>소스 파일\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
+      <Filter>소스 파일\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowEvent.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

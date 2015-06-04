@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ComaWindow.h"
 #include <sstream>
+#include "WindowEvent.h"
 using namespace Coma2D;
 
 ComaWindow* comaWindow;
@@ -90,6 +91,7 @@ bool ComaWindow::createWindow()
 	
 	dwStyle = GetWindowLong(hWnd, GWL_STYLE);
 	dwStyleEx = GetWindowLong(hWnd, GWL_EXSTYLE);
+	dispatchEvent(new WindowEvent(WindowEvent::CREATED, this));
 
 	return true;
 }
@@ -110,6 +112,7 @@ bool ComaWindow::run()
 		}
 		else
 		{
+			dispatchEvent(new WindowEvent(WindowEvent::UPDATE, this));
 			Sleep(5);
 		}
 	}
@@ -134,6 +137,7 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				ChangeDisplaySettings(NULL, 0);
 				minimizeWindow();
 			}
+			dispatchEvent(new WindowEvent(WindowEvent::ACTIVATED, this));
 		}
 		else
 		{
@@ -142,24 +146,30 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{
 				setFullScreen(true, fullscreenSize.x, fullscreenSize.y);
 			}
+			dispatchEvent(new WindowEvent(WindowEvent::INACTIVATED, this));
 		}
 		return 0;
 	case WM_ENTERSIZEMOVE:
 		resizing = true;
+		dispatchEvent(new WindowEvent(WindowEvent::ENTER_RESIZE, this));
 		return 0;
 	case WM_EXITSIZEMOVE:
 		resizing = false;
+		dispatchEvent(new WindowEvent(WindowEvent::EXIT_RESIZE, this));
 		return 0;
 	case WM_SIZE:
+		updateRectData();
 		if (wParam == SIZE_MAXIMIZED)
 		{
 			minimized = false;
 			maximized = true;
+			dispatchEvent(new WindowEvent(WindowEvent::MAXIMIZED, this));
 		}
 		else if (wParam == SIZE_MINIMIZED)
 		{
 			minimized = true;
 			maximized = false;
+			dispatchEvent(new WindowEvent(WindowEvent::MINIMIZED, this));
 		}
 		else if (wParam == SIZE_RESTORED)
 		{
@@ -167,25 +177,29 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			{
 				maximized = false;
 				minimized = false;
+				dispatchEvent(new WindowEvent(WindowEvent::RESTORED, this));
 			}
 			else if (minimized)
 			{
 				maximized = false;
 				minimized = false;
 				changeWindowSize(windowPosition, screenRect);
+				dispatchEvent(new WindowEvent(WindowEvent::RESTORED, this));
 			}
 			else if (resizing)
 			{
-
+				dispatchEvent(new WindowEvent(WindowEvent::RESIZING, this));
 			}
 		}
-		updateRectData();
+		dispatchEvent(new WindowEvent(WindowEvent::RESIZE, this));
 		return 0;
 	case WM_MOVE:
 		if (resizing)
 			updateRectData();
+		dispatchEvent(new WindowEvent(WindowEvent::MOVING, this));
 		return 0;
 	case WM_DESTROY:
+		dispatchEvent(new WindowEvent(WindowEvent::DESTROYED, this));
 		PostQuitMessage(0);
 		return 0;
 	case WM_GETMINMAXINFO:
@@ -399,6 +413,7 @@ bool ComaWindow::setFullScreen(bool mode, int width, int height)
 		}
 		fullscreenSize = { width, height };
 		SetWindowPos(hWnd, NULL, 0, 0, width, height, 0);
+		dispatchEvent(new WindowEvent(WindowEvent::ENTER_FULLSCREEN,this));
 		return true;
 	}
 	else if (!mode)
@@ -409,6 +424,7 @@ bool ComaWindow::setFullScreen(bool mode, int width, int height)
 		fullscreen = false;
 
 		changeWindowSize(windowPosition, screenRect);
+		dispatchEvent(new WindowEvent(WindowEvent::EXIT_FULLSCREEN, this));
 		return true;
 	}
 	return false;
