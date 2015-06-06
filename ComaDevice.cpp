@@ -57,21 +57,61 @@ bool ComaDevice::run()
 		return false;
 	if (!comaWindow->isCreated() || !comaRenderer->isInitialized())
 		return false;
+	if (!comaRenderer->isInitialized())
+		return false;
+
+	if (!comaRenderer->isRunning())
+		comaRenderer->run();
 
 	comaWindow->setEventListener(WindowEvent::UPDATE, BIND(ComaDevice::updateWindowListener));
-	comaWindow->setEventListener(WindowEvent::EXIT_RESIZE, BIND(ComaDevice::windowResizeListener));
+	comaWindow->setEventListener(WindowEvent::EXIT_RESIZE, BIND(ComaDevice::windowExitResizeListener));
+	comaWindow->setEventListener(WindowEvent::ENTER_RESIZE, BIND(ComaDevice::windowEnterResizeListener));
+	comaWindow->setEventListener(WindowEvent::MINIMIZED, BIND(ComaDevice::windowMinimizeListener));
+	comaWindow->setEventListener(WindowEvent::MAXIMIZED, BIND(ComaDevice::windowMaximizeListener));
+	comaWindow->setEventListener(WindowEvent::RESTORED, BIND(ComaDevice::windowRestoreListener));
+
+
+	running = true;
 	if (!comaWindow->isRunning())
 		comaWindow->run();
 
-	running = true;
 	return true;
 }
 
 void ComaDevice::updateWindowListener(Event* event)
 {
+	if (!comaRenderer->isRunning())
+	{
+		Sleep(100);
+		return;
+	}
+	else
+	{
+	
+	}
 	comaRenderer->render();
+	comaWindow->setTitle(std::to_string(comaRenderer->getFPS()));
 }
-void ComaDevice::windowResizeListener(Event* event)
+void ComaDevice::windowEnterResizeListener(Event* event)
+{
+	comaRenderer->pause();	
+}
+void ComaDevice::windowExitResizeListener(Event* event)
 {
 	comaRenderer->resizeWindow();
+	comaRenderer->run();
+}
+void ComaDevice::windowMinimizeListener(Event* event)
+{
+	//comaRenderer->pause();
+}
+void ComaDevice::windowRestoreListener(Event* event)
+{
+	//comaRenderer->resizeWindow();
+	//comaRenderer->run();
+}
+void ComaDevice::windowMaximizeListener(Event* event)
+{
+	//comaRenderer->resizeWindow();
+	//comaRenderer->run();
 }

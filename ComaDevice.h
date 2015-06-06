@@ -25,7 +25,11 @@ namespace Coma2D
 
 	public:
 		void updateWindowListener(Event* event);
-		void windowResizeListener(Event* event);
+		void windowEnterResizeListener(Event* event);
+		void windowExitResizeListener(Event* event);
+		void windowMinimizeListener(Event* event);
+		void windowRestoreListener(Event* event);
+		void windowMaximizeListener(Event* event);
 	private:
 		//Device Essencials
 		ComaWindow* comaWindow;

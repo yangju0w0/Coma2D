@@ -76,11 +76,11 @@ void GameTimer::tick()
 
 	__int64 currTime;
 	QueryPerformanceCounter((LARGE_INTEGER*)&currTime);
-	currTime = currTime;
+	this->currTime = currTime;
 
-	deltaTime = (currTime - prevTime)*secondsPerCount;
+	deltaTime = (this->currTime - prevTime)*secondsPerCount;
 
-	prevTime = currTime;
+	prevTime = this->currTime;
 	if (deltaTime < 0.0)
 	{
 		deltaTime = 0.0;

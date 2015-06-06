@@ -5,10 +5,9 @@ using namespace Coma2D;
 
 
 ComaRenderer::ComaRenderer()
-	:factory(NULL), renderTarget(NULL), initialized(false)
+	:factory(NULL), renderTarget(NULL), initialized(false), running(false)
 {
 	backgroundColor = D2D1::ColorF(0.0f, 0.0f, 0.0f, 1.0f);
-	timer = new GameTimer();
 }
 
 ComaRenderer::~ComaRenderer()
@@ -24,7 +23,7 @@ bool ComaRenderer::initRenderer(HWND hWnd)
 
 	initialized = true;
 	this->hWnd = hWnd;
-	timer->reset();
+	timer.reset();
 	return true;
 }
 void ComaRenderer::createRenderTarget(HWND hWnd)
@@ -42,12 +41,38 @@ void ComaRenderer::resizeWindow()
 {
 	createRenderTarget(hWnd);
 }
+bool ComaRenderer::run()
+{
+	if (isRunning())
+		return false;
+	timer.start();
+	running = true;
+	return true;
+}
+bool ComaRenderer::pause()
+{
+	if (!isRunning())
+		return false;
+	timer.stop();
+	running = false;
+	return true;
+}
 void ComaRenderer::render()
 {
-	timer->tick();
+	if (!isRunning())
+		return;
+	timer.tick();
 	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
 	renderTarget->BeginDraw();
 	renderTarget->Clear(backgroundColor);
 	dispatchEvent(new RendererEvent(RendererEvent::DRAW, this));
 	renderTarget->EndDraw();
+	totalFrame++;
+}
+
+float ComaRenderer::getFPS()
+{
+	if (getTotalTime() == 0 || !isRunning())
+		return 0;
+	return totalFrame / getTotalTime();
 }
