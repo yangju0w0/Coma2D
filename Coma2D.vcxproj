@@ -77,7 +77,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Coma2DDevice.h" />
+    <ClInclude Include="ComaDevice.h" />
     <ClInclude Include="ComaRenderer.h" />
     <ClInclude Include="ComaWindow.h" />
     <ClInclude Include="Event.h" />
@@ -86,7 +86,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Coma2DDevice.cpp" />
+    <ClCompile Include="ComaDevice.cpp" />
     <ClCompile Include="ComaRenderer.cpp" />
     <ClCompile Include="ComaWindow.cpp" />
     <ClCompile Include="Event.cpp" />
