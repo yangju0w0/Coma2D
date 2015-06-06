@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ComaRenderer.h"
-using namespace Coma2D;
+using namespace coma2d;
 
 
 ComaRenderer::ComaRenderer()

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "EventDispatcher.h"
-using namespace Coma2D;
+using namespace coma2d;
 
 EventDispatcher::EventDispatcher()
 {

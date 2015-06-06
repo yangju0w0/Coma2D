@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Event.h"
-using namespace Coma2D;
+using namespace coma2d;
 
 Event::Event(const char* type)
 {

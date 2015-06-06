@@ -4,7 +4,7 @@
 #include "Event.h"
 #define BIND(T) std::bind(&T, this, std::placeholders::_1)
 
-namespace Coma2D
+namespace coma2d
 {
 	typedef std::function<void(Event*)> EventFunction;
 	

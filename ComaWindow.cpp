@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ComaWindow.h"
-using namespace Coma2D;
+using namespace coma2d;
 
 ComaWindow* comaWindow;
 

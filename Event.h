@@ -1,5 +1,5 @@
 #pragma once
-namespace Coma2D
+namespace coma2d
 {
 	class Event
 	{
