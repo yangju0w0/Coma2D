@@ -14,7 +14,8 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 // 생성자
 ComaWindow::ComaWindow(HINSTANCE hInstance, int nCmdShow)
-	:hInstance(0), hWnd(0)
+	:hInstance(0), hWnd(0), created(false), running(false), activated(false), fullscreen(false),
+	maximized(false), minimized(false), resizing(false)
 {
 	this->hInstance = hInstance;
 	comaWindow = this;
@@ -76,9 +77,19 @@ bool ComaWindow::createWindow()
 
 	created = true;
 
+	if (isMaximized())
+		windowData.nCmdShow = SW_SHOWMAXIMIZED;
+	else if (isMinimized())
+		windowData.nCmdShow = SW_SHOWMINIMIZED;
+
 	//윈도우 출력
 	ShowWindow(hWnd, windowData.nCmdShow);
 	UpdateWindow(hWnd);
+
+	if (isFullscreen())
+	{
+
+	}
 	
 	return true;
 }
@@ -112,12 +123,82 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 {
 	switch (uMsg)
 	{
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE)
+		{
+			activated = false;
+		}
+		else if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
+		{
+			activated = true;
+		}
+		return 0;
+
+	case WM_ENTERSIZEMOVE:
+		return 0;
+
+	case WM_EXITSIZEMOVE:
+		moving = false;
+		resizing = false;
+		return 0;
+
+	case WM_MOVE:
+		return 0;
+
+	case WM_MOVING:
+		moving = true;
+		return 0;
+
+	case WM_SIZE:
+		if (wParam == SIZE_MINIMIZED)
+		{
+			minimized = true;
+			maximized = false;
+			resizing = false;
+		}
+		else if (wParam == SIZE_MAXIMIZED)
+		{
+			minimized = false;
+			maximized = true;
+			resizing = false;
+		}
+		else if (wParam == SIZE_RESTORED)
+		{
+			if (maximized)
+			{
+				maximized = false;
+				minimized = false;
+				resizing = false;
+			}
+			else if (minimized)
+			{
+				maximized = false;
+				minimized = false;
+				resizing = false;
+			}
+			else if (resizing)
+			{
+				
+			}
+		}
+		return 0;
+
+	case WM_SIZING:
+		resizing = true;
+		return 0;
+
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		created = false;
 		running = false;
+		activated = false;
+		fullscreen = false;
+		maximized = false;
+		minimized = false;
+		resizing = false;
 		return 0;
 	}
+
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
@@ -371,4 +452,55 @@ POINT	ComaWindow::getWindowPosition()
 	return windowData.windowPosition;
 }
 
-//TODO: 윈도우 생성부 수정, 사이징
+//Status Changer
+bool ComaWindow::setFullscreen()
+{
+	return false;//TODO: fullscreen 구현
+}
+bool ComaWindow::minimizeWindow()
+{
+	if (isCreated())
+	{
+		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MINIMIZE, 0))
+			return false;
+		return true;
+	}
+	else
+	{
+		minimized = true;
+		maximized = false;
+	}
+	return true;
+}
+bool ComaWindow::maximizeWindow()
+{
+	if (isCreated())
+	{
+		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MAXIMIZE, 0))
+			return false;
+		return true;
+	}
+	else
+	{
+		minimized = false;
+		maximized = true;
+	}
+	return true;
+}
+bool ComaWindow::restoreWindow()
+{
+	if (isCreated())
+	{
+		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_RESTORE, 0))
+			return false;
+		return true;
+	}
+	else
+	{
+		minimized = false;
+		maximized = false;
+	}
+	return true;
+}
+
+//TODO: 이벤트 리스너 구현

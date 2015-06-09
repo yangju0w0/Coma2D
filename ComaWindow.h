@@ -36,9 +36,6 @@ namespace coma2d
 		HINSTANCE	getInstance() { return hInstance; }
 		HWND		getWindow(){ return hWnd; }
 		
-		bool		isCreated(){ return created; }
-		bool		isRunning(){ return running; }
-		
 		DWORD	getStyle();
 		DWORD	getStyleEx();
 		TCHAR*	getTitle();
@@ -69,7 +66,22 @@ namespace coma2d
 		bool removeStyle(DWORD style);
 		bool addStyleEx(DWORD styleEx);
 		bool removeStyleEx(DWORD styleEx);
+		
+		//Window Status Getter
+		bool isCreated(){ return created; }
+		bool isRunning(){ return running; }
+		bool isActivated(){ return activated; }
+		bool isFullscreen(){ return fullscreen; }
+		bool isMaximized(){ return maximized; }
+		bool isMinimized(){ return minimized; }
+		bool isResizing(){ return resizing; }
+		bool isMoving(){ return moving; }
 
+		//Window Status Changer
+		bool setFullscreen();
+		bool minimizeWindow();
+		bool maximizeWindow();
+		bool restoreWindow();
 
 	private:
 		//Window Essencials
@@ -80,10 +92,14 @@ namespace coma2d
 		//Window Status
 		bool created;
 		bool running;
+		bool activated;
+		bool fullscreen;
+		bool maximized;
+		bool minimized;
+		bool resizing;
+		bool moving;
 
-
-
-
+		
 		/*
 		//Getter
 		HINSTANCE		getInstance()	{return hInstance;}
