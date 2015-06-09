@@ -288,6 +288,7 @@ bool ComaWindow::setCmdShow(int nCmdShow)
 	return true;
 }
 
+
 bool ComaWindow::setWindowRect(RECT rect)
 {
 	if (isCreated())
@@ -372,9 +373,20 @@ bool ComaWindow::setMaxWindowSize(int width, int height)
 }
 bool ComaWindow::setMaxScreenSize(RECT rect)
 {
-	if (!AdjustWindowRectEx(&rect, getStyle(), false, getStyleEx()))
+	RECT outRect = rect;
+	if (!AdjustWindowRectEx(&outRect, getStyle(), false, getStyleEx()))
 		return false;
-	windowData.maxWindowSize = rect;
+	if (rect.right - rect.left < 0)
+	{
+		outRect.right = -1;
+		outRect.left = 0;
+	}
+	if (rect.bottom - rect.top < 0)
+	{
+		outRect.bottom = -1;
+		outRect.top = 0;
+	}
+	windowData.maxWindowSize = outRect;
 	return true;
 }
 bool ComaWindow::setMaxScreenSize(int width, int height)
@@ -392,16 +404,27 @@ bool ComaWindow::setMinWindowSize(int width, int height)
 }
 bool ComaWindow::setMinScreenSize(RECT rect)
 {
-	if (!AdjustWindowRectEx(&rect, getStyle(), false, getStyleEx()))
+	RECT outRect = rect;
+	if (!AdjustWindowRectEx(&outRect, getStyle(), false, getStyleEx()))
 		return false;
-	windowData.minWindowSize = rect;
+	if (rect.right - rect.left < 0)
+	{
+		outRect.right = -1;
+		outRect.left = 0;
+	}
+	if (rect.bottom - rect.top < 0)
+	{
+		outRect.bottom = -1;
+		outRect.top = 0;
+	}
+	windowData.minWindowSize = outRect;
 	return true;
 }
 bool ComaWindow::setMinScreenSize(int width, int height)
 {
 	return setMinScreenSize(RECT{ 0, 0, width, height });
 }
-
+//입력값이 음수이면 최대, 최소 크기를 검사하지 않는다.
 
 bool ComaWindow::addStyle(DWORD style)
 {
