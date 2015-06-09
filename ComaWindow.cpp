@@ -29,6 +29,8 @@ ComaWindow::ComaWindow(HINSTANCE hInstance, int nCmdShow)
 	windowData.nCmdShow = nCmdShow;
 	windowData.windowPosition = { CW_USEDEFAULT, CW_USEDEFAULT };
 	windowData.windowSize = { 0, 0, CW_USEDEFAULT, CW_USEDEFAULT };
+	windowData.minWindowSize = { 0, 0, -1, -1 };
+	windowData.maxWindowSize = { 0, 0, -1, -1 };
 }
 
 
@@ -185,6 +187,17 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case WM_SIZING:
 		resizing = true;
+		return 0;
+
+	case WM_GETMINMAXINFO:
+		if (windowData.maxWindowSize.right - windowData.maxWindowSize.left > 0)
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.x = windowData.maxWindowSize.right - windowData.maxWindowSize.left;
+		if (windowData.maxWindowSize.bottom - windowData.maxWindowSize.top > 0)
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.y = windowData.maxWindowSize.bottom - windowData.maxWindowSize.top;
+		if (windowData.minWindowSize.right - windowData.minWindowSize.left > 0)
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = windowData.minWindowSize.right - windowData.minWindowSize.left;
+		if (windowData.minWindowSize.bottom - windowData.minWindowSize.top > 0)
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = windowData.minWindowSize.bottom - windowData.minWindowSize.top;
 		return 0;
 
 	case WM_DESTROY:
@@ -346,6 +359,49 @@ bool ComaWindow::setScreenSize(int width, int height)
 {
 	return setScreenSize(RECT{ 0, 0, width, height });
 }
+
+
+bool ComaWindow::setMaxWindowSize(RECT rect)
+{
+	windowData.maxWindowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+	return true;
+}
+bool ComaWindow::setMaxWindowSize(int width, int height)
+{
+	return setMaxWindowSize(RECT{ 0, 0, width, height });
+}
+bool ComaWindow::setMaxScreenSize(RECT rect)
+{
+	if (!AdjustWindowRectEx(&rect, getStyle(), false, getStyleEx()))
+		return false;
+	windowData.maxWindowSize = rect;
+	return true;
+}
+bool ComaWindow::setMaxScreenSize(int width, int height)
+{
+	return setMaxScreenSize(RECT{ 0, 0, width, height });
+}
+bool ComaWindow::setMinWindowSize(RECT rect)
+{
+	windowData.minWindowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+	return true;
+}
+bool ComaWindow::setMinWindowSize(int width, int height)
+{
+	return setMinWindowSize(RECT{ 0, 0, width, height });
+}
+bool ComaWindow::setMinScreenSize(RECT rect)
+{
+	if (!AdjustWindowRectEx(&rect, getStyle(), false, getStyleEx()))
+		return false;
+	windowData.minWindowSize = rect;
+	return true;
+}
+bool ComaWindow::setMinScreenSize(int width, int height)
+{
+	return setMinScreenSize(RECT{ 0, 0, width, height });
+}
+
 
 bool ComaWindow::addStyle(DWORD style)
 {

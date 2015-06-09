@@ -3,7 +3,7 @@
 #include "ComaRenderer.h"
 namespace coma2d
 {
-	struct WindowInitData
+	struct WindowData
 	{
 		HICON icon;
 		HCURSOR cursor;
@@ -14,6 +14,8 @@ namespace coma2d
 		int nCmdShow;
 		POINT windowPosition;
 		RECT windowSize;
+		RECT maxWindowSize;
+		RECT minWindowSize;
 	};
 	class ComaWindow :
 		public EventDispatcher
@@ -62,6 +64,15 @@ namespace coma2d
 		bool setScreenSize(RECT rect);
 		bool setScreenSize(int width, int height);
 
+		bool setMaxScreenSize(RECT rect);
+		bool setMaxScreenSize(int width, int height);
+		bool setMaxWindowSize(RECT rect);
+		bool setMaxWindowSize(int width, int height);
+		bool setMinScreenSize(RECT rect);
+		bool setMinScreenSize(int width, int height);
+		bool setMinWindowSize(RECT rect);
+		bool setMinWindowSize(int width, int height);
+
 		bool addStyle(DWORD style);
 		bool removeStyle(DWORD style);
 		bool addStyleEx(DWORD styleEx);
@@ -87,7 +98,7 @@ namespace coma2d
 		//Window Essencials
 		HINSTANCE	hInstance;
 		HWND		hWnd;
-		WindowInitData windowData;
+		WindowData windowData;
 		
 		//Window Status
 		bool created;
