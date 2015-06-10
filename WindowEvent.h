@@ -20,15 +20,18 @@ namespace coma2d
 		static const std::string MINIMIZED;
 		static const std::string MAXIMIZED;
 		static const std::string RESTORED;
+
+		static const std::string RESIZE;
+		static const std::string RESIZING;
+		static const std::string MOVE;
+		static const std::string MOVING;
+
 		static const std::string ENTER_FULLSCREEN;
 		static const std::string EXIT_FULLSCREEN;
 
 		static const std::string ENTER_RESIZEMOVE;
 		static const std::string EXIT_RESIZEMOVE;
-		static const std::string RESIZE;
-		static const std::string RESIZING;
-		static const std::string MOVE;
-		static const std::string MOVING;
+		
 		
 		static const std::string UPDATE;
 
