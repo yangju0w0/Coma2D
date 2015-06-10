@@ -16,6 +16,12 @@
     <Filter Include="Coma2D">
       <UniqueIdentifier>{425e7e5e-d622-490e-85a7-b5b4d8aed58c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Coma2D\Event">
+      <UniqueIdentifier>{dc2450f8-8c73-44c1-93f7-dfb3762f16ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Core">
+      <UniqueIdentifier>{731a8713-8edc-4b2f-bb9a-2d6becf92e19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -24,46 +30,46 @@
     <ClInclude Include="stdafx.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="EventDispatcher.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ComaWindow.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ComaRenderer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Event.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="ComaDevice.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Coma2D\Event</Filter>
     </ClInclude>
     <ClInclude Include="WindowEvent.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="ComaWindow.h">
+      <Filter>Coma2D\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ComaRenderer.h">
+      <Filter>Coma2D\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="ComaDevice.h">
+      <Filter>Coma2D\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>Coma2D\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="EventDispatcher.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ComaWindow.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ComaRenderer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Event.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="ComaDevice.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Coma2D\Event</Filter>
     </ClCompile>
     <ClCompile Include="WindowEvent.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="ComaWindow.cpp">
+      <Filter>Coma2D\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ComaDevice.cpp">
+      <Filter>Coma2D\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="ComaRenderer.cpp">
+      <Filter>Coma2D\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="EventDispatcher.cpp">
+      <Filter>Coma2D\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
