@@ -23,10 +23,12 @@ const std::string WindowEvent::MOVING			= "moving";
 
 const std::string WindowEvent::UPDATE			= "update";
 
-WindowEvent::WindowEvent(std::string type, ComaWindow* target)
+WindowEvent::WindowEvent(std::string type, ComaWindow* target, WPARAM wParam, LPARAM lParam)
 	:Event(type)
 {
 	this->target = target;
+	this->wParam = wParam;
+	this->lParam = lParam;
 }
 
 

@@ -7,7 +7,7 @@ namespace coma2d
 		public Event
 	{
 	public:
-		WindowEvent(std::string type, ComaWindow* target);
+		WindowEvent(std::string type, ComaWindow* target, WPARAM wParam = NULL, LPARAM lParam = NULL);
 		~WindowEvent();
 
 	public:
@@ -55,8 +55,11 @@ namespace coma2d
 		bool isMoving(){ return target->isMoving(); }
 
 		ComaWindow* getTarget(){ return target; }
-
+		WPARAM getWParam(){ return wParam; }
+		LPARAM getLParam(){ return lParam; }
 	private:
 		ComaWindow* target;
+		WPARAM wParam;
+		LPARAM lParam;
 	};
 }
