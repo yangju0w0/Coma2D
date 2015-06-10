@@ -90,7 +90,8 @@ bool ComaWindow::createWindow()
 
 	if (isFullscreen())
 	{
-
+		fullscreen = false;
+		setFullscreen(true);
 	}
 	
 	return true;
@@ -129,10 +130,22 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (LOWORD(wParam) == WA_INACTIVE)
 		{
 			activated = false;
+			if (isFullscreen())
+			{
+				ChangeDisplaySettings(NULL, 0);
+				fullscreen = false;
+				minimizeWindow();
+				fullscreen = true;
+			}
 		}
 		else if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
 		{
 			activated = true;
+			if (isFullscreen())
+			{
+				fullscreen = false;
+				setFullscreen(true);
+			}
 		}
 		return 0;
 
@@ -199,7 +212,14 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		if (windowData.minWindowSize.bottom - windowData.minWindowSize.top > 0)
 			((MINMAXINFO*)lParam)->ptMinTrackSize.y = windowData.minWindowSize.bottom - windowData.minWindowSize.top;
 		return 0;
-
+	case WM_SYSCOMMAND:
+		if (LOWORD(wParam) == SC_MINIMIZE)
+		{
+			windowData.windowSize = getWindowSize();
+			windowData.windowPosition = getWindowPosition();
+			//최소화되기 전에, 화면 크기를 저장해둔다.
+		}
+		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		created = false;
@@ -244,7 +264,7 @@ bool ComaWindow::setBackgroundColor(HBRUSH brush)
 }//수정 필요
 bool ComaWindow::setStyle(DWORD style)
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen())
 	{
 		SetWindowLong(hWnd, GWL_STYLE, style);
 	}
@@ -256,7 +276,7 @@ bool ComaWindow::setStyle(DWORD style)
 }
 bool ComaWindow::setStyleEx(DWORD styleEx)
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen())
 	{
 		SetWindowLong(hWnd, GWL_EXSTYLE, styleEx);
 	}
@@ -291,7 +311,7 @@ bool ComaWindow::setCmdShow(int nCmdShow)
 
 bool ComaWindow::setWindowRect(RECT rect)
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen() && !isMinimized())
 	{
 		if (SetWindowPos(hWnd, NULL, rect.left, rect.top, rect.right, rect.bottom, 0))
 			return true;
@@ -314,7 +334,7 @@ bool ComaWindow::setWindowRect(int left, int top, int right, int bottom)
 }
 bool ComaWindow::setWindowSize(RECT rect)
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen() && !isMinimized())
 	{
 		POINT position = getWindowPosition();
 		if (SetWindowPos(hWnd, NULL, position.x, position.y, rect.right - rect.left, rect.bottom - rect.top, 0))
@@ -333,7 +353,7 @@ bool ComaWindow::setWindowSize(int width, int height)
 }
 bool ComaWindow::setWindowPosition(POINT point)
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen() && !isMinimized())
 	{
 		RECT r = getWindowSize();
 		if (SetWindowPos(hWnd, NULL, point.x, point.y, r.right - r.left, r.bottom - r.top, 0))
@@ -480,7 +500,7 @@ TCHAR*	ComaWindow::getTitle()
 }
 RECT	ComaWindow::getWindowSize()
 {
-	if (isCreated())
+	if (isCreated() && !isMinimized())
 	{
 		RECT rect;
 		GetWindowRect(hWnd, &rect);
@@ -490,7 +510,7 @@ RECT	ComaWindow::getWindowSize()
 }
 RECT	ComaWindow::getWindowRect()
 {
-	if (isCreated())
+	if (isCreated() && !isMinimized())
 	{
 		RECT rect;
 		GetWindowRect(hWnd, &rect);
@@ -506,7 +526,7 @@ RECT	ComaWindow::getWindowRect()
 RECT	ComaWindow::getScreenSize()
 {
 	RECT rect;
-	if (isCreated())
+	if (isCreated() && !isMinimized())
 	{
 		GetClientRect(hWnd, &rect);
 		return rect;
@@ -519,10 +539,10 @@ RECT	ComaWindow::getScreenSize()
 		windowData.windowSize.right - rect.right,
 		windowData.windowSize.bottom - rect.bottom
 	};
-}
+}//수정 필요
 POINT	ComaWindow::getWindowPosition()
 {
-	if (isCreated())
+	if (isCreated() && !isMinimized())
 	{
 		RECT rect;
 		GetWindowRect(hWnd, &rect);
@@ -532,13 +552,74 @@ POINT	ComaWindow::getWindowPosition()
 }
 
 //Status Changer
-bool ComaWindow::setFullscreen()
+bool ComaWindow::setFullscreen(bool mode)
 {
-	return false;//TODO: fullscreen 구현
+	if (!mode)
+	{
+		if (!isFullscreen())
+			return false;
+
+		fullscreen = false;
+		ChangeDisplaySettings(NULL, 0);
+		setStyle(windowData.style);
+		setStyleEx(windowData.styleEx);
+		setWindowPosition(windowData.windowPosition);
+		setWindowSize(windowData.windowSize);
+		if (isMaximized())
+			maximizeWindow();
+		else if (isMinimized())
+			minimizeWindow();
+
+		fullscreen = false;
+		return true;
+	} //풀스크린 해제
+
+	RECT rect = getScreenSize();
+	if (setFullscreen(mode, rect.right, rect.bottom))
+		return true;
+	if (setFullscreen(mode, windowData.fullscreenSize.right, windowData.fullscreenSize.bottom))
+		return true;
+	//다양한 해상도로 시도
+	return false;
+}
+bool ComaWindow::setFullscreen(bool mode, int width ,int height)
+{
+	if (!isCreated())
+	{
+		fullscreen = true;
+		windowData.fullscreenSize = {0,0, width, height };
+		return true;
+	}
+	if (isFullscreen())
+		return false;
+
+	DEVMODE dm;
+	ZeroMemory(&dm, sizeof(DEVMODE));
+	dm.dmSize = sizeof(DEVMODE);
+	dm.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+	dm.dmBitsPerPel = 32;
+	dm.dmPelsWidth = width;
+	dm.dmPelsHeight = height;
+	if (ChangeDisplaySettings(&dm, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL)
+	{
+		ChangeDisplaySettings(&dm, 0);
+		return false;
+	}
+	windowData.fullscreenSize = { 0, 0, width, height };
+	windowData.style = getStyle();
+	windowData.styleEx = getStyleEx();
+	windowData.windowSize = getWindowSize();
+	windowData.windowPosition = getWindowPosition();
+	setStyle(windowData.style & ~WS_OVERLAPPEDWINDOW | WS_POPUP);
+	setStyleEx(windowData.styleEx | WS_EX_TOPMOST);
+	setWindowSize(width, height);
+	setWindowPosition(0, 0);
+	fullscreen = true;
+	return true;
 }
 bool ComaWindow::minimizeWindow()
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen())
 	{
 		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MINIMIZE, 0))
 			return false;
@@ -553,7 +634,7 @@ bool ComaWindow::minimizeWindow()
 }
 bool ComaWindow::maximizeWindow()
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen())
 	{
 		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MAXIMIZE, 0))
 			return false;
@@ -568,7 +649,7 @@ bool ComaWindow::maximizeWindow()
 }
 bool ComaWindow::restoreWindow()
 {
-	if (isCreated())
+	if (isCreated() && !isFullscreen())
 	{
 		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_RESTORE, 0))
 			return false;

@@ -16,6 +16,7 @@ namespace coma2d
 		RECT windowSize;
 		RECT maxWindowSize;
 		RECT minWindowSize;
+		RECT fullscreenSize;
 	};
 	class ComaWindow :
 		public EventDispatcher
@@ -89,7 +90,9 @@ namespace coma2d
 		bool isMoving(){ return moving; }
 
 		//Window Status Changer
-		bool setFullscreen();
+		bool setFullscreen(bool mode);
+		bool setFullscreen(bool mode, int width, int height);
+		bool setscreen();
 		bool minimizeWindow();
 		bool maximizeWindow();
 		bool restoreWindow();
@@ -110,42 +113,6 @@ namespace coma2d
 		bool resizing;
 		bool moving;
 
-		
-		/*
-		//Getter
-		HINSTANCE		getInstance()	{return hInstance;}
-		HWND			getWindow()		{return hWnd;}
-		bool			isRunning()		{return isRunning;}
-
-
-		//Setter
-		bool			setRenderer(ComaRenderer* renderer);
-		bool			setSize(int width, int height);
-		bool			setMinimumSize(int width, int height);
-		bool			setMaximumSize(int width, int height);
-		void			setTitle(const char* title);
-		
-
-	private:
-		//Windows Essensials
-		HINSTANCE		hInstance;
-		HWND			hWnd;
-		ComaRenderer*	renderer;
-		
-		
-		//Windows Attributes
-		POINT			clientPosition;
-		RECT			clientRect;
-		RECT			minimumClientSize;
-		RECT			maximumClientSize;
-		bool			resizable;
-		const char*		title;
-
-		//Windows Status
-		
-		bool			isAvailable;
-		bool			isResizing;
-		bool			isRunning; */
 	};
 }
 
