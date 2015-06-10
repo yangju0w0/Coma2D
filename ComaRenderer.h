@@ -19,6 +19,10 @@ namespace coma2d
 		bool resetSize();
 
 	public:
+		//Renderer Essencials Getter
+		ID2D1Factory* getFactory(){ return factory; }
+		ID2D1HwndRenderTarget* getRenderTarget(){ return renderTarget; }
+
 		//Renderer Status Getter
 		bool isInitialized(){ return initialized; }
 		bool isRunning(){ return running; }
@@ -28,10 +32,10 @@ namespace coma2d
 		void setBackgroundColor(float r, float g, float b) { backgroundColor = D2D1::ColorF(r, g, b); }
 
 	private:
-		//Renderer Status
-		bool initialized;
-		bool running;
-
+		bool createRenderTarget(HWND hWnd);
+		void releaseRenderTarget();
+		void restoreDevice();
+		
 	private:
 		//Renderer Essencials
 		ID2D1Factory* factory;
@@ -40,5 +44,9 @@ namespace coma2d
 
 		//Renderer Attributes
 		D2D1_COLOR_F backgroundColor;
+
+		//Renderer Status
+		bool initialized;
+		bool running;
 	};
 }
