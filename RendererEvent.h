@@ -22,7 +22,7 @@ namespace coma2d
 		
 	public:
 		double deltaTime(){ return targetRenderer->getDeltaTime(); }
-		ID2D1HwndRenderTarget* getRenderTarget(){ targetRenderer->getRenderTarget(); }
+		ID2D1HwndRenderTarget* getRenderTarget(){ return targetRenderer->getRenderTarget(); }
 		ComaRenderer* getTarget(){ return targetRenderer; }
 	private:
 		ComaRenderer* targetRenderer;

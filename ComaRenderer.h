@@ -34,7 +34,7 @@ namespace coma2d
 		double getRunningTime(){ return timer->getRunningTime(); }
 		double getPausedTime(){ return timer->getPausedTime(); }
 		float getFps(){ return fps; }
-		int getFrameCount(){ return frameCount; }
+		__int64 getFrameCount(){ return frameCount; }
 
 		//Renderer Attributes Setter
 		void setBackgroundColor(D2D1_COLOR_F color) { backgroundColor = color; }
