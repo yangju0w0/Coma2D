@@ -60,16 +60,25 @@ void RenderTimer::tick()
 
 double RenderTimer::getTotalTime()
 {
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
 	return (currentTime - baseTime)*secondsPerCount;
 }
 
 double RenderTimer::getRunningTime()
 {
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
+	if (!isRunning)
+		return (currentTime - baseTime - pausedTime - (currentTime-stopTime))*secondsPerCount;
 	return (currentTime - baseTime - pausedTime)*secondsPerCount;
 }
 
 double RenderTimer::getPausedTime()
 {
+	if (!isRunning)
+	{
+		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
+		return (pausedTime + (currentTime - stopTime))*secondsPerCount;
+	}
 	return pausedTime*secondsPerCount;
 }
 
