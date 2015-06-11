@@ -39,6 +39,13 @@ namespace coma2d
 		//Renderer Attributes Setter
 		void setBackgroundColor(D2D1_COLOR_F color) { backgroundColor = color; }
 		void setBackgroundColor(float r, float g, float b) { backgroundColor = D2D1::ColorF(r, g, b); }
+		void setMinFrameTime(float value){ minFrameTime = value; }
+		void setMaxFrameTime(float value){ maxFrameTime = value; }
+
+		//Renderer Attributes Getter
+		D2D1_COLOR_F getBackgroundColor(){ return backgroundColor; }
+		float getMinFrameTime(){ return minFrameTime; }
+		float getMaxFrameTime(){ return maxFrameTime; }
 
 	private:
 		bool createRenderTarget(HWND hWnd);

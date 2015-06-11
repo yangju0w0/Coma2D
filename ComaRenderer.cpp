@@ -136,5 +136,3 @@ void ComaRenderer::restoreDevice()
 	createRenderTarget(targetWindow);
 	run();
 }
-
-//TODO: 이벤트 제작+디바이스 로스트 구현, 
