@@ -117,7 +117,6 @@ bool ComaWindow::run()
 		else
 		{
 			dispatchEvent(new WindowEvent(WindowEvent::UPDATE, this));
-			Sleep(1);
 		}
 	}
 	return true;

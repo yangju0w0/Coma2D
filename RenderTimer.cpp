@@ -5,7 +5,7 @@
 RenderTimer::RenderTimer()
 	:baseTime(0), pausedTime(0), stopTime(0), prevTime(0), currentTime(0), secondsPerCount(0), deltaTime(0), running(false)
 {
-	int freq;
+	__int64 freq;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
 	secondsPerCount = 1.0 / freq;
 }
