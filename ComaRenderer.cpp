@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ComaRenderer.h"
+#include "RendererEvent.h"
 using namespace coma2d;
 
 
@@ -47,11 +48,17 @@ bool ComaRenderer::createRenderTarget(HWND hWnd)
 		&renderTarget
 		) != S_OK)
 		return false;
+	dispatchEvent(new RendererEvent(RendererEvent::RENDER_TARGET_CREATED, this));
 	return true;
 }
 void ComaRenderer::releaseRenderTarget()
 {
-	if (renderTarget)renderTarget->Release();
+	if (renderTarget)
+	{
+		dispatchEvent(new RendererEvent(RendererEvent::UNLOAD_RESOURCES_REQ, this));
+		renderTarget->Release();
+		dispatchEvent(new RendererEvent(RendererEvent::RENDER_TARGET_RELEASED, this));
+	}
 }
 
 bool ComaRenderer::run()
@@ -60,6 +67,7 @@ bool ComaRenderer::run()
 		return false;
 	timer->start();
 	running = true;
+	dispatchEvent(new RendererEvent(RendererEvent::RUN, this));
 	return true;
 }
 bool ComaRenderer::pause()
@@ -68,6 +76,7 @@ bool ComaRenderer::pause()
 		return false;
 	timer->stop();
 	running = false;
+	dispatchEvent(new RendererEvent(RendererEvent::PAUSED, this));
 	return true;
 }
 bool ComaRenderer::update()
@@ -87,9 +96,14 @@ bool ComaRenderer::update()
 	}
 	frameCount++;
 	fps = (double)frameCount / timer->getRunningTime();
+
+	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
+
 	//RenderProcess
 	renderTarget->BeginDraw();
 	renderTarget->Clear(backgroundColor);
+
+	dispatchEvent(new RendererEvent(RendererEvent::RENDER, this));
 
 	if (renderTarget->EndDraw() != S_OK)
 	{
@@ -118,6 +132,7 @@ void ComaRenderer::restoreDevice()
 	pause();
 	releaseRenderTarget();
 	Sleep(100);
+	dispatchEvent(new RendererEvent(RendererEvent::LOAD_RESOURCE_REQ, this));
 	createRenderTarget(targetWindow);
 	run();
 }
