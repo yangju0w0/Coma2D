@@ -1,5 +1,6 @@
 #pragma once
 #include "EventDispatcher.h"
+#include "RenderTimer.h"
 #include <d2d1.h>
 namespace coma2d
 {
@@ -22,10 +23,18 @@ namespace coma2d
 		//Renderer Essencials Getter
 		ID2D1Factory* getFactory(){ return factory; }
 		ID2D1HwndRenderTarget* getRenderTarget(){ return renderTarget; }
+		RenderTimer* timer;
 
 		//Renderer Status Getter
 		bool isInitialized(){ return initialized; }
 		bool isRunning(){ return running; }
+
+		double getDeltaTime(){ return deltaTime; }
+		double getTotalTime(){ return timer->getTotalTime(); }
+		double getRunningTime(){ return timer->getRunningTime(); }
+		double getPausedTime(){ return timer->getPausedTime(); }
+		float getFps(){ return fps; }
+		int getFrameCount(){ return frameCount; }
 
 		//Renderer Attributes Setter
 		void setBackgroundColor(D2D1_COLOR_F color) { backgroundColor = color; }
@@ -44,9 +53,16 @@ namespace coma2d
 
 		//Renderer Attributes
 		D2D1_COLOR_F backgroundColor;
+		float maxFrameTime;
+		float minFrameTime;
 
 		//Renderer Status
 		bool initialized;
 		bool running;
+
+		//Renderer Temp
+		double deltaTime;
+		__int64 frameCount;
+		float fps;
 	};
 }
