@@ -94,9 +94,7 @@ bool ComaRenderer::update()
 		Sleep((DWORD)((minFrameTime-deltaTime)*1000));
 		deltaTime = minFrameTime;
 	}
-	frameCount++;
-	fps = (double)frameCount / timer->getRunningTime();
-
+	fps = 1 / deltaTime;
 	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
 
 	//RenderProcess
@@ -114,6 +112,8 @@ bool ComaRenderer::update()
 		}
 	}
 	
+
+	frameCount++;
 	return true;
 }
 bool ComaRenderer::resetSize()
