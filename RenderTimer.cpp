@@ -67,14 +67,14 @@ double RenderTimer::getTotalTime()
 double RenderTimer::getRunningTime()
 {
 	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	if (!isRunning)
+	if (!running)
 		return (currentTime - baseTime - pausedTime - (currentTime-stopTime))*secondsPerCount;
 	return (currentTime - baseTime - pausedTime)*secondsPerCount;
 }
 
 double RenderTimer::getPausedTime()
 {
-	if (!isRunning)
+	if (!running)
 	{
 		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
 		return (pausedTime + (currentTime - stopTime))*secondsPerCount;

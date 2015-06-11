@@ -22,6 +22,9 @@
     <Filter Include="Coma2D\Core">
       <UniqueIdentifier>{731a8713-8edc-4b2f-bb9a-2d6becf92e19}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Coma2D\Util">
+      <UniqueIdentifier>{09e22ef3-ee63-40ac-b624-a6e5c7f2ff74}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -48,6 +51,9 @@
     <ClInclude Include="EventDispatcher.h">
       <Filter>Coma2D\Event</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTimer.h">
+      <Filter>Coma2D\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -70,6 +76,9 @@
     </ClCompile>
     <ClCompile Include="EventDispatcher.cpp">
       <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTimer.cpp">
+      <Filter>Coma2D\Util</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
