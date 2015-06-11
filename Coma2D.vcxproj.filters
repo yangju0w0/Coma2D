@@ -54,6 +54,9 @@
     <ClInclude Include="RenderTimer.h">
       <Filter>Coma2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="RendererEvent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -79,6 +82,9 @@
     </ClCompile>
     <ClCompile Include="RenderTimer.cpp">
       <Filter>Coma2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererEvent.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
