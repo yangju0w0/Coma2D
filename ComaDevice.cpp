@@ -5,20 +5,7 @@
 
 using namespace coma2d;
 
-ComaDevice::ComaDevice()
-	:running(false), initialized(false), window(nullptr), renderer(nullptr)
-{
-}
-
-ComaDevice::ComaDevice(ComaWindow* window, ComaRenderer* renderer)
-	: running(false), initialized(false)
-{
-	setWindowRenderer(window, renderer);
-}
-
-ComaDevice::~ComaDevice()
-{
-}
+ComaDevice* ComaDevice::device;
 
 bool ComaDevice::setWindow(ComaWindow* window)
 {

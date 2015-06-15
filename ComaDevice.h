@@ -5,11 +5,18 @@ namespace coma2d
 {
 	class ComaDevice
 	{
+	private:
+		ComaDevice(){};
+		ComaDevice(const ComaDevice& other);
+		~ComaDevice(){};
+		static ComaDevice* device;
 	public:
-		ComaDevice();
-		ComaDevice(ComaWindow* window, ComaRenderer* renderer);
-		virtual ~ComaDevice();
-
+		static ComaDevice* GetDevice()
+		{
+			if (device == 0) device = new ComaDevice();
+			return device;
+		}
+	public:
 		//Device Setter
 		bool setWindow(ComaWindow* window);
 		bool setRenderer(ComaRenderer* renderer);
