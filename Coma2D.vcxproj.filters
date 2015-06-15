@@ -25,6 +25,15 @@
     <Filter Include="Coma2D\Util">
       <UniqueIdentifier>{09e22ef3-ee63-40ac-b624-a6e5c7f2ff74}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Coma2D\RenderTree">
+      <UniqueIdentifier>{693c24b3-254a-45a0-82a0-85f42da2f24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Resource">
+      <UniqueIdentifier>{782ccb43-ce12-4676-b4a2-9286ece9a16d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Manage">
+      <UniqueIdentifier>{d5badb61-de93-4870-b997-52887a7c28d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
@@ -86,5 +95,8 @@
     <ClCompile Include="RendererEvent.cpp">
       <Filter>Coma2D\Event</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
