@@ -3,8 +3,8 @@
 using namespace coma2d;
 
 Event::Event(std::string type)
+	:type(type)
 {
-	this->type = type;
 }
 
 

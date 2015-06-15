@@ -6,13 +6,13 @@
 using namespace coma2d;
 
 ComaDevice::ComaDevice()
-	:running(false), initialized(false)
+	:running(false), initialized(false), window(nullptr), renderer(nullptr)
 {
 }
 
 ComaDevice::ComaDevice(ComaWindow* window, ComaRenderer* renderer)
+	: running(false), initialized(false)
 {
-	ComaDevice();
 	setWindowRenderer(window, renderer);
 }
 
@@ -143,6 +143,7 @@ void ComaDevice::windowEnterResizeMoveListener(Event* event)
 }
 void ComaDevice::windowExitResizeMoveListener(Event* event)
 {
+	renderer->resetSize();
 	renderer->run();
 }
 void ComaDevice::windowUpdateListener(Event* event)
@@ -155,5 +156,11 @@ void ComaDevice::windowResizeListener(Event* event)
 		renderer->resetSize();
 }
 
-void ComaDevice::rendererUpdateListener(Event* event){}
-void ComaDevice::rendererRenderListener(Event* event){}
+void ComaDevice::rendererUpdateListener(Event* event)
+{
+
+}
+void ComaDevice::rendererRenderListener(Event* event)
+{
+
+}

@@ -15,19 +15,21 @@ namespace coma2d
 		bool setRenderer(ComaRenderer* renderer);
 		bool setWindowRenderer(ComaWindow* window, ComaRenderer* renderer);
 
+		//Device Getter
+		ComaWindow* getWindow(){ return window; }
+		ComaRenderer* getRemderer(){ return renderer; }
+
 		//Device Control
 		bool initDevice();
 		bool initDevice(HINSTANCE hInstance);
 		bool run();
 
-		//Device Essencials Getter
-		ComaWindow* getWindow(){ return window; }
-		ComaRenderer* getRenderer(){ return renderer; }
-
 		//Device Status Getter
 		bool isRunning(){ return running; }
 		bool isInitialized(){ return initialized; }
 
+
+		//Events
 		void windowDestroyListener(Event* event);
 		void windowMinimizeListener(Event* event);
 		void windowRestoreListener(Event* event);

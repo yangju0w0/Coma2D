@@ -5,7 +5,7 @@ using namespace coma2d;
 
 
 ComaRenderer::ComaRenderer()
-	:initialized(false), running(false), deltaTime(0.0), fps(0.0f), frameCount(0)
+	:initialized(false), running(false), deltaTime(0.0), fps(0.0f), frameCount(0), factory(nullptr), renderTarget(nullptr)
 {
 	timer = new RenderTimer();
 	backgroundColor = D2D1::ColorF(0.0f, 0.0f, 0.0f);
