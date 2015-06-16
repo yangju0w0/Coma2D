@@ -24,7 +24,7 @@ namespace coma2d
 
 		//Device Getter
 		ComaWindow* getWindow(){ return window; }
-		ComaRenderer* getRemderer(){ return renderer; }
+		ComaRenderer* getRenderer(){ return renderer; }
 
 		//Device Control
 		bool initDevice();
