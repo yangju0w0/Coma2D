@@ -1,6 +1,7 @@
 #pragma once
 #include "ComaWindow.h"
 #include "ComaRenderer.h"
+#include "ResourceManager.h"
 namespace coma2d
 {
 	class ComaDevice
@@ -27,30 +28,33 @@ namespace coma2d
 		ComaRenderer* getRenderer(){ return renderer; }
 
 		//Device Control
-		bool initDevice();
-		bool initDevice(HINSTANCE hInstance);
+		bool initDevice(HINSTANCE hInstance = nullptr);
 		bool run();
 
 		//Device Status Getter
 		bool isRunning(){ return running; }
 		bool isInitialized(){ return initialized; }
 
+		//Manager Getter
+		ResourceManager* getResourceManager(){ return resourceManager; }
+
 
 		//Events
-		void windowDestroyListener(Event* event);
-		void windowMinimizeListener(Event* event);
-		void windowRestoreListener(Event* event);
-		void windowResizeListener(Event* event);
-		void windowEnterResizeMoveListener(Event* event);
-		void windowExitResizeMoveListener(Event* event);
-		void windowUpdateListener(Event* event);
-		void rendererUpdateListener(Event* event);
-		void rendererRenderListener(Event* event);
+		void _windowDestroyListener(Event* event);
+		void _windowMinimizeListener(Event* event);
+		void _windowRestoreListener(Event* event);
+		void _windowResizeListener(Event* event);
+		void _windowEnterResizeMoveListener(Event* event);
+		void _windowExitResizeMoveListener(Event* event);
+		void _windowUpdateListener(Event* event);
+		void _rendererUpdateListener(Event* event);
+		void _rendererRenderListener(Event* event);
 
 	private:
 		bool initWindow();
 		bool initWindow(HINSTANCE hInstance);
 		bool initRenderer();
+		bool initManagers();
 	private:
 		//Device Essencials
 		ComaWindow* window;
@@ -59,5 +63,8 @@ namespace coma2d
 		//Device Status
 		bool running;
 		bool initialized;
+
+		//Managers
+		ResourceManager* resourceManager;
 	};
 }
