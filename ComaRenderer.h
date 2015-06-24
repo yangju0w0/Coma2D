@@ -17,8 +17,8 @@ public:
 	bool run();
 	bool pause();
 
-	bool update();
-	bool resetSize();
+	bool update();	//호출할 때 마다 화면을 갱신한다.
+	bool resetSize();//렌더 타겟의 사이즈를 윈도우에 맞게 변경한다.
 
 public:
 	//Renderer Essencials Getter
@@ -40,8 +40,8 @@ public:
 	//Renderer Attributes Setter
 	void setBackgroundColor(D2D1_COLOR_F color) { backgroundColor = color; }
 	void setBackgroundColor(float r, float g, float b) { backgroundColor = D2D1::ColorF(r, g, b); }
-	void setMinFrameTime(float value){ minFrameTime = value; }
-	void setMaxFrameTime(float value){ maxFrameTime = value; }
+	void setMinFrameTime(float value){ minFrameTime = value; } //최소 렌더링 시간을 제한한다.
+	void setMaxFrameTime(float value){ maxFrameTime = value; } //최대 렌더링 시간을 제한한다.
 
 	//Renderer Attributes Getter
 	D2D1_COLOR_F getBackgroundColor(){ return backgroundColor; }
