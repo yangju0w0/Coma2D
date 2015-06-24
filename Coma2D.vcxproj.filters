@@ -66,21 +66,6 @@
     <ClInclude Include="RendererEvent.h">
       <Filter>Coma2D\Event</Filter>
     </ClInclude>
-    <ClInclude Include="Manager.h">
-      <Filter>Coma2D\Manage</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>Coma2D\Manage</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Coma2D\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Bitmap.h">
-      <Filter>Coma2D\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManagerEvent.h">
-      <Filter>Coma2D\Event</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -110,17 +95,8 @@
     <ClCompile Include="RendererEvent.cpp">
       <Filter>Coma2D\Event</Filter>
     </ClCompile>
-    <ClCompile Include="Manager.cpp">
-      <Filter>Coma2D\Manage</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Coma2D\Manage</Filter>
-    </ClCompile>
-    <ClCompile Include="Bitmap.cpp">
-      <Filter>Coma2D\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManagerEvent.cpp">
-      <Filter>Coma2D\Event</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
