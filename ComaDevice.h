@@ -37,7 +37,7 @@ public:
 	bool isRunning(){ return running; }
 	bool isInitialized(){ return initialized; }
 
-
+private:
 	//Events
 	void windowDestroyListener(Event* event);
 	void windowMinimizeListener(Event* event);
