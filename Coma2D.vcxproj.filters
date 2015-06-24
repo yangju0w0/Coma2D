@@ -66,6 +66,9 @@
     <ClInclude Include="RendererEvent.h">
       <Filter>Coma2D\Event</Filter>
     </ClInclude>
+    <ClInclude Include="comaUtil.h">
+      <Filter>Coma2D\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

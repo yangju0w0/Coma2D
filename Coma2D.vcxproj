@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClInclude Include="ComaDevice.h" />
     <ClInclude Include="ComaRenderer.h" />
+    <ClInclude Include="comaUtil.h" />
     <ClInclude Include="ComaWindow.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="EventDispatcher.h" />

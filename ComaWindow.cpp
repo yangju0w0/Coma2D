@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ComaWindow.h"
 #include "WindowEvent.h"
-using namespace coma2d;
+COMA_USING_NS
 
 ComaWindow* comaWindow;
 

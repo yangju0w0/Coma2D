@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "RendererEvent.h"
-using namespace coma2d;
+COMA_USING_NS
 
 const std::string RendererEvent::UPDATE					= "renderer_update";
 const std::string RendererEvent::RENDER					= "renderer_render";

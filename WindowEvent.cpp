@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "WindowEvent.h"
-using namespace coma2d;
+COMA_USING_NS
 
 const std::string WindowEvent::CREATED			= "window_created";
 const std::string WindowEvent::DESTROY			= "window_destroy";

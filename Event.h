@@ -31,18 +31,21 @@ void mouseListener(Event* event)
 
 #pragma once
 #include <string>
-namespace coma2d
+#include "comaUtil.h"
+
+COMA_NS_BEGIN
+
+class Event
 {
-	class Event
+public:
+	Event(std::string type);	//생성자를 통해 이벤트 타입을 지정한다.
+	virtual ~Event();
+	std::string getType()	//이벤트 타입 Getter
 	{
-	public:
-		Event(std::string type);	//생성자를 통해 이벤트 타입을 지정한다.
-		virtual ~Event();
-		std::string getType()	//이벤트 타입 Getter
-		{
-			return type;
-		}
-	private:
-		std::string type;	//이벤트 타입을 저장한다.
-	};
-}
+		return type;
+	}
+private:
+	std::string type;	//이벤트 타입을 저장한다.
+};
+
+COMA_END

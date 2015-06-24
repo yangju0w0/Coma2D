@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Event.h"
-using namespace coma2d;
+COMA_USING_NS
 
 Event::Event(std::string type)
 	:type(type)

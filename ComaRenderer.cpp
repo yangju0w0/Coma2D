@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ComaRenderer.h"
 #include "RendererEvent.h"
-using namespace coma2d;
+COMA_USING_NS
 
 
 ComaRenderer::ComaRenderer()

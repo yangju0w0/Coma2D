@@ -3,7 +3,7 @@
 #include "WindowEvent.h"
 #include "RendererEvent.h"
 
-using namespace coma2d;
+COMA_USING_NS
 
 ComaDevice* ComaDevice::device;
 
