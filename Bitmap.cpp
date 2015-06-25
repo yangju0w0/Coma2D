@@ -7,33 +7,31 @@ Bitmap::~Bitmap()
 {
 	if(bitmap) bitmap->Release();
 }
-
+IWICImagingFactory* Bitmap::factory;
 Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, TCHAR* filename){
 	if (!renderer->getRenderTarget())
 		return nullptr;
 
-	ID2D1Bitmap* bitmap = createID2D1BitmapFromFile(renderer->getRenderTarget(), filename);
-
-	if (!bitmap)
+	IWICBitmapDecoder* decoder = createBitmapDecoderFromFile(filename);
+	if (!decoder)
 		return nullptr;
 
-	return new Bitmap(renderer, bitmap);
+	return new Bitmap(renderer, decoder);
 }
 Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, IStream* stream){
 	if (!renderer->getRenderTarget())
 		return nullptr;
 
-	ID2D1Bitmap* bitmap = createID2D1BitmapFromStream(renderer->getRenderTarget(), stream);
-
-	if (!bitmap)
+	IWICBitmapDecoder* decoder = createBitmapDecoderFromStream(stream);
+	if (!decoder)
 		return nullptr;
 
-	return new Bitmap(renderer, bitmap);
+	return new Bitmap(renderer, decoder);
 }
 
-ID2D1Bitmap* Bitmap::createID2D1BitmapFromFile(ID2D1HwndRenderTarget* renderTarget, TCHAR* filename)
+IWICBitmapDecoder* Bitmap::createBitmapDecoderFromFile(TCHAR* filename)
 {
-	if (!renderTarget || !filename)
+	if (!filename)
 			return nullptr;
 
 	HRESULT hr;
@@ -51,15 +49,11 @@ ID2D1Bitmap* Bitmap::createID2D1BitmapFromFile(ID2D1HwndRenderTarget* renderTarg
 		if (decoder) decoder->Release();
 		return nullptr;
 	}
-	
-	ID2D1Bitmap* bitmap = createID2D1BitmapFromDecoder(renderTarget, decoder);
-	if (decoder) decoder->Release();
-
-	return bitmap;
+	return decoder;
 }
-ID2D1Bitmap* Bitmap::createID2D1BitmapFromStream(ID2D1HwndRenderTarget* renderTarget, IStream* stream)
+IWICBitmapDecoder* Bitmap::createBitmapDecoderFromStream(IStream* stream)
 {
-	if (!renderTarget || !stream)
+	if (!stream)
 		return nullptr;
 
 	HRESULT hr;
@@ -78,10 +72,7 @@ ID2D1Bitmap* Bitmap::createID2D1BitmapFromStream(ID2D1HwndRenderTarget* renderTa
 		return nullptr;
 	}
 
-	ID2D1Bitmap* bitmap = createID2D1BitmapFromDecoder(renderTarget, decoder);
-	if (decoder) decoder->Release();
-
-	return bitmap;
+	return decoder;
 }
 ID2D1Bitmap* Bitmap::createID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderTarget, IWICBitmapDecoder* decoder)
 {
@@ -126,4 +117,30 @@ ID2D1Bitmap* Bitmap::createID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderT
 	if (converter)		converter->Release();
 
 	return bitmap;
+}
+
+void Bitmap::loadReqListener(Event* event)
+{
+	loadResource();
+}
+void Bitmap::unloadReqListener(Event* event)
+{
+	unloadResource();
+}
+
+void Bitmap::loadResource()
+{
+	if (!isLoaded())
+		bitmap = createID2D1BitmapFromDecoder(renderer->getRenderTarget(), decoder);
+}
+void Bitmap::unloadResource()
+{
+	if (isLoaded())
+		bitmap->Release();
+}
+bool Bitmap::isLoaded()
+{
+	if (bitmap)
+		return true;
+	return false;
 }

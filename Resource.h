@@ -6,8 +6,8 @@ COMA_NS_BEGIN
 class Resource
 {
 public:
-	Resource();
-	virtual ~Resource();
+	Resource(){}
+	virtual ~Resource(){}
 };
 
 COMA_END

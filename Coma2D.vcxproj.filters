@@ -110,9 +110,6 @@
     <ClCompile Include="Manager.cpp">
       <Filter>Coma2D\Manage</Filter>
     </ClCompile>
-    <ClCompile Include="Resource.cpp">
-      <Filter>Coma2D\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Bitmap.cpp">
       <Filter>Coma2D\Resource</Filter>
     </ClCompile>
