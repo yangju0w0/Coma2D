@@ -69,6 +69,15 @@
     <ClInclude Include="comaUtil.h">
       <Filter>Coma2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Coma2D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Bitmap.h">
+      <Filter>Coma2D\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -97,6 +106,15 @@
     </ClCompile>
     <ClCompile Include="RendererEvent.cpp">
       <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>Coma2D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitmap.cpp">
+      <Filter>Coma2D\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
