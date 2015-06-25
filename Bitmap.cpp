@@ -6,6 +6,7 @@ COMA_USING_NS
 Bitmap::~Bitmap()
 {
 	if(bitmap) bitmap->Release();
+	if(decoder)decoder->Release();
 }
 IWICImagingFactory* Bitmap::factory = nullptr;
 ComaRenderer* Bitmap::mainRenderer = nullptr;
@@ -76,7 +77,7 @@ void Bitmap::setRenderer(ComaRenderer* renderer)
 IWICBitmapDecoder* Bitmap::createBitmapDecoderFromFile(TCHAR* filename)
 {
 	if (!filename)
-			return nullptr;
+		return nullptr;
 
 	HRESULT hr;
 
