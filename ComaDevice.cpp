@@ -3,6 +3,8 @@
 #include "WindowEvent.h"
 #include "RendererEvent.h"
 
+#include "Bitmap.h"
+
 COMA_USING_NS
 
 ComaDevice* ComaDevice::device;
@@ -48,6 +50,8 @@ bool ComaDevice::initDevice(HINSTANCE hInstance)
 	if (!initWindow(hInstance))
 		return false;
 	if (!initRenderer())
+		return false;
+	if (!initOthers())
 		return false;
 	initialized = true;
 	return true;
@@ -111,7 +115,11 @@ bool ComaDevice::initRenderer()
 		
 	return true;
 }
-
+bool ComaDevice::initOthers()
+{
+	Bitmap::setRenderer(renderer);
+	return true;
+}
 void ComaDevice::windowDestroyListener(Event* event)
 {
 	

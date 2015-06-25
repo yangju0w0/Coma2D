@@ -9,9 +9,10 @@ class Bitmap :
 	public Resource
 {
 private:
-	Bitmap(ComaRenderer* renderer, IWICBitmapDecoder* decoder) :renderer(renderer), decoder(decoder)
+	Bitmap(ComaRenderer* renderer, IWICBitmapDecoder* decoder, bool load = false) :renderer(renderer), decoder(decoder), reload(false)
 	{
-		loadResource();
+		if (load)
+			loadResource();
 		renderer->setEventListener(RendererEvent::LOAD_RESOURCE_REQ, BIND(Bitmap::loadReqListener));
 		renderer->setEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::unloadReqListener));
 	}
@@ -20,26 +21,36 @@ private:
 
 public:
 	virtual ~Bitmap();
+	static Bitmap* createBitmap(TCHAR* filename);
+	static Bitmap* createBitmap(IStream* stream);
 	static Bitmap* createBitmap(ComaRenderer* renderer, TCHAR* filename);
 	static Bitmap* createBitmap(ComaRenderer* renderer, IStream* stream);
+
+	static Bitmap* createBitmapAndLoad(TCHAR* filename);
+	static Bitmap* createBitmapAndLoad(IStream* stream);
+	static Bitmap* createBitmapAndLoad(ComaRenderer* renderer, TCHAR* filename);
+	static Bitmap* createBitmapAndLoad(ComaRenderer* renderer, IStream* stream);
+
+	static void setRenderer(ComaRenderer* renderer);
 private:
 	static IWICBitmapDecoder* createBitmapDecoderFromFile(TCHAR* filename);
 	static IWICBitmapDecoder* createBitmapDecoderFromStream(IStream* stream);
 	static ID2D1Bitmap* createID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderTarget, IWICBitmapDecoder* decoder);
 	static IWICImagingFactory* factory;
-
+	static ComaRenderer* mainRenderer;
 //============================================================
 
 public:
 	ID2D1Bitmap* getResource(){ return bitmap; }
+	bool isLoaded();
+	bool loadResource();
+	bool unloadResource();
+
 private:
 	ComaRenderer* renderer;
 	ID2D1Bitmap* bitmap;
 	IWICBitmapDecoder* decoder;
-
-	void loadResource();
-	void unloadResource();
-	bool isLoaded();
+	bool reload;
 	
 	void loadReqListener(Event* event);
 	void unloadReqListener(Event* event);

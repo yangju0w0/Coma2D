@@ -7,7 +7,17 @@ Bitmap::~Bitmap()
 {
 	if(bitmap) bitmap->Release();
 }
-IWICImagingFactory* Bitmap::factory;
+IWICImagingFactory* Bitmap::factory = nullptr;
+ComaRenderer* Bitmap::mainRenderer = nullptr;
+
+Bitmap* Bitmap::createBitmap(TCHAR* filename)
+{
+	return createBitmap(mainRenderer, filename);
+}
+Bitmap* Bitmap::createBitmap(IStream* stream)
+{
+	return createBitmap(mainRenderer, stream);
+}
 Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, TCHAR* filename){
 	if (!renderer->getRenderTarget())
 		return nullptr;
@@ -27,6 +37,40 @@ Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, IStream* stream){
 		return nullptr;
 
 	return new Bitmap(renderer, decoder);
+}
+
+Bitmap* Bitmap::createBitmapAndLoad(TCHAR* filename)
+{
+	return createBitmapAndLoad(mainRenderer, filename);
+}
+Bitmap* Bitmap::createBitmapAndLoad(IStream* stream)
+{
+	return createBitmapAndLoad(mainRenderer, stream);
+}
+Bitmap* Bitmap::createBitmapAndLoad(ComaRenderer* renderer, TCHAR* filename){
+	if (!renderer->getRenderTarget())
+		return nullptr;
+
+	IWICBitmapDecoder* decoder = createBitmapDecoderFromFile(filename);
+	if (!decoder)
+		return nullptr;
+
+	return new Bitmap(renderer, decoder, true);
+}
+Bitmap* Bitmap::createBitmapAndLoad(ComaRenderer* renderer, IStream* stream){
+	if (!renderer->getRenderTarget())
+		return nullptr;
+
+	IWICBitmapDecoder* decoder = createBitmapDecoderFromStream(stream);
+	if (!decoder)
+		return nullptr;
+
+	return new Bitmap(renderer, decoder, true);
+}
+
+void Bitmap::setRenderer(ComaRenderer* renderer)
+{
+	mainRenderer = renderer;
 }
 
 IWICBitmapDecoder* Bitmap::createBitmapDecoderFromFile(TCHAR* filename)
@@ -121,22 +165,36 @@ ID2D1Bitmap* Bitmap::createID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderT
 
 void Bitmap::loadReqListener(Event* event)
 {
+	if (!reload)
+		return;
+	reload = false;
 	loadResource();
 }
 void Bitmap::unloadReqListener(Event* event)
 {
+	if (!isLoaded())
+		return;
+	reload = true;
 	unloadResource();
 }
 
-void Bitmap::loadResource()
+bool Bitmap::loadResource()
 {
 	if (!isLoaded())
+	{
 		bitmap = createID2D1BitmapFromDecoder(renderer->getRenderTarget(), decoder);
+		return isLoaded();
+	}
+	return true;
 }
-void Bitmap::unloadResource()
+bool Bitmap::unloadResource()
 {
 	if (isLoaded())
+	{
 		bitmap->Release();
+		return !isLoaded();
+	}
+	return true;
 }
 bool Bitmap::isLoaded()
 {

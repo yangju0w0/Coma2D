@@ -53,6 +53,7 @@ private:
 	bool initWindow();
 	bool initWindow(HINSTANCE hInstance);
 	bool initRenderer();
+	bool initOthers();
 private:
 	//Device Essencials
 	ComaWindow* window;
