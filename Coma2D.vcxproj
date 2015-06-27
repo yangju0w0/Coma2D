@@ -88,6 +88,8 @@
     <ClInclude Include="RendererEvent.h" />
     <ClInclude Include="RenderTimer.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ResourceManagerEvent.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="WindowEvent.h" />
@@ -102,6 +104,8 @@
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="RendererEvent.cpp" />
     <ClCompile Include="RenderTimer.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="ResourceManagerEvent.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

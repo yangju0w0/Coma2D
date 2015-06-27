@@ -51,6 +51,8 @@ bool ComaDevice::initDevice(HINSTANCE hInstance)
 		return false;
 	if (!initRenderer())
 		return false;
+	if (!initManagers())
+		return false;
 	if (!initOthers())
 		return false;
 	initialized = true;
@@ -115,11 +117,17 @@ bool ComaDevice::initRenderer()
 		
 	return true;
 }
+bool ComaDevice::initManagers()
+{
+	resourceManager = new ResourceManager();
+	return true;
+}
 bool ComaDevice::initOthers()
 {
 	Bitmap::setRenderer(renderer);
 	return true;
 }
+
 void ComaDevice::windowDestroyListener(Event* event)
 {
 	

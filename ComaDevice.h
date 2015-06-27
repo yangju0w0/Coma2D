@@ -3,6 +3,8 @@
 #include "ComaRenderer.h"
 #include "comaUtil.h"
 
+#include "ResourceManager.h"
+
 COMA_NS_BEGIN
 
 class ComaDevice
@@ -37,6 +39,9 @@ public:
 	bool isRunning(){ return running; }
 	bool isInitialized(){ return initialized; }
 
+	//ManagerGetter
+	ResourceManager* getResourceManager(){ return resourceManager; }
+
 private:
 	//Events
 	void windowDestroyListener(Event* event);
@@ -53,6 +58,7 @@ private:
 	bool initWindow();
 	bool initWindow(HINSTANCE hInstance);
 	bool initRenderer();
+	bool initManagers();
 	bool initOthers();
 private:
 	//Device Essencials
@@ -62,6 +68,9 @@ private:
 	//Device Status
 	bool running;
 	bool initialized;
+
+	//Managers
+	ResourceManager* resourceManager;
 };
 
 COMA_END
