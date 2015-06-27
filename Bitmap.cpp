@@ -5,8 +5,8 @@ COMA_USING_NS
 
 Bitmap::~Bitmap()
 {
-	if(bitmap) bitmap->Release();
 	if(decoder)decoder->Release();
+	if(bitmap && isLoaded()) bitmap->Release();
 }
 IWICImagingFactory* Bitmap::factory = nullptr;
 ComaRenderer* Bitmap::mainRenderer = nullptr;
@@ -192,7 +192,8 @@ bool Bitmap::unloadResource()
 {
 	if (isLoaded())
 	{
-		bitmap->Release();
+		if (bitmap) bitmap->Release();
+		bitmap = nullptr;
 		return !isLoaded();
 	}
 	return true;

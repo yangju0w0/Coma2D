@@ -38,6 +38,7 @@ ComaWindow::ComaWindow(HINSTANCE hInstance, int nCmdShow)
 // 家戈磊
 ComaWindow::~ComaWindow()
 {
+	DestroyWindow(hWnd);
 }
 
 // 扩档快 积己

@@ -7,7 +7,7 @@ class ResourceManagerEvent :
 	public Event
 {
 public:
-	ResourceManagerEvent(std::string type, ResourceManager* , int resourceNumbers=0, int processedResourceNumbers = 0);
+	ResourceManagerEvent(std::string type, ResourceManager* manager, int resourceNumbers=0, int processedResourceNumbers = 0);
 	virtual ~ResourceManagerEvent();
 
 public:

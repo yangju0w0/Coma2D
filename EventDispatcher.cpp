@@ -9,7 +9,7 @@ EventDispatcher::EventDispatcher()
 
 EventDispatcher::~EventDispatcher()
 {
-	
+	listenerList.clear();
 }
 
 void EventDispatcher::setEventListener(std::string type, EventFunction function)
@@ -62,4 +62,5 @@ void EventDispatcher::dispatchEvent(Event* event)
 				listenerList.erase(listenerList.begin() + i);
 		}
 	}
+	delete event;
 }

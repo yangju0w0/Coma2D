@@ -16,8 +16,10 @@ ComaRenderer::ComaRenderer()
 
 ComaRenderer::~ComaRenderer()
 {
+	dispatchEvent(new RendererEvent(RendererEvent::UNLOAD_RESOURCES_REQ, this));
 	if (factory)factory->Release();
 	if (renderTarget)renderTarget->Release();
+	delete timer;
 }
 
 bool ComaRenderer::initRenderer(HWND hWnd)

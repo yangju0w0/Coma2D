@@ -12,7 +12,10 @@ class ComaDevice
 private:
 	ComaDevice(){};
 	ComaDevice(const ComaDevice& other);
-	~ComaDevice(){};
+	~ComaDevice()
+	{
+		if(resourceManager) delete resourceManager;
+	};
 	static ComaDevice* device;
 public:
 	static ComaDevice* GetDevice()
@@ -20,6 +23,14 @@ public:
 		if (device == 0) device = new ComaDevice();
 		return device;
 	}
+	void Release(){ delete device; }
+	void ReleaseAll()
+	{
+		if (window) delete window;
+		if (renderer) delete renderer;
+		delete device;
+	}
+	
 public:
 	//Device Setter
 	bool setWindow(ComaWindow* window);
