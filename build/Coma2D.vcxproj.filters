@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Coma2D">
+      <UniqueIdentifier>{425e7e5e-d622-490e-85a7-b5b4d8aed58c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Event">
+      <UniqueIdentifier>{dc2450f8-8c73-44c1-93f7-dfb3762f16ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Core">
+      <UniqueIdentifier>{731a8713-8edc-4b2f-bb9a-2d6becf92e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Util">
+      <UniqueIdentifier>{09e22ef3-ee63-40ac-b624-a6e5c7f2ff74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\RenderTree">
+      <UniqueIdentifier>{693c24b3-254a-45a0-82a0-85f42da2f24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Resource">
+      <UniqueIdentifier>{782ccb43-ce12-4676-b4a2-9286ece9a16d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Coma2D\Manage">
+      <UniqueIdentifier>{d5badb61-de93-4870-b997-52887a7c28d0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\stdafx.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\targetver.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bitmap.h">
+      <Filter>Coma2D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resource.h">
+      <Filter>Coma2D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComaDevice.h">
+      <Filter>Coma2D\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComaRenderer.h">
+      <Filter>Coma2D\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ComaWindow.h">
+      <Filter>Coma2D\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\comaUtil.h">
+      <Filter>Coma2D\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Event.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\EventDispatcher.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\WindowEvent.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManagerEvent.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RendererEvent.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ResourceManager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderTimer.h">
+      <Filter>Coma2D\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bitmap.cpp">
+      <Filter>Coma2D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComaDevice.cpp">
+      <Filter>Coma2D\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComaRenderer.cpp">
+      <Filter>Coma2D\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ComaWindow.cpp">
+      <Filter>Coma2D\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Event.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EventDispatcher.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RendererEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManagerEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WindowEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ResourceManager.cpp">
+      <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Manager.cpp">
+      <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTimer.cpp">
+      <Filter>Coma2D\Util</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
