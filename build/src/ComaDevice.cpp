@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ComaDevice.h"
 #include "WindowEvent.h"
 #include "RendererEvent.h"

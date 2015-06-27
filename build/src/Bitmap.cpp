@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Bitmap.h"
 #include "RendererEvent.h"
 COMA_USING_NS

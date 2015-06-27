@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ComaWindow.h"
 #include "WindowEvent.h"
 COMA_USING_NS

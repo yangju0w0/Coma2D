@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Event.h"
 COMA_USING_NS
 

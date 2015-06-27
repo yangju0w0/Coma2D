@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ResourceManagerEvent.h"
 
 COMA_USING_NS

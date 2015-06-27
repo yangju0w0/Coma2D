@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "ComaRenderer.h"
 #include "RendererEvent.h"
 COMA_USING_NS
@@ -96,7 +95,7 @@ bool ComaRenderer::update()
 		Sleep((DWORD)((minFrameTime-deltaTime)*1000));
 		deltaTime = minFrameTime;
 	}
-	fps = 1 / deltaTime;
+	fps = 1 / (float)deltaTime;
 	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
 
 	//RenderProcess
