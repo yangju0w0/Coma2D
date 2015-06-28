@@ -63,7 +63,7 @@ EventDispatcher::~EventDispatcher()
 	listenerList.clear();
 }
 
-void EventDispatcher::setEventListener(std::string type, EventFunction function)
+void EventDispatcher::setEventListener(std::string type, EventFunction function, void* target)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{
@@ -73,19 +73,19 @@ void EventDispatcher::setEventListener(std::string type, EventFunction function)
 				return;
 		}
 	}
-	listenerList.push_back(Listener{ type, function });
+	listenerList.push_back(Listener{ type, function, target });
 }
 
-void EventDispatcher::removeEventListener(std::string type, EventFunction function)
+void EventDispatcher::removeEventListener(std::string type, void* target)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{
 		if (listenerList[i].type == type)
 		{
-			if (&listenerList[i].function == &function)
+			if (listenerList[i].target == target)
 			{
 				listenerList.erase(listenerList.begin() + i);
-				return;
+				i--;
 			}
 		}
 	}

@@ -58,8 +58,8 @@ Bitmap::~Bitmap()
 {
 	if (renderer)
 	{
-		renderer->removeEventListener(RendererEvent::LOAD_RESOURCE_REQ, BIND(Bitmap::loadReqListener));
-		renderer->removeEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::unloadReqListener));
+		renderer->removeEventListener(RendererEvent::LOAD_RESOURCE_REQ,		this);
+		renderer->removeEventListener(RendererEvent::UNLOAD_RESOURCES_REQ,	this);
 	}
 	if(decoder)decoder->Release();
 	if(bitmap && isLoaded()) bitmap->Release();
@@ -128,7 +128,7 @@ Bitmap* Bitmap::createBitmapAndLoad(ComaRenderer* renderer, IStream* stream){
 void Bitmap::setRenderer(ComaRenderer* renderer)
 {
 	mainRenderer = renderer;
-}
+} 
 
 IWICBitmapDecoder* Bitmap::createBitmapDecoderFromFile(TCHAR* filename)
 {

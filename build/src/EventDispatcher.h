@@ -89,6 +89,7 @@ struct Listener	//이벤트 리스너를 저장하는 구조체
 {
 	std::string type;		//이벤트 타입
 	EventFunction function;	//실행 함수
+	void* target;			//이벤트를 선언한 클래스
 };
 
 
@@ -98,8 +99,8 @@ public:
 	EventDispatcher();
 	virtual ~EventDispatcher();
 	
-	void setEventListener(std::string type, EventFunction function);		//이벤트 리스너 객체를 등록한다.
-	void removeEventListener(std::string type, EventFunction function);		//이벤트 리스너 객체를 제거한다.
+	void setEventListener(std::string type, EventFunction function, void* target = nullptr);			//이벤트 리스너 객체를 등록한다.
+	void removeEventListener(std::string type, void* target);		//이벤트 리스너 객체를 제거한다.
 	bool hasEventListener(std::string type);								//해당 타입의 리스너가 존재할 경우 true반환
 	void dispatchEvent(Event* event);										//이벤트를 발생시킨다 (등록된 해당 리스너 실행)
 private:

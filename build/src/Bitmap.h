@@ -65,8 +65,8 @@ private:
 	{
 		if (load)
 			loadResource();
-		renderer->setEventListener(RendererEvent::LOAD_RESOURCE_REQ, BIND(Bitmap::loadReqListener));
-		renderer->setEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::unloadReqListener));
+		renderer->setEventListener(RendererEvent::LOAD_RESOURCE_REQ,	BIND(Bitmap::loadReqListener), this);
+		renderer->setEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::unloadReqListener), this);
 	}
 
 //======================== Static Mathods ====================
