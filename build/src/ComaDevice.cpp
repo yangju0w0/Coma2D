@@ -50,8 +50,6 @@
 */
 
 #include "ComaDevice.h"
-#include "WindowEvent.h"
-#include "RendererEvent.h"
 
 #include "Bitmap.h"
 

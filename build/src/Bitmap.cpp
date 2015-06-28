@@ -56,6 +56,8 @@ COMA_USING_NS
 
 Bitmap::~Bitmap()
 {
+	renderer->removeEventListener(RendererEvent::LOAD_RESOURCE_REQ, BIND(Bitmap::loadReqListener));
+	renderer->removeEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::unloadReqListener));
 	if(decoder)decoder->Release();
 	if(bitmap && isLoaded()) bitmap->Release();
 }

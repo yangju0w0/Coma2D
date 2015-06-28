@@ -54,7 +54,8 @@
 #include "ComaWindow.h"
 #include "ComaRenderer.h"
 #include "comaUtil.h"
-
+#include "WindowEvent.h"
+#include "RendererEvent.h"
 #include "ResourceManager.h"
 
 COMA_NS_BEGIN
@@ -75,7 +76,21 @@ public:
 		if (device == 0) device = new ComaDevice();
 		return device;
 	}
-	void Release(){ delete device; }
+	void Release(){ 
+		if (initialized)
+		{
+			window->removeEventListener(WindowEvent::DESTROY, BIND(ComaDevice::windowDestroyListener));
+			window->removeEventListener(WindowEvent::MINIMIZED, BIND(ComaDevice::windowMinimizeListener));
+			window->removeEventListener(WindowEvent::RESTORED, BIND(ComaDevice::windowRestoreListener));
+			window->removeEventListener(WindowEvent::RESIZE, BIND(ComaDevice::windowResizeListener));
+			window->removeEventListener(WindowEvent::ENTER_RESIZEMOVE, BIND(ComaDevice::windowEnterResizeMoveListener));
+			window->removeEventListener(WindowEvent::EXIT_RESIZEMOVE, BIND(ComaDevice::windowExitResizeMoveListener));
+			window->removeEventListener(WindowEvent::UPDATE, BIND(ComaDevice::windowUpdateListener));
+			renderer->removeEventListener(RendererEvent::UPDATE, BIND(ComaDevice::rendererUpdateListener));
+			renderer->removeEventListener(RendererEvent::RENDER, BIND(ComaDevice::rendererRenderListener));
+		}
+		delete device;
+	}
 	void ReleaseAll()
 	{
 		if (window) delete window;
