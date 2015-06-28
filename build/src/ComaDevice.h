@@ -79,15 +79,21 @@ public:
 	void Release(){ 
 		if (initialized)
 		{
-			window->removeEventListener(WindowEvent::DESTROY, BIND(ComaDevice::windowDestroyListener));
-			window->removeEventListener(WindowEvent::MINIMIZED, BIND(ComaDevice::windowMinimizeListener));
-			window->removeEventListener(WindowEvent::RESTORED, BIND(ComaDevice::windowRestoreListener));
-			window->removeEventListener(WindowEvent::RESIZE, BIND(ComaDevice::windowResizeListener));
-			window->removeEventListener(WindowEvent::ENTER_RESIZEMOVE, BIND(ComaDevice::windowEnterResizeMoveListener));
-			window->removeEventListener(WindowEvent::EXIT_RESIZEMOVE, BIND(ComaDevice::windowExitResizeMoveListener));
-			window->removeEventListener(WindowEvent::UPDATE, BIND(ComaDevice::windowUpdateListener));
-			renderer->removeEventListener(RendererEvent::UPDATE, BIND(ComaDevice::rendererUpdateListener));
-			renderer->removeEventListener(RendererEvent::RENDER, BIND(ComaDevice::rendererRenderListener));
+			if (window)
+			{
+				window->removeEventListener(WindowEvent::DESTROY, BIND(ComaDevice::windowDestroyListener));
+				window->removeEventListener(WindowEvent::MINIMIZED, BIND(ComaDevice::windowMinimizeListener));
+				window->removeEventListener(WindowEvent::RESTORED, BIND(ComaDevice::windowRestoreListener));
+				window->removeEventListener(WindowEvent::RESIZE, BIND(ComaDevice::windowResizeListener));
+				window->removeEventListener(WindowEvent::ENTER_RESIZEMOVE, BIND(ComaDevice::windowEnterResizeMoveListener));
+				window->removeEventListener(WindowEvent::EXIT_RESIZEMOVE, BIND(ComaDevice::windowExitResizeMoveListener));
+				window->removeEventListener(WindowEvent::UPDATE, BIND(ComaDevice::windowUpdateListener));
+			}
+			if (renderer)
+			{
+				renderer->removeEventListener(RendererEvent::UPDATE, BIND(ComaDevice::rendererUpdateListener));
+				renderer->removeEventListener(RendererEvent::RENDER, BIND(ComaDevice::rendererRenderListener));
+			}
 		}
 		delete device;
 	}
