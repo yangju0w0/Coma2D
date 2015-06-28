@@ -78,6 +78,18 @@
     <ClInclude Include="src\RenderTimer.h">
       <Filter>Coma2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="src\DisplayObject.h">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DisplayObjectContainer.h">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject.h">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InteractiveObject.h">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -115,6 +127,18 @@
     </ClCompile>
     <ClCompile Include="src\RenderTimer.cpp">
       <Filter>Coma2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InteractiveObject.cpp">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DisplayObject.cpp">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DisplayObjectContainer.cpp">
+      <Filter>Coma2D\RenderTree</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject.cpp">
+      <Filter>Coma2D\RenderTree</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

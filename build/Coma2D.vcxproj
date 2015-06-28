@@ -77,6 +77,10 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\DisplayObject.h" />
+    <ClInclude Include="src\DisplayObjectContainer.h" />
+    <ClInclude Include="src\GameObject.h" />
+    <ClInclude Include="src\InteractiveObject.h" />
     <ClInclude Include="src\Bitmap.h" />
     <ClInclude Include="src\ComaDevice.h" />
     <ClInclude Include="src\ComaRenderer.h" />
@@ -93,6 +97,10 @@
     <ClInclude Include="src\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\DisplayObject.cpp" />
+    <ClCompile Include="src\DisplayObjectContainer.cpp" />
+    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\InteractiveObject.cpp" />
     <ClCompile Include="src\Bitmap.cpp" />
     <ClCompile Include="src\ComaDevice.cpp" />
     <ClCompile Include="src\ComaRenderer.cpp" />
