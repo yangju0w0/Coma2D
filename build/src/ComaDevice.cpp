@@ -88,6 +88,10 @@ bool ComaDevice::initDevice()
 		return false;
 	if (!initRenderer())
 		return false;
+	if (!initManagers())
+		return false;
+	if (!initOthers())
+		return false;
 	initialized = true;
 	return true;
 }
