@@ -90,6 +90,9 @@
     <ClInclude Include="src\InteractiveObject.h">
       <Filter>Coma2D\RenderTree</Filter>
     </ClInclude>
+    <ClInclude Include="src\coma2d.h">
+      <Filter>Coma2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
