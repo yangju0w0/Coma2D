@@ -45,20 +45,40 @@
 */
 
 /*
-* filename	DisplayObjectContainer.cpp
-* fileinfo	화면 표시 객체 컨테이너 클래스 구현 파일
+* filename	Camera.h
+* fileinfo	DisplayObject용 카메라 클래스 헤더 파일
 * author	주헌양 (Heonyang Ju)
 */
-#include "InteractiveObject.h"
-#include "DisplayObjectContainer.h"
 
-COMA_USING_NS
+#pragma once
+#include "comaUtil.h"
 
-DisplayObjectContainer::DisplayObjectContainer()
+COMA_NS_BEGIN
+
+class DisplayObject;
+
+class Camera :
+	public DisplayObject
 {
-}
+public:
+	Camera(float width, float height);
+	virtual ~Camera();
 
+	void update();
+	void render(ID2D1HwndRenderTarget* renderTarget);
 
-DisplayObjectContainer::~DisplayObjectContainer()
-{
-}
+	void on();
+	void off();
+	bool isCameraOn();
+
+	Matrix3x2 getMatrix();
+	void _registerParent(DisplayObjectContainer* parent);
+	void _unregisterParent();
+
+private:
+	ID2D1SolidColorBrush* brush;
+	bool cameraOn;
+	int ref;
+};
+
+COMA_END

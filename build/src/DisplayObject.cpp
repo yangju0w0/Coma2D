@@ -46,19 +46,60 @@
 
 /*
 * filename	DisplayObject.cpp
-* fileinfo	화면 표시 객체 인터페이스 구현 파일
+* fileinfo	화면 표시 객체 클래스 구현 파일
 * author	주헌양 (Heonyang Ju)
 */
 
 #include "DisplayObject.h"
-
+#include "DisplayObjectContainer.h"
+#include "Camera.h"
 COMA_USING_NS
 
+
 DisplayObject::DisplayObject()
+:position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 })
 {
+	
 }
 
 
 DisplayObject::~DisplayObject()
 {
+}
+
+Matrix3x2 DisplayObject::getCameraMatrix()
+{
+	if (camera)
+		return camera->getMatrix();
+	return Matrix3x2::Identity();
+}
+
+void DisplayObject::setCamera(Camera* camera)
+{
+	if (camera)
+	{
+		this->camera = camera;
+		camera->_registerParent(parentObject);
+	}
+}
+void DisplayObject::unsetCamera()
+{
+	if (this->camera)
+	{
+		camera->_unregisterParent();
+		camera = nullptr;
+	}
+}
+
+Matrix3x2 DisplayObject::getScreenMatrix()
+{
+	if (getParentObject())
+		return getParentObject()->getScreenMatrix() * getCameraMatrix() * getMatrix();
+	return getMatrix();
+}
+Matrix3x2 DisplayObject::getWorldMatrix()
+{
+	Matrix3x2 invertedCameraMatrix = world->getCameraMatrix();
+	invertedCameraMatrix.Invert();
+	return invertedCameraMatrix * getScreenMatrix();
 }

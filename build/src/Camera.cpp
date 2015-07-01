@@ -45,20 +45,68 @@
 */
 
 /*
-* filename	DisplayObjectContainer.cpp
-* fileinfo	화면 표시 객체 컨테이너 클래스 구현 파일
+* filename	Camera.cpp
+* fileinfo	DisplayObject용 카메라 클래스 구현 파일
 * author	주헌양 (Heonyang Ju)
 */
-#include "InteractiveObject.h"
-#include "DisplayObjectContainer.h"
 
+#include "DisplayObject.h"
+#include "Camera.h"
 COMA_USING_NS
 
-DisplayObjectContainer::DisplayObjectContainer()
+Camera::Camera(float width, float height)
+:ref(0)
 {
+	setLocalSize(width, height);
+	setVisible(false);
 }
 
 
-DisplayObjectContainer::~DisplayObjectContainer()
+Camera::~Camera()
 {
+	if(brush)brush->Release();
+}
+
+void Camera::update()
+{
+	
+}
+void Camera::render(ID2D1HwndRenderTarget* renderTarget)
+{
+	if (!isVisible())
+		return;
+	if (!brush)
+	{
+		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.8f, 0.1f, 0.1f, getAlpha()), &brush);
+	}
+	renderTarget->SetTransform(getScreenMatrix());
+	renderTarget->DrawRectangle(Rect{ 0, 0, getLocalSize().width, getLocalSize().height }, brush);
+}
+
+void Camera::on(){ cameraOn = true; }
+void Camera::off(){ cameraOn = false; }
+bool Camera::isCameraOn(){ return cameraOn; }
+
+Matrix3x2 Camera::getMatrix()
+{
+	if (isCameraOn())
+	{
+		return DisplayObject::getMatrix();
+	}
+	return Matrix3x2::Identity();
+}
+void Camera::_registerParent(DisplayObjectContainer* parent) {
+	if (!getParentObject() && parent)
+	{
+		DisplayObject::_registerParent(parent);
+		ref++;
+	}
+}
+void Camera::_unregisterParent()
+{
+	ref--;
+	if (ref <= 0)
+	{
+		DisplayObject::_unregisterParent();
+	}
 }

@@ -51,8 +51,8 @@
 */
 
 #pragma once
+#include "comaUtil.h"
 #include "DisplayObject.h"
-
 COMA_NS_BEGIN
 
 class InteractiveObject :

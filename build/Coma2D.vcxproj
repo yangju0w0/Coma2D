@@ -77,6 +77,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\coma2d.h" />
     <ClInclude Include="src\DisplayObject.h" />
     <ClInclude Include="src\DisplayObjectContainer.h" />
@@ -98,6 +99,7 @@
     <ClInclude Include="src\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\DisplayObject.cpp" />
     <ClCompile Include="src\DisplayObjectContainer.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
