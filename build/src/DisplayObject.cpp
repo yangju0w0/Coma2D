@@ -55,6 +55,7 @@
 #include "Camera.h"
 COMA_USING_NS
 
+DisplayObjectContainer* DisplayObject::world = new DisplayObjectContainer();
 
 DisplayObject::DisplayObject()
 :position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 })
@@ -70,7 +71,11 @@ DisplayObject::~DisplayObject()
 Matrix3x2 DisplayObject::getCameraMatrix()
 {
 	if (camera)
-		return camera->getMatrix();
+	{
+		Matrix3x2 inverted = camera->getMatrix();
+		inverted.Invert();
+		return inverted;
+	}
 	return Matrix3x2::Identity();
 }
 
@@ -90,12 +95,16 @@ void DisplayObject::unsetCamera()
 		camera = nullptr;
 	}
 }
+void DisplayObject::setWorld(DisplayObjectContainer* world)
+{
+	this->world = world;
+}
 
 Matrix3x2 DisplayObject::getScreenMatrix()
 {
 	if (getParentObject())
 		return getParentObject()->getScreenMatrix() * getCameraMatrix() * getMatrix();
-	return getMatrix();
+	return getCameraMatrix() * getMatrix();
 }
 Matrix3x2 DisplayObject::getWorldMatrix()
 {

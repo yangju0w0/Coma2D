@@ -63,18 +63,19 @@ class Camera;
 class DisplayObject :
 	public EventDispatcher
 {
-public:
-	DisplayObject();
 protected:
-	static DisplayObject* world;
+	DisplayObject();
+private:
+	static DisplayObjectContainer* world;
 public:
 	virtual ~DisplayObject();
 
-	virtual void update() = 0;
-	virtual void render(ID2D1HwndRenderTarget* renderTarget) = 0;
+	virtual void update(){}
+	virtual void render(ID2D1HwndRenderTarget* renderTarget){}
 	
 //Getter
 	Camera* getCamera()		{ return camera; }
+	DisplayObjectContainer* getWorld(){ return world; }
 	Point getPosition()		{ return position; }
 	float getX()			{ return position.x; }
 	float getY()			{ return position.y; }
@@ -99,7 +100,7 @@ public:
 	Matrix3x2 getCameraMatrix();																		//카메라의 변환 행렬을 반환합니다.
 	Matrix3x2 getMatrix()				{ return getScaleMatrix() * getTranslationMatrix() * getRotationMatrix(); }	//해당 Object의 변환 행렬을 반환합니다.
 	Matrix3x2 getWorldMatrix();
-	Matrix3x2 getScreenMatrix();	//해당 오브젝트를 포함한 상위 오브젝트의 행렬의 곱을 반환합니다.(재귀)
+	Matrix3x2 getScreenMatrix();	//해당 오브젝트를 포함한 상위 오브젝트의 행렬의 곱을 반환합니다.                                                                      재귀)
 
 	DisplayObjectContainer* getParentObject()	{ return parentObject; }
 	void _registerParent(DisplayObjectContainer* parent) { parentObject = parent; }
@@ -110,6 +111,7 @@ public:
 
 //Setter
 	void setCamera(Camera* camera);
+	void setWorld(DisplayObjectContainer* world);
 	void unsetCamera();
 	void setPosition(float x, float y)	{ setPosition(Point{x, y}); }
 	void setPosition(Point position)	{ this->position = position; }
@@ -161,6 +163,7 @@ public:
 protected:
 	void setLocalSize(Size size) { localSize = size; }
 	void setLocalSize(float width, float height) { setLocalSize(Size{ width, height }); }
+
 private:
 	DisplayObjectContainer* parentObject;
 	Camera* camera;

@@ -55,10 +55,11 @@
 COMA_USING_NS
 
 Camera::Camera(float width, float height)
-:ref(0)
+:ref(0), cameraOn(false)
 {
 	setLocalSize(width, height);
 	setVisible(false);
+	setAnchorPoint(width / 2.0f, height / 2.0f);
 }
 
 

@@ -99,6 +99,9 @@
     <ClInclude Include="src\Camera.h">
       <Filter>Coma2D\Util</Filter>
     </ClInclude>
+    <ClInclude Include="src\Image.h">
+      <Filter>Coma2D\RenderObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bitmap.cpp">
@@ -151,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="src\Camera.cpp">
       <Filter>Coma2D\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Image.cpp">
+      <Filter>Coma2D\RenderObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
