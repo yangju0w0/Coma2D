@@ -108,12 +108,13 @@ void DisplayObjectContainer::_resetSize()
 	setLocalSize(rect.bottom - rect.top, rect.right - rect.left);
 }
 
-void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget)
+void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, float deltaTime)
 {
+	DisplayObject::render(renderTarget, deltaTime);
 	if (!isVisible())
 		return;
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
-		objectList[i]->render(renderTarget);
+		objectList[i]->render(renderTarget, deltaTime);
 	}
 }

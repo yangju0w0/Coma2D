@@ -85,8 +85,8 @@ private:
 public:
 	virtual ~DisplayObject();
 
-	virtual void update(){}										//그리기 작업 전에 호출
-	virtual void render(ID2D1HwndRenderTarget* renderTarget){}	//그리기 작업
+	virtual void update(float deltaTime){}						//그리기 작업 전에 호출
+	virtual void render(ID2D1HwndRenderTarget* renderTarget, float deltaTime){}	//그리기 작업
 	
 //Getter
 	static DisplayObjectContainer* getWorld(){ return DisplayObject::world; }

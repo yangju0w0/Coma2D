@@ -63,7 +63,7 @@ public:
 	DisplayObjectContainer();
 	virtual ~DisplayObjectContainer();
 
-	void render(ID2D1HwndRenderTarget* renderTarget); // 자식 객체를 모두 그린다.
+	void render(ID2D1HwndRenderTarget* renderTarget, float deltaTime); // 자식 객체를 모두 그린다.
 
 	void addChild(DisplayObject* object);	//자식 객체 추가
 	void removeChild(DisplayObject* object);//자식 객체 제거

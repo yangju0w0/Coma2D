@@ -80,8 +80,9 @@ void Image::update()
 {
 
 }
-void Image::render(ID2D1HwndRenderTarget* renderTarget)
+void Image::render(ID2D1HwndRenderTarget* renderTarget, float deltaTime)
 {
+	DisplayObject::render(renderTarget, deltaTime);
 	if (!isVisible())
 		return;
 	if (bitmap->isLoaded())
