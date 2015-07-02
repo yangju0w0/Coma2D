@@ -75,10 +75,7 @@ Image::Image(Bitmap* bitmap, float width, float height) : bitmap(bitmap), sizeFi
 
 Image::~Image()
 {
-}
-void Image::update()
-{
-
+	
 }
 void Image::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
