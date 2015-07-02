@@ -61,4 +61,59 @@ DisplayObjectContainer::DisplayObjectContainer()
 
 DisplayObjectContainer::~DisplayObjectContainer()
 {
+	for (unsigned int i = 0; i < objectList.size(); i++)
+	{
+		objectList[i]->_unregisterParent();
+	}
+}
+
+void DisplayObjectContainer::addChild(DisplayObject* object)
+{
+	if (object->getParent())
+		return;
+	for (unsigned int i = 0; i < objectList.size(); i++)
+		if (objectList[i] == object) return;
+	object->_registerParent(this);
+	objectList.push_back(object);
+	_resetSize();
+}
+void DisplayObjectContainer::removeChild(DisplayObject* object)
+{
+	for (unsigned int i = 0; i < objectList.size(); i++)
+	{
+		if (objectList[i] == object)
+		{
+			object->_unregisterParent();
+			objectList.erase(objectList.begin() + i);
+			_resetSize();
+			return;
+		}
+	}
+}
+
+void DisplayObjectContainer::_resetSize()
+{
+	Rect rect{ 0, 0, 0, 0 };
+	for (unsigned int i = 0; i < objectList.size(); i++)
+	{
+		if (objectList[i]->getX() < rect.left)
+			rect.left = objectList[i]->getX();
+		if (objectList[i]->getY() < rect.top)
+			rect.top = objectList[i]->getY();
+		if (objectList[i]->getWidth() + objectList[i]->getX() > rect.right)
+			rect.right = objectList[i]->getWidth() + objectList[i]->getX();
+		if (objectList[i]->getHeight() + objectList[i]->getY() > rect.bottom)
+			rect.bottom = objectList[i]->getHeight() + objectList[i]->getY();
+	}
+	setLocalSize(rect.bottom - rect.top, rect.right - rect.left);
+}
+
+void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget)
+{
+	if (!isVisible())
+		return;
+	for (unsigned int i = 0; i < objectList.size(); i++)
+	{
+		objectList[i]->render(renderTarget);
+	}
 }

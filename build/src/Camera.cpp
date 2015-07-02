@@ -97,7 +97,7 @@ Matrix3x2 Camera::getMatrix()
 	return Matrix3x2::Identity();
 }
 void Camera::_registerParent(DisplayObjectContainer* parent) {
-	if (!getParentObject() && parent)
+	if (!getParent() && parent)
 	{
 		DisplayObject::_registerParent(parent);
 		ref++;

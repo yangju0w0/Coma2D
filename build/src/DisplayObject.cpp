@@ -55,17 +55,20 @@
 #include "Camera.h"
 COMA_USING_NS
 
-DisplayObjectContainer* DisplayObject::world = new DisplayObjectContainer();
+DisplayObjectContainer* DisplayObject::world = nullptr;
 
 DisplayObject::DisplayObject()
 :position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 })
 {
-	
 }
 
 
 DisplayObject::~DisplayObject()
 {
+	if (getParent())
+	{ 
+		getParent()->removeChild(this);
+	}
 }
 
 Matrix3x2 DisplayObject::getCameraMatrix()
@@ -95,20 +98,36 @@ void DisplayObject::unsetCamera()
 		camera = nullptr;
 	}
 }
-void DisplayObject::setWorld(DisplayObjectContainer* world)
+void DisplayObject::_setWorld(DisplayObjectContainer* world)
 {
-	this->world = world;
+	DisplayObject::world = world;
 }
 
 Matrix3x2 DisplayObject::getScreenMatrix()
 {
-	if (getParentObject())
-		return getParentObject()->getScreenMatrix() * getCameraMatrix() * getMatrix();
+	if (getParent())
+		return getMatrix() * getCameraMatrix()* getParent()->getScreenMatrix();
 	return getCameraMatrix() * getMatrix();
 }
 Matrix3x2 DisplayObject::getWorldMatrix()
 {
-	Matrix3x2 invertedCameraMatrix = world->getCameraMatrix();
-	invertedCameraMatrix.Invert();
-	return invertedCameraMatrix * getScreenMatrix();
+	Matrix3x2 invertedMatrix = world->getMatrix() * world->getCameraMatrix();
+	invertedMatrix.Invert();
+	return getScreenMatrix()* invertedMatrix;
+}
+
+float DisplayObject::getScreenAlpha()
+{
+	if (getParent())
+		return getAlpha() * getParent()->getScreenAlpha();
+	return getAlpha();
+}
+
+void DisplayObject::_transformApply()
+{
+	if (getParent())
+	{
+		getParent()->_resetSize();
+		getParent()->_transformApply();
+	}
 }

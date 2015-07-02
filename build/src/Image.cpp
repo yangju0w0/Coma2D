@@ -41,6 +41,6 @@ void Image::render(ID2D1HwndRenderTarget* renderTarget)
 		}
 		renderTarget->SetTransform(getScreenMatrix());
 		D2D1_RECT_F size = { 0, 0, getLocalSize().width, getLocalSize().height };
-		renderTarget->DrawBitmap(bitmap->getResource(), size, getAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		renderTarget->DrawBitmap(bitmap->getResource(), size, getScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 }
