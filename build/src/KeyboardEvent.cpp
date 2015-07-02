@@ -54,8 +54,14 @@
 
 COMA_USING_NS
 
-KeyboardEvent::KeyboardEvent(std::string type)
-:Event(type)
+const std::string KeyboardEvent::KEY_DOWN	= "keyboard_keyDown";
+const std::string KeyboardEvent::KEY_UP		= "keyboard_keyUp";
+const int KEYLOCATION_OTHER = 0;
+const int KEYLOCATION_LEFT = 1;
+const int KEYLOCATION_RIGHT = 2;
+
+KeyboardEvent::KeyboardEvent(std::string type, unsigned int charCode, unsigned int keyCode, unsigned int keyLocation, bool altKey, bool ctrlKey, bool shiftKey)
+	:Event(type), charCode(charCode), keyCode(keyCode), keyLocation(keyLocation), altKey(altKey), ctrlKey(ctrlKey), shiftKey(shiftKey)
 {
 }
 
