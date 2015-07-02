@@ -80,7 +80,7 @@ void Image::update()
 {
 
 }
-void Image::render(ID2D1HwndRenderTarget* renderTarget, float deltaTime)
+void Image::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
 	DisplayObject::render(renderTarget, deltaTime);
 	if (!isVisible())

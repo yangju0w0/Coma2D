@@ -65,7 +65,7 @@ public:
 	Image(Bitmap* bitmap, float width, float height);
 	virtual ~Image();
 	void update();
-	void render(ID2D1HwndRenderTarget* renderTarget, float deltaTime);
+	void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
 private:
 	bool sizeFixed;
 	Bitmap* bitmap;

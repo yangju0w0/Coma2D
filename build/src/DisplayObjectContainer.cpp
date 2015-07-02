@@ -108,7 +108,7 @@ void DisplayObjectContainer::_resetSize()
 	setLocalSize(rect.bottom - rect.top, rect.right - rect.left);
 }
 
-void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, float deltaTime)
+void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
 	DisplayObject::render(renderTarget, deltaTime);
 	if (!isVisible())
