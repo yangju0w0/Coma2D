@@ -39,12 +39,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Bitmap.h">
-      <Filter>Coma2D\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Resource.h">
-      <Filter>Coma2D\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="src\ComaDevice.h">
       <Filter>Coma2D\Core</Filter>
     </ClInclude>
@@ -102,11 +96,23 @@
     <ClInclude Include="src\Image.h">
       <Filter>Coma2D\RenderObjects</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bitmap.h">
+      <Filter>Coma2D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Resource.h">
+      <Filter>Coma2D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="src\KeyboardEvent.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MouseEvent.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ObjectEvent.h">
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Bitmap.cpp">
-      <Filter>Coma2D\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="src\ComaDevice.cpp">
       <Filter>Coma2D\Core</Filter>
     </ClCompile>
@@ -157,6 +163,18 @@
     </ClCompile>
     <ClCompile Include="src\Image.cpp">
       <Filter>Coma2D\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bitmap.cpp">
+      <Filter>Coma2D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="src\KeyboardEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MouseEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ObjectEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

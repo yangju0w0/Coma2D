@@ -77,6 +77,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\KeyboardEvent.h" />
+    <ClInclude Include="src\MouseEvent.h" />
+    <ClInclude Include="src\ObjectEvent.h" />
     <ClInclude Include="src\Image.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\coma2d.h" />
@@ -100,6 +103,9 @@
     <ClInclude Include="src\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\KeyboardEvent.cpp" />
+    <ClCompile Include="src\MouseEvent.cpp" />
+    <ClCompile Include="src\ObjectEvent.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\DisplayObject.cpp" />
