@@ -53,6 +53,7 @@
 #include "DisplayObject.h"
 #include "DisplayObjectContainer.h"
 #include "Camera.h"
+#include "ObjectEvent.h"
 COMA_USING_NS
 
 DisplayObjectContainer* DisplayObject::world = nullptr;
@@ -130,4 +131,24 @@ void DisplayObject::_transformApply()
 		getParent()->_resetSize();
 		getParent()->_transformApply();
 	}
+}
+
+void DisplayObject::update(double deltaTime)
+{
+	dispatchEvent(new ObjectEvent(ObjectEvent::UPDATE, this, deltaTime));
+}
+void DisplayObject::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
+{
+	dispatchEvent(new ObjectEvent(ObjectEvent::RENDER, this, deltaTime));
+}
+
+void DisplayObject::_registerParent(DisplayObjectContainer* parent)
+{ 
+	parentObject = parent;
+	dispatchEvent(new ObjectEvent(ObjectEvent::ADDED, this));
+}	
+void DisplayObject::_unregisterParent()
+{
+	parentObject = nullptr;
+	dispatchEvent(new ObjectEvent(ObjectEvent::REMOVED, this));
 }

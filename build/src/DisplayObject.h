@@ -80,13 +80,13 @@ private:
 	Point	anchorPoint;	//기준점
 	bool	visible;		//가시 여부
 	float	alpha;			//투명도
-	Size localSize;			//로컬 크기
+	Size	localSize;		//로컬 크기
 
 public:
 	virtual ~DisplayObject();
 
-	virtual void update(double deltaTime){}						//그리기 작업 전에 호출
-	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime){}	//그리기 작업
+	virtual void update(double deltaTime);										//그리기 작업 전에 호출
+	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);	//그리기 작업
 	
 //Getter
 	static DisplayObjectContainer* getWorld(){ return DisplayObject::world; }
@@ -118,8 +118,8 @@ public:
 	Matrix3x2 getScreenMatrix();	//해당 오브젝트를 포함한 상위 오브젝트의 행렬의 곱을 반환한다. (재귀)
 
 	DisplayObjectContainer* getParent()						{ return parentObject; }	//부모 객체를 반환한다.
-	void _registerParent(DisplayObjectContainer* parent)	{ parentObject = parent; }	//부모 객체를 등록한다. (외부호출 금지)
-	void _unregisterParent()								{ parentObject = nullptr; }	//부모 객체를 해제한다. (외부호출 금지)
+	void _registerParent(DisplayObjectContainer* parent);	//부모 객체를 등록한다. (외부호출 금지)
+	void _unregisterParent();								//부모 객체를 해제한다. (외부호출 금지)
 
 	
 
