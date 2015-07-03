@@ -45,28 +45,20 @@
 */
 
 /*
-* filename	SceneManager.h
-* fileinfo	장면 관리 클래스 헤더 파일
+* filename	Scene.h
+* fileinfo	장면 클래스 구현 파일
 * author	주헌양 (Heonyang Ju)
 */
 
-#pragma once
-#include "Manager.h"
 #include "Scene.h"
 
-COMA_NS_BEGIN
+COMA_USING_NS
 
-class SceneManager :
-	public Manager
+Scene::Scene()
 {
-public:
-	SceneManager();
-	virtual ~SceneManager();
-public:
-	void changeScene(Scene* scene);
-	Scene* getScene(){ return scene; }
-private:
-	Scene* scene;
-};
+}
 
-COMA_END
+
+Scene::~Scene()
+{
+}

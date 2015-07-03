@@ -120,6 +120,9 @@
     <ClInclude Include="src\SceneManager.h">
       <Filter>Coma2D\Manage</Filter>
     </ClInclude>
+    <ClInclude Include="src\Scene.h">
+      <Filter>Coma2D\RenderObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ComaDevice.cpp">
@@ -193,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="src\SceneManager.cpp">
       <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene.cpp">
+      <Filter>Coma2D\RenderObjects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -62,3 +62,9 @@ SceneManager::SceneManager()
 SceneManager::~SceneManager()
 {
 }
+
+void SceneManager::changeScene(Scene* scene)
+{
+	DisplayObject::_setWorld(scene);
+	this->scene = scene;
+}
