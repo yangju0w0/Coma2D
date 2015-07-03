@@ -96,14 +96,25 @@ void DisplayObjectContainer::_resetSize()
 	Rect rect{ 0, 0, 0, 0 };
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
-		if (objectList[i]->getX() < rect.left)
-			rect.left = objectList[i]->getX();
-		if (objectList[i]->getY() < rect.top)
-			rect.top = objectList[i]->getY();
-		if (objectList[i]->getWidth() + objectList[i]->getX() > rect.right)
-			rect.right = objectList[i]->getWidth() + objectList[i]->getX();
-		if (objectList[i]->getHeight() + objectList[i]->getY() > rect.bottom)
-			rect.bottom = objectList[i]->getHeight() + objectList[i]->getY();
+		Matrix3x2 matrix = objectList[i]->getMatrix() * objectList[i]->getCameraMatrix();
+
+		Point point[4] = {
+			matrix.TransformPoint(Point{ 0, 0 }),
+			matrix.TransformPoint(Point{ objectList[i]->getLocalSize().width, 0 }),
+			matrix.TransformPoint(Point{ objectList[i]->getLocalSize().width, objectList[i]->getLocalSize().height }),
+			matrix.TransformPoint(Point{ 0, objectList[i]->getLocalSize().height }) };
+
+		for (int i = 0; i < 4; i++)
+		{
+			if (point[i].x < rect.left)
+				rect.left = point[i].x;
+			if (point[i].y < rect.top)
+				rect.top = point[i].y;
+			if (point[i].x > rect.right)
+				rect.right = point[i].x;
+			if (point[i].y > rect.bottom)
+				rect.bottom = point[i].y;
+		}
 	}
 	setLocalSize(rect.bottom - rect.top, rect.right - rect.left);
 }
