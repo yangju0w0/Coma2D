@@ -73,7 +73,7 @@ void DisplayObjectContainer::addChild(DisplayObject* object)
 		return;
 	for (unsigned int i = 0; i < objectList.size(); i++)
 		if (objectList[i] == object) return;
-	object->_registerParent(this);
+	if (!object->_registerParent(this)) return;
 	objectList.push_back(object);
 	_resetSize();
 }
@@ -83,7 +83,8 @@ void DisplayObjectContainer::removeChild(DisplayObject* object)
 	{
 		if (objectList[i] == object)
 		{
-			object->_unregisterParent();
+			if (!object->_unregisterParent())
+				return;
 			objectList.erase(objectList.begin() + i);
 			_resetSize();
 			return;

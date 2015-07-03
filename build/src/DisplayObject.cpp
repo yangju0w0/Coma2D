@@ -142,13 +142,15 @@ void DisplayObject::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime
 	dispatchEvent(new ObjectEvent(ObjectEvent::RENDER, this, deltaTime));
 }
 
-void DisplayObject::_registerParent(DisplayObjectContainer* parent)
+bool DisplayObject::_registerParent(DisplayObjectContainer* parent)
 { 
 	parentObject = parent;
 	dispatchEvent(new ObjectEvent(ObjectEvent::ADDED, this));
+	return true;
 }	
-void DisplayObject::_unregisterParent()
+bool DisplayObject::_unregisterParent()
 {
 	parentObject = nullptr;
 	dispatchEvent(new ObjectEvent(ObjectEvent::REMOVED, this));
+	return true;
 }

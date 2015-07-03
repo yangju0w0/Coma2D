@@ -118,8 +118,8 @@ public:
 	Matrix3x2 getScreenMatrix();	//해당 오브젝트를 포함한 상위 오브젝트의 행렬의 곱을 반환한다. (재귀)
 
 	DisplayObjectContainer* getParent()						{ return parentObject; }	//부모 객체를 반환한다.
-	void _registerParent(DisplayObjectContainer* parent);	//부모 객체를 등록한다. (외부호출 금지)
-	void _unregisterParent();								//부모 객체를 해제한다. (외부호출 금지)
+	bool _registerParent(DisplayObjectContainer* parent);	//부모 객체를 등록한다. (외부호출 금지)
+	bool _unregisterParent();								//부모 객체를 해제한다. (외부호출 금지)
 
 	
 
