@@ -108,7 +108,7 @@ Matrix3x2 DisplayObject::getScreenMatrix()
 {
 	if (getParent())
 		return getMatrix() * getCameraMatrix()* getParent()->getScreenMatrix();
-	return getCameraMatrix() * getMatrix();
+	return getMatrix()*getCameraMatrix();
 }
 Matrix3x2 DisplayObject::getWorldMatrix()
 {
