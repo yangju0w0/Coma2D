@@ -71,6 +71,7 @@ private:
 	~ComaDevice()
 	{
 		if(resourceManager) delete resourceManager;
+		if(sceneManager) delete sceneManager;
 	};
 	static ComaDevice* device;
 public:
