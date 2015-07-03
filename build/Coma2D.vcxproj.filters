@@ -111,6 +111,15 @@
     <ClInclude Include="src\ObjectEvent.h">
       <Filter>Coma2D\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\AudioManager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\InputManager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SceneManager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ComaDevice.cpp">
@@ -175,6 +184,15 @@
     </ClCompile>
     <ClCompile Include="src\ObjectEvent.cpp">
       <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AudioManager.cpp">
+      <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InputManager.cpp">
+      <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneManager.cpp">
+      <Filter>Coma2D\Manage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -77,6 +77,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\AudioManager.h" />
+    <ClInclude Include="src\InputManager.h" />
+    <ClInclude Include="src\SceneManager.h" />
     <ClInclude Include="src\KeyboardEvent.h" />
     <ClInclude Include="src\MouseEvent.h" />
     <ClInclude Include="src\ObjectEvent.h" />
@@ -103,6 +106,9 @@
     <ClInclude Include="src\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\AudioManager.cpp" />
+    <ClCompile Include="src\InputManager.cpp" />
+    <ClCompile Include="src\SceneManager.cpp" />
     <ClCompile Include="src\KeyboardEvent.cpp" />
     <ClCompile Include="src\MouseEvent.cpp" />
     <ClCompile Include="src\ObjectEvent.cpp" />
