@@ -14,3 +14,14 @@
 #include "RendererEvent.h"
 #include "ResourceManagerEvent.h"
 #include "WindowEvent.h"
+#include "ObjectEvent.h"
+#include "MouseEvent.h"
+#include "KeyboardEvent.h"
+
+#include "DisplayObject.h"
+#include "InteractiveObject.h"
+#include "DisplayObjectContainer.h"
+#include "GameObject.h"
+
+#include "Image.h"
+#include "Camera.h"
