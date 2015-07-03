@@ -61,6 +61,7 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
+	if(scene)delete scene;
 }
 
 void SceneManager::changeScene(Scene* scene)
