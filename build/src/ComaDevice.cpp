@@ -172,6 +172,7 @@ bool ComaDevice::initRenderer()
 bool ComaDevice::initManagers()
 {
 	resourceManager = new ResourceManager();
+	sceneManager = new SceneManager();
 	return true;
 }
 bool ComaDevice::initOthers()
@@ -213,9 +214,17 @@ void ComaDevice::windowResizeListener(Event* event)
 
 void ComaDevice::rendererUpdateListener(Event* event)
 {
+	RendererEvent* rEvent = (RendererEvent*)event;
 
+	if (!sceneManager || !sceneManager->getScene())
+		return;
+	sceneManager->getScene()->update(rEvent->deltaTime());
 }
 void ComaDevice::rendererRenderListener(Event* event)
 {
+	RendererEvent* rEvent = (RendererEvent*)event;
 
+	if (!sceneManager || !sceneManager->getScene())
+		return;
+	sceneManager->getScene()->render(rEvent->getRenderTarget(), rEvent->deltaTime());
 }

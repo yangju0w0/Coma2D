@@ -57,6 +57,9 @@
 #include "WindowEvent.h"
 #include "RendererEvent.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
+#include "AudioManager.h"
+#include "InputManager.h"
 
 COMA_NS_BEGIN
 
@@ -125,6 +128,7 @@ public:
 
 	//ManagerGetter
 	ResourceManager* getResourceManager(){ return resourceManager; }
+	SceneManager* getSceneManager(){ return sceneManager; }
 
 private:
 	//Events
@@ -155,6 +159,7 @@ private:
 
 	//Managers
 	ResourceManager* resourceManager;
+	SceneManager* sceneManager;
 };
 
 COMA_END

@@ -8,6 +8,9 @@
 
 #include "Manager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
+#include "AudioManager.h"
+#include "InputManager.h"
 
 #include "Event.h"
 #include "EventDispatcher.h"
@@ -25,3 +28,4 @@
 
 #include "Image.h"
 #include "Camera.h"
+#include "Scene.h"
