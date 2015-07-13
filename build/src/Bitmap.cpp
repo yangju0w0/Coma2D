@@ -224,15 +224,15 @@ void Bitmap::loadReqListener(Event* event)
 {
 	if (!reload)
 		return;
-	reload = false;
-	loadResource();
+	//reload = false;
+	//loadResource();
 }
 void Bitmap::unloadReqListener(Event* event)
 {
 	if (!isLoaded())
 		return;
-	reload = true;
-	unloadResource();
+	//reload = true;
+	//unloadResource();
 }
 
 bool Bitmap::loadResource()
