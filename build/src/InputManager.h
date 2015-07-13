@@ -61,6 +61,27 @@ class InputManager :
 public:
 	InputManager();
 	virtual ~InputManager();
+
+public:
+	bool createInputEvent(UINT uMsg, WPARAM wParam, LPARAM lParam); //이벤트 처리가 발생하지 않을 경우, false를 반환한다.
+	bool isKeyDown(unsigned int keyCode){ return pressedKey[keyCode]; }
+	bool isLeftMouseDowned(){ return leftMouseDowned; }
+	bool isRightMouseDowned(){ return rightMouseDowned; }
+	bool isMiddleMouseDowned(){ return middleMouseDowned; }
+	Point getMousePosition(){ return mousePosition; }
+
+private:
+	bool pressedKey[256];
+	char charIn;
+	std::string inputString;
+
+	Point mousePosition;
+	bool leftMouseDowned;
+	bool rightMouseDowned;
+	bool middleMouseDowned;
+
+	void updatePosition(LPARAM lParam);
+
 };
 
 COMA_END

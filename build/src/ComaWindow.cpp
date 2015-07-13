@@ -89,6 +89,7 @@ ComaWindow::ComaWindow(HINSTANCE hInstance, int nCmdShow)
 // 소멸자
 ComaWindow::~ComaWindow()
 {
+	if(inputManager) delete inputManager;
 	DestroyWindow(hWnd);
 }
 
@@ -129,8 +130,10 @@ bool ComaWindow::createWindow()
 	
 	if (!hWnd)
 		return false;
-
+	
 	created = true;
+
+	inputManager = new InputManager();
 
 	if (isMaximized())
 		windowData.nCmdShow = SW_SHOWMAXIMIZED;
@@ -297,6 +300,9 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		resizing = false;
 		return 0;
 	}
+
+	if (inputManager->createInputEvent(uMsg, wParam, lParam))
+		return 0;
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
@@ -730,5 +736,3 @@ bool ComaWindow::restoreWindow()
 	}
 	return true;
 }
-
-//TODO: 생성시 풀스크린으로 설정하도록 변경

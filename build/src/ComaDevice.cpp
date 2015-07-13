@@ -173,6 +173,7 @@ bool ComaDevice::initManagers()
 {
 	resourceManager = new ResourceManager();
 	sceneManager = new SceneManager();
+	inputManager = window->getInputManager();
 	return true;
 }
 bool ComaDevice::initOthers()

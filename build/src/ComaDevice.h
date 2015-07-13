@@ -130,6 +130,7 @@ public:
 	//ManagerGetter
 	ResourceManager* getResourceManager(){ return resourceManager; }
 	SceneManager* getSceneManager(){ return sceneManager; }
+	InputManager* getInputManager(){ return inputManager; }
 
 private:
 	//Events
@@ -161,6 +162,7 @@ private:
 	//Managers
 	ResourceManager* resourceManager;
 	SceneManager* sceneManager;
+	InputManager* inputManager;
 };
 
 COMA_END

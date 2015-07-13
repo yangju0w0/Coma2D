@@ -53,6 +53,7 @@
 #pragma once
 #include "EventDispatcher.h"
 #include "ComaRenderer.h"
+#include "InputManager.h"
 COMA_NS_BEGIN
 struct WindowData
 {
@@ -85,6 +86,7 @@ public:
 public:
 	HINSTANCE	getInstance() { return hInstance; }
 	HWND		getWindow(){ return hWnd; }
+	InputManager* getInputManager(){ return inputManager; }
 
 	DWORD	getStyle();
 	DWORD	getStyleEx();
@@ -151,6 +153,9 @@ private:
 	HINSTANCE	hInstance;
 	HWND		hWnd;
 	WindowData windowData;
+
+	//Manager
+	InputManager* inputManager;
 	
 	//Window Status
 	bool created;

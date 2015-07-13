@@ -51,14 +51,95 @@
 */
 
 #include "InputManager.h"
+#include "MouseEvent.h"
+#include "KeyboardEvent.h"
+#include <hidusage.h>
 
 COMA_USING_NS
 
 InputManager::InputManager()
 {
+	for (int i = 0; i < 256; i++)
+	{
+		pressedKey[i] = false;
+	}
 }
 
 
 InputManager::~InputManager()
 {
+}
+
+bool InputManager::createInputEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_KEYDOWN:
+	case WM_SYSKEYDOWN:
+		if (wParam < 256)
+		{
+			pressedKey[wParam] = true;
+		}
+		dispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_DOWN, 0, wParam, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT)));
+		return true;
+	case WM_KEYUP:
+	case WM_SYSKEYUP:
+		if (wParam < 256)
+		{
+			pressedKey[wParam] = false;
+		}
+		dispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_UP, 0, wParam, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT)));
+		return true;
+	case WM_CHAR:
+		dispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_CHAR, wParam, 0, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT)));
+		return true;
+	case WM_MOUSEMOVE:
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_MOVE, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_LBUTTONDOWN:
+		leftMouseDowned = true;
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_DOWN, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		dispatchEvent(new MouseEvent(MouseEvent::CLICK, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_LBUTTONUP:
+		leftMouseDowned = false;
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_MOVE, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_MBUTTONDOWN:
+		middleMouseDowned = true;
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::MIDDLE_MOUSE_DOWN, middleMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		dispatchEvent(new MouseEvent(MouseEvent::MIDDLE_CLICK, middleMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_MBUTTONUP:
+		middleMouseDowned = false;
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::MIDDLE_MOUSE_UP, middleMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+	case WM_RBUTTONDOWN:
+		rightMouseDowned = true;
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::RIGHT_MOUSE_DOWN, rightMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		dispatchEvent(new MouseEvent(MouseEvent::RIGHT_CLICK, rightMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_RBUTTONUP:
+		rightMouseDowned = false;
+		updatePosition(lParam);
+		dispatchEvent(new MouseEvent(MouseEvent::RIGHT_MOUSE_UP, rightMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_MOUSEWHEEL:
+		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_WHEEL, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), (SHORT)HIWORD(wParam), mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		return true;
+	case WM_DEVICECHANGE:
+		return true;
+	}
+	return false;
+}
+
+void InputManager::updatePosition(LPARAM lParam)
+{
+	mousePosition.x = LOWORD(lParam);
+	mousePosition.y = HIWORD(lParam);
 }
