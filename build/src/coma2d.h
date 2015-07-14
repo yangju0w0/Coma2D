@@ -22,6 +22,7 @@
 #include "ObjectEvent.h"
 #include "MouseEvent.h"
 #include "KeyboardEvent.h"
+#include "GamepadEvent.h"
 
 #include "DisplayObject.h"
 #include "InteractiveObject.h"
