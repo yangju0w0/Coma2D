@@ -130,3 +130,11 @@ void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, double 
 		objectList[i]->render(renderTarget, deltaTime);
 	}
 }
+void DisplayObjectContainer::update(double deltaTime)
+{
+	DisplayObject::update(deltaTime);
+	for (unsigned int i = 0; i < objectList.size(); i++)
+	{
+		objectList[i]->update(deltaTime);
+	}
+}
