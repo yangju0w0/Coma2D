@@ -78,6 +78,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Gamepad.h" />
+    <ClInclude Include="src\GamepadEvent.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\AudioManager.h" />
     <ClInclude Include="src\InputManager.h" />
@@ -109,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gamepad.cpp" />
+    <ClCompile Include="src\GamepadEvent.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\AudioManager.cpp" />
     <ClCompile Include="src\InputManager.cpp" />

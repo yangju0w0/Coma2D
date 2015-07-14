@@ -128,6 +128,7 @@ public:
 
 private:
 	void vibrateController(double frameTime);
+	void createEvent();
 
 private:
 	UINT				controllerIndex;
@@ -138,6 +139,10 @@ private:
 	float               vibrateTimeRight;
 	bool                connected;
 	float				vibrateReadyTime; // 진동을 줄 때, 일정 시간정도의 대기시간이 필요하다.
+
+	bool				buttonArray[14];
+	DWORD*				indexData;
+
 };
 
 COMA_END

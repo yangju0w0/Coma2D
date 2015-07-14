@@ -51,6 +51,7 @@
 */
 
 #include "Gamepad.h"
+#include "GamepadEvent.h"
 
 COMA_USING_NS
 
@@ -60,11 +61,18 @@ Gamepad::Gamepad(UINT controllerIndex)
 	this->controllerIndex = controllerIndex;
 	if (controllerIndex > MAX_CONTROLLERS-1)
 		this->controllerIndex = MAX_CONTROLLERS-1;
+
+	for (int i = 0; i < sizeof(buttonArray) / sizeof(bool); i++)
+	{
+		buttonArray[i] = false;
+	}
+	indexData = new DWORD[14] { GAMEPAD_DPAD_UP, GAMEPAD_DPAD_DOWN, GAMEPAD_DPAD_LEFT, GAMEPAD_DPAD_RIGHT, GAMEPAD_BACK_BUTTON, GAMEPAD_LEFT_THUMB, GAMEPAD_LEFT_SHOULDER, GAMEPAD_START_BUTTON, GAMEPAD_RIGHT_THUMB, GAMEPAD_RIGHT_SHOULDER, GAMEPAD_A, GAMEPAD_B, GAMEPAD_X, GAMEPAD_Y };
 }
 
 
 Gamepad::~Gamepad()
 {
+	delete[] indexData;
 }
 
 void Gamepad::update(double deltaTime)
@@ -74,8 +82,12 @@ void Gamepad::update(double deltaTime)
 	{
 		result = XInputGetState(controllerIndex, &state);
 		if (result == ERROR_DEVICE_NOT_CONNECTED)
+		{
 			connected = false;
+			dispatchEvent(new GamepadEvent(GamepadEvent::DISCONNECTED, this));
+		}
 	}
+	createEvent();
 	vibrateController(deltaTime);
 }
 void Gamepad::updateConntected()
@@ -83,7 +95,10 @@ void Gamepad::updateConntected()
 	DWORD result;
 	result = XInputGetState(controllerIndex, &state);
 	if (result == ERROR_SUCCESS)
+	{
 		connected = true;
+		dispatchEvent(new GamepadEvent(GamepadEvent::CONNECTED, this));
+	}
 	else
 		connected = false;
 }
@@ -197,4 +212,35 @@ void Gamepad::vibrateController(double frameTime)
 		vibration.wRightMotorSpeed = 0;
 	}
 	XInputSetState(controllerIndex, &vibration);
+}
+
+void Gamepad::createEvent()
+{
+	for (int i = 0; i < sizeof(buttonArray) / sizeof(bool); i++)
+	{
+		bool left = true;
+		if (i > 6)
+			left = false;
+		if (state.Gamepad.wButtons&indexData[i] != 0)
+		{
+			dispatchEvent(new GamepadEvent(GamepadEvent::BUTTON_DOWN, this, indexData[i], left, !left));
+			if (!buttonArray[i])
+				dispatchEvent(new GamepadEvent(GamepadEvent::BUTTON_CLICK, this, indexData[i], left, !left));
+			buttonArray[i] = true;
+		}
+		else if (buttonArray[i])
+		{
+			dispatchEvent(new GamepadEvent(GamepadEvent::BUTTON_UP, this, indexData[i], left, !left));
+			buttonArray[i] = false;
+		}
+	}
+
+	if (getLeftTrigger() != 0)
+		dispatchEvent(new GamepadEvent(GamepadEvent::TRIGGER_INPUT, this, 0, true, false));
+	if (getRightTrigger() != 0)
+		dispatchEvent(new GamepadEvent(GamepadEvent::TRIGGER_INPUT, this, 0, false, true));
+	if (getLeftThumbX() != 0 || getLeftThumbY() != 0)
+		dispatchEvent(new GamepadEvent(GamepadEvent::THUMB_INPUT, this, GAMEPAD_LEFT_THUMB, true, false));
+	if (getRightThumbX() != 0 || getRightThumbY() != 0)
+		dispatchEvent(new GamepadEvent(GamepadEvent::THUMB_INPUT, this, GAMEPAD_RIGHT_THUMB, false, true));
 }
