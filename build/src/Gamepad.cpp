@@ -62,7 +62,7 @@ Gamepad::Gamepad(UINT controllerIndex)
 	if (controllerIndex > MAX_CONTROLLERS-1)
 		this->controllerIndex = MAX_CONTROLLERS-1;
 
-	for (int i = 0; i < sizeof(buttonArray) / sizeof(bool); i++)
+	for (int i = 0; i < 14; i++)
 	{
 		buttonArray[i] = false;
 	}
@@ -216,12 +216,14 @@ void Gamepad::vibrateController(double frameTime)
 
 void Gamepad::createEvent()
 {
-	for (int i = 0; i < sizeof(buttonArray) / sizeof(bool); i++)
+	if (!connected)
+		return;
+	for (int i = 0; i < 14; i++)
 	{
 		bool left = true;
 		if (i > 6)
 			left = false;
-		if (state.Gamepad.wButtons&indexData[i] != 0)
+		if ((state.Gamepad.wButtons&indexData[i]) != 0)
 		{
 			dispatchEvent(new GamepadEvent(GamepadEvent::BUTTON_DOWN, this, indexData[i], left, !left));
 			if (!buttonArray[i])
