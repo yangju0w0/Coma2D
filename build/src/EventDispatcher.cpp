@@ -107,7 +107,7 @@ void EventDispatcher::dispatchEvent(Event* event)
 	{
 		if (listenerList[i].type == event->getType())
 		{
-			if (listenerList[i].function)
+			if (listenerList[i].target)
 				listenerList[i].function(event);
 			else
 				listenerList.erase(listenerList.begin() + i);
