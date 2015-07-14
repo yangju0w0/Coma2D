@@ -217,6 +217,7 @@ void ComaDevice::rendererUpdateListener(Event* event)
 {
 	RendererEvent* rEvent = (RendererEvent*)event;
 
+	inputManager->updateGamepad(rEvent->deltaTime());
 	if (!sceneManager || !sceneManager->getScene())
 		return;
 	sceneManager->getScene()->update(rEvent->deltaTime());

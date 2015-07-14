@@ -12,6 +12,8 @@
 #include "AudioManager.h"
 #include "InputManager.h"
 
+#include "Gamepad.h"
+
 #include "Event.h"
 #include "EventDispatcher.h"
 #include "RendererEvent.h"
