@@ -55,7 +55,7 @@
 COMA_USING_NS
 
 Camera::Camera(float width, float height)
-:ref(0), cameraOn(false)
+:DisplayObject(), ref(0), cameraOn(false)
 {
 	setLocalSize(width, height);
 	setVisible(false);
