@@ -78,9 +78,6 @@ public:
 	static const std::string RIGHT_CLICK;
 	static const std::string RIGHT_MOUSE_DOWN;
 	static const std::string RIGHT_MOUSE_UP;
-
-	static const std::string ROLL_OVER;
-	static const std::string ROLL_OUT;
 	
 public:
 	bool	getButtonDown()	{ return buttonDown; }

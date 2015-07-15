@@ -67,8 +67,6 @@ const std::string MouseEvent::MOUSE_WHEEL		= "mouse_mouseWheel";
 const std::string MouseEvent::RIGHT_CLICK		= "mouse_rightClick";
 const std::string MouseEvent::RIGHT_MOUSE_DOWN	= "mouse_rightMouseDown";
 const std::string MouseEvent::RIGHT_MOUSE_UP	= "mouse_rightMouseUp";
-const std::string MouseEvent::ROLL_OVER			= "mouse_rollOver";
-const std::string MouseEvent::ROLL_OUT			= "mouse_rollOut";
 
 MouseEvent::MouseEvent(std::string type, bool buttonDown, bool altKey, bool ctrlKey, bool shiftKey, int delta, float stageX, float stageY, float localX, float localY)
 :Event(type), buttonDown(buttonDown), altKey(altKey), ctrlKey(ctrlKey), shiftKey(shiftKey), delta(delta), stageX(stageX), stageY(stageY), localX(localX), localY(localY)
