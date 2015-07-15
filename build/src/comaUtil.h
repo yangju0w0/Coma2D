@@ -51,6 +51,7 @@
 */
 #include <d2d1.h>
 #include <math.h>
+#include <Box2D/Box2D.h>
 
 #define COMA_NAMESPACE coma2d
 #define COMA_NS_BEGIN namespace COMA_NAMESPACE {
@@ -70,3 +71,4 @@ typedef D2D_SIZE_U SizeU;
 typedef D2D_COLOR_F Color;
 typedef D2D1::Matrix3x2F Matrix3x2;
 typedef UINT64 TAG;
+typedef b2Vec2 Vector;

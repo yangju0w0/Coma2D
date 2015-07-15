@@ -129,6 +129,9 @@
     <ClInclude Include="src\GamepadEvent.h">
       <Filter>Coma2D\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\PhysicsManager.h">
+      <Filter>Coma2D\Manage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ComaDevice.cpp">
@@ -211,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="src\GamepadEvent.cpp">
       <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysicsManager.cpp">
+      <Filter>Coma2D\Manage</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
