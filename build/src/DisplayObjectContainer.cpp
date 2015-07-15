@@ -118,6 +118,7 @@ void DisplayObjectContainer::_resetSize()
 		}
 	}
 	setLocalSize(rect.bottom - rect.top, rect.right - rect.left);
+	setLocalPosition(rect.left, rect.top);
 }
 
 void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)

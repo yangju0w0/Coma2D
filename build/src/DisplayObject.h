@@ -67,7 +67,8 @@ protected:
 	DisplayObject();
 	void setLocalSize(Size size) { localSize = size;  _transformApply(); }
 	void setLocalSize(float width, float height) { setLocalSize(Size{ width, height }); }
-
+	void setLocalPosition(Point position){ localPoint = point; }
+	void setLocalPosition(float x, float y){ setLocalPosition(Point{ x, y }); }
 private:
 	static DisplayObjectContainer* world;	//월드 객체
 
@@ -81,6 +82,7 @@ private:
 	bool	visible;		//가시 여부
 	float	alpha;			//투명도
 	Size	localSize;		//로컬 크기
+	Point	localPoint;		//로컬 시작 위치
 
 public:
 	virtual ~DisplayObject();
@@ -99,6 +101,7 @@ public:
 	float	getWidth()		{ return localSize.width * scale.width; }
 	float	getHeight()		{ return localSize.height * scale.height; }
 	Size	getLocalSize()	{ return localSize; }
+	Point	getLocalPosition(){ return localPoint; }
 	Size	getScale()		{ return scale; }
 	float	getScaleX()		{ return scale.width; }
 	float	getScaleY()		{ return scale.height; }
@@ -118,8 +121,8 @@ public:
 	Matrix3x2 getScreenMatrix();	//해당 오브젝트를 포함한 상위 오브젝트의 행렬의 곱을 반환한다. (재귀)
 
 	DisplayObjectContainer* getParent()						{ return parentObject; }	//부모 객체를 반환한다.
-	bool _registerParent(DisplayObjectContainer* parent);	//부모 객체를 등록한다. (외부호출 금지)
-	bool _unregisterParent();								//부모 객체를 해제한다. (외부호출 금지)
+	virtual bool _registerParent(DisplayObjectContainer* parent);	//부모 객체를 등록한다. (외부호출 금지)
+	virtual bool _unregisterParent();								//부모 객체를 해제한다. (외부호출 금지)
 
 	
 

@@ -59,7 +59,7 @@ COMA_USING_NS
 DisplayObjectContainer* DisplayObject::world = nullptr;
 
 DisplayObject::DisplayObject()
-:position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 })
+	:position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 }), localPoint(Point{ 0, 0 })
 {
 }
 
