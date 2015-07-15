@@ -67,7 +67,7 @@ protected:
 	DisplayObject();
 	void setLocalSize(Size size) { localSize = size;  _transformApply(); }
 	void setLocalSize(float width, float height) { setLocalSize(Size{ width, height }); }
-	void setLocalPosition(Point position){ localPoint = point; }
+	void setLocalPosition(Point position){ localPoint = position; }
 	void setLocalPosition(float x, float y){ setLocalPosition(Point{ x, y }); }
 private:
 	static DisplayObjectContainer* world;	//¿ùµå °´Ã¼
