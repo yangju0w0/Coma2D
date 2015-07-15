@@ -72,8 +72,8 @@ public:
 	bool isCameraOn();
 
 	Matrix3x2 getMatrix();
-	void _registerParent(DisplayObjectContainer* parent);
-	void _unregisterParent();
+	bool _registerParent(DisplayObjectContainer* parent);
+	bool _unregisterParent();
 
 private:
 	ID2D1SolidColorBrush* brush;

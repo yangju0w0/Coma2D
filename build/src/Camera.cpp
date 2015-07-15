@@ -96,18 +96,22 @@ Matrix3x2 Camera::getMatrix()
 	}
 	return Matrix3x2::Identity();
 }
-void Camera::_registerParent(DisplayObjectContainer* parent) {
+bool Camera::_registerParent(DisplayObjectContainer* parent) {
 	if (!getParent() && parent)
 	{
-		DisplayObject::_registerParent(parent);
+		if (!DisplayObject::_registerParent(parent))
+			return false;
 		ref++;
 	}
+	return true;
 }
-void Camera::_unregisterParent()
+bool Camera::_unregisterParent()
 {
 	ref--;
 	if (ref <= 0)
 	{
-		DisplayObject::_unregisterParent();
+		if (!DisplayObject::_unregisterParent())
+			return false;
 	}
+	return true;
 }
