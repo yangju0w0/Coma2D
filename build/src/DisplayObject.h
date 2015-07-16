@@ -69,6 +69,8 @@ protected:
 	void setLocalSize(float width, float height) { setLocalSize(Size{ width, height }); }
 	void setLocalPosition(Point position){ localPoint = position; }
 	void setLocalPosition(float x, float y){ setLocalPosition(Point{ x, y }); }
+
+	static ID2D1SolidColorBrush* brush;
 private:
 	static DisplayObjectContainer* world;	//월드 객체
 
@@ -83,6 +85,8 @@ private:
 	float	alpha;			//투명도
 	Size	localSize;		//로컬 크기
 	Point	localPoint;		//로컬 시작 위치
+
+	bool	outlineDrawing;	//경계선 그리기 여부
 
 public:
 	virtual ~DisplayObject();
@@ -111,6 +115,7 @@ public:
 	bool	isVisible()		{ return visible; }
 	float	getAlpha()		{ return alpha; }
 	float	getScreenAlpha();
+	bool	isOutlineDrawing(){ return outlineDrawing; }
 
 	Matrix3x2 getScaleMatrix()			{ return Matrix3x2::Scale(scale, anchorPoint); }				//화면 비율 행렬을 반환한다.
 	Matrix3x2 getTranslationMatrix()	{ return Matrix3x2::Translation(position.x, position.y); }		//이동 행렬을 반환한다.
@@ -153,7 +158,7 @@ public:
 	void setAnchorPoint(Point point)		{ anchorPoint = point;			_transformApply(); }
 	void setAlpha(float alpha)				{ this->alpha = alpha; if (alpha < 0) this->alpha = 0; else if (alpha > 1) this->alpha = 1;}
 	void setVisible(bool visibility)		{ visible = visibility; }
-
+	virtual void setDrawOutline(bool draw)			{ outlineDrawing = draw; }
 //World좌표계를 기준으로 위치를 변환한다.
 	Point worldToLocal(Point point){
 		Matrix3x2 invertWorldMatrix = getWorldMatrix();
@@ -174,6 +179,8 @@ public:
 	}
 
 	virtual void _transformApply();	//변환을 부모 객체에게 알릴 때 호출한다.(외부호출 금지)
+protected:
+	virtual void drawOutline(ID2D1HwndRenderTarget* renderTarget);
 };
 
 COMA_END

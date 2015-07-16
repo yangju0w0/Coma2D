@@ -94,16 +94,17 @@ void DisplayObjectContainer::removeChild(DisplayObject* object)
 
 void DisplayObjectContainer::_resetSize()
 {
-	Rect rect{ 0, 0, 0, 0 };
+	Rect rect{ 10000000, 10000000, -10000000, -10000000 };
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
 		Matrix3x2 matrix = objectList[i]->getMatrix() * objectList[i]->getCameraMatrix();
 
 		Point point[4] = {
-			matrix.TransformPoint(Point{ 0, 0 }),
-			matrix.TransformPoint(Point{ objectList[i]->getLocalSize().width, 0 }),
-			matrix.TransformPoint(Point{ objectList[i]->getLocalSize().width, objectList[i]->getLocalSize().height }),
-			matrix.TransformPoint(Point{ 0, objectList[i]->getLocalSize().height }) };
+			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x,										objectList[i]->getLocalPosition().y }),
+			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x + objectList[i]->getLocalSize().width, objectList[i]->getLocalPosition().y }),
+			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x + objectList[i]->getLocalSize().width, objectList[i]->getLocalPosition().y + objectList[i]->getLocalSize().height }),
+			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x,										objectList[i]->getLocalPosition().y + objectList[i]->getLocalSize().height })
+		};
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -117,7 +118,7 @@ void DisplayObjectContainer::_resetSize()
 				rect.bottom = point[i].y;
 		}
 	}
-	setLocalSize(rect.bottom - rect.top, rect.right - rect.left);
+	setLocalSize(rect.right - rect.left,rect.bottom - rect.top);
 	setLocalPosition(rect.left, rect.top);
 }
 
@@ -128,6 +129,8 @@ void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, double 
 		return;
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
+
+		objectList[i]->setDrawOutline(isOutlineDrawing());
 		objectList[i]->render(renderTarget, deltaTime);
 	}
 }
@@ -138,4 +141,20 @@ void DisplayObjectContainer::update(double deltaTime)
 	{
 		objectList[i]->update(deltaTime);
 	}
+}
+
+
+void DisplayObjectContainer::drawOutline(ID2D1HwndRenderTarget* renderTarget)
+{
+	if (!brush)
+		renderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &brush);
+	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
+	renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+	Point position = localToScreen(getLocalPosition());
+	Point position2 = localToScreen(Point{ getLocalPosition().x + getLocalSize().width, getLocalPosition().y + getLocalSize().height });
+	renderTarget->DrawRectangle(Rect{ position.x, position.y, position2.x, position2.y }, brush);
+	renderTarget->SetTransform(getScreenMatrix());
+	renderTarget->DrawEllipse(D2D1::Ellipse(Point{ 0, 0 }, 2, 2), brush);
+	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
+	renderTarget->DrawEllipse(D2D1::Ellipse(getAnchorPoint(), 1.7f,1.7f),brush);
 }

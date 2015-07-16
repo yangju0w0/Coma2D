@@ -57,9 +57,10 @@
 COMA_USING_NS
 
 DisplayObjectContainer* DisplayObject::world = nullptr;
+ID2D1SolidColorBrush* DisplayObject::brush = nullptr;
 
 DisplayObject::DisplayObject()
-	:position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 }), localPoint(Point{ 0, 0 })
+	:position(Point{ 0, 0 }), scale(Size{ 1, 1 }), rotation(0), anchorPoint(Point{ 0, 0 }), visible(true), alpha(1.0f), localSize(Size{ 0, 0 }), localPoint(Point{ 0, 0 }), outlineDrawing(false)
 {
 }
 
@@ -69,6 +70,14 @@ DisplayObject::~DisplayObject()
 	if (getParent())
 	{ 
 		getParent()->removeChild(this);
+	}
+	if (outlineDrawing)
+	{
+		if (brush)
+		{
+			brush->Release();
+			brush = nullptr;
+		}
 	}
 }
 
@@ -140,6 +149,8 @@ void DisplayObject::update(double deltaTime)
 void DisplayObject::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
 	dispatchEvent(new ObjectEvent(ObjectEvent::RENDER, this, deltaTime));
+	if (isOutlineDrawing())
+		drawOutline(renderTarget);
 }
 
 bool DisplayObject::_registerParent(DisplayObjectContainer* parent)
@@ -153,4 +164,17 @@ bool DisplayObject::_unregisterParent()
 	parentObject = nullptr;
 	dispatchEvent(new ObjectEvent(ObjectEvent::REMOVED, this));
 	return true;
+}
+
+void DisplayObject::drawOutline(ID2D1HwndRenderTarget* renderTarget)
+{
+	if (!brush)
+		renderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &brush);
+	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
+	renderTarget->SetTransform(getScreenMatrix());
+	renderTarget->DrawRectangle(Rect{ getLocalPosition().x, getLocalPosition().y, getLocalPosition().x + getLocalSize().width, getLocalPosition().y + getLocalSize().height }, brush);
+	renderTarget->SetTransform(getScreenMatrix());
+	renderTarget->DrawEllipse(D2D1::Ellipse(Point{ 0, 0 }, 2, 2), brush);
+	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
+	renderTarget->DrawEllipse(D2D1::Ellipse(getAnchorPoint(), 1.7f, 1.7f), brush);
 }

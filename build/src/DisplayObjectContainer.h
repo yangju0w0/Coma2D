@@ -72,6 +72,8 @@ public:
 	void _resetSize();				//자식 객체의 크기와 위치에 맞게 사이즈를 다시 조정한다.
 private:
 	std::vector<DisplayObject*> objectList;
+protected:
+	virtual void drawOutline(ID2D1HwndRenderTarget* renderTarget);
 };
 
 COMA_END
