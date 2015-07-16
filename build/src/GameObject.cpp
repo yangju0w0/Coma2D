@@ -54,6 +54,9 @@
 
 COMA_USING_NS
 
+b2World* GameObject::physicsWorld = nullptr;
+float GameObject::pixelPerMeter = 20;
+
 GameObject::GameObject()
 {
 }
@@ -61,4 +64,13 @@ GameObject::GameObject()
 
 GameObject::~GameObject()
 {
+}
+
+void GameObject::setPhysicsWorld(b2World* world)
+{
+	physicsWorld = world;
+}
+void GameObject::setPixelPerMeter(int pixel)
+{
+	pixelPerMeter = pixel;
 }

@@ -60,6 +60,7 @@
 #include "SceneManager.h"
 #include "AudioManager.h"
 #include "InputManager.h"
+#include "PhysicsManager.h"
 
 COMA_NS_BEGIN
 
@@ -72,6 +73,9 @@ private:
 	{
 		if(resourceManager) delete resourceManager;
 		if(sceneManager) delete sceneManager;
+		if(physicsManager) delete physicsManager;
+		//inputManager은 window에서 가져오므로 해제할 필요가 없다.
+		
 	};
 	static ComaDevice* device;
 public:
@@ -131,6 +135,7 @@ public:
 	ResourceManager* getResourceManager(){ return resourceManager; }
 	SceneManager* getSceneManager(){ return sceneManager; }
 	InputManager* getInputManager(){ return inputManager; }
+	PhysicsManager* getPhysicsManager(){ return physicsManager; }
 
 private:
 	//Events
@@ -163,6 +168,7 @@ private:
 	ResourceManager* resourceManager;
 	SceneManager* sceneManager;
 	InputManager* inputManager;
+	PhysicsManager* physicsManager;
 };
 
 COMA_END

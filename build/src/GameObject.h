@@ -61,6 +61,18 @@ class GameObject :
 public:
 	GameObject();
 	virtual ~GameObject();
+
+public:
+	static void setPhysicsWorld(b2World* world);
+	static void setPixelPerMeter(int pixel);
+	void setColider();
+
+	void setBody();
+	void setFixture();
+
+private:
+	static b2World* physicsWorld;
+	static float pixelPerMeter;
 };
 
 COMA_END

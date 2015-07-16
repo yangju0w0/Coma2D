@@ -174,6 +174,8 @@ bool ComaDevice::initManagers()
 	resourceManager = new ResourceManager();
 	sceneManager = new SceneManager();
 	inputManager = window->getInputManager();
+	physicsManager = new PhysicsManager();
+	physicsManager->initBox2D(Vector{ -10.0f, 0.0f });
 	return true;
 }
 bool ComaDevice::initOthers()
