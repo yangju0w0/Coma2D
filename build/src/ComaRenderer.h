@@ -76,7 +76,6 @@ public:
 	//Renderer Essencials Getter
 	ID2D1Factory* getFactory(){ return factory; }
 	ID2D1HwndRenderTarget* getRenderTarget(){ return renderTarget; }
-	RenderTimer* timer;
 
 	//Renderer Status Getter
 	bool isInitialized(){ return initialized; }
@@ -110,6 +109,7 @@ private:
 	ID2D1Factory* factory;
 	ID2D1HwndRenderTarget* renderTarget;
 	HWND targetWindow;
+	RenderTimer* timer;
 
 	//Renderer Attributes
 	D2D1_COLOR_F backgroundColor;
