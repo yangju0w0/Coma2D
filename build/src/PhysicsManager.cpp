@@ -25,5 +25,5 @@ void PhysicsManager::initBox2D(Vector gravity)
 
 void PhysicsManager::nextStep(double deltaTime)
 {
-	world->Step(deltaTime, 8, 3);
+	world->Step(deltaTime, 3, 1);
 }

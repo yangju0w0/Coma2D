@@ -55,6 +55,7 @@
 COMA_USING_NS
 
 DisplayObjectContainer::DisplayObjectContainer()
+:InteractiveObject()
 {
 }
 

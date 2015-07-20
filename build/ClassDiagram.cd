@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ComaDevice" Collapsed="true">
+    <Position X="19.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>WJAQQgACABAAgABCAwYAAEAAABgIABssEAIoFBAAgAE=</HashCode>
+      <FileName>src\ComaDevice.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComaRenderer" Collapsed="true">
+    <Position X="1.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARQAAxAJABEgAABAAoEgAAAgABgAABiFERAAAaIEIgA=</HashCode>
+      <FileName>src\ComaRenderer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ComaWindow" Collapsed="true">
+    <Position X="3.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RoBjigBMAAJADERQQEAA5BQgBIgAABwkBEJrAQVjACw=</HashCode>
+      <FileName>src\ComaWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GamepadEvent" Collapsed="true">
+    <Position X="7.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>iACAAKAgEAIAAAgAIQAAAIAAAAAcQAAAYAAAIAIAgAg=</HashCode>
+      <FileName>src\GamepadEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="KeyboardEvent" Collapsed="true">
+    <Position X="11.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAYAgAIAAAACAAAAAAAAAAAIABCACAICAAgQACBAAA=</HashCode>
+      <FileName>src\KeyboardEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MouseEvent" Collapsed="true">
+    <Position X="9.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BQAgRAQIAAAACAgUCAACAAACQAAACCEAQAAgAMDCIAA=</HashCode>
+      <FileName>src\MouseEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjectEvent" Collapsed="true">
+    <Position X="13.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABACQEAAEAAFAEIAAAAAAAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>src\ObjectEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Event" Collapsed="true">
+    <Position X="7.5" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAwABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Event.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventDispatcher" Collapsed="true">
+    <Position X="10.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAAAAAAAAAAEAACAAAAAAAAAAAAAAAAGAAABAAIAAAA=</HashCode>
+      <FileName>src\EventDispatcher.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RendererEvent" Collapsed="true">
+    <Position X="3.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACBEIAEAABAAAAAAEAAAAQCAAQAAgAAAAKAAAIA=</HashCode>
+      <FileName>src\RendererEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceManagerEvent" Collapsed="true">
+    <Position X="5.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAACAQABgBAAAQMAAAAAAAQgAAAMACICAAAAQAAAA=</HashCode>
+      <FileName>src\ResourceManagerEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WindowEvent" Collapsed="true">
+    <Position X="1.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CQABCCIEBAAIAADUYAAAgABAApYAQjAAAEAjAUQoAMQ=</HashCode>
+      <FileName>src\WindowEvent.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PhysicsManager" Collapsed="true">
+    <Position X="17.5" Y="9.75" Width="1.5" />
+    <InheritanceLine Type="Manager" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17" Y="9.875" />
+        <Point X="17.25" Y="9.875" />
+        <Point X="17.25" Y="10.125" />
+        <Point X="17.5" Y="10.125" />
+      </Path>
+      <InheritanceModifierLabel ManuallyPlaced="true">
+        <Position X="0.06" Y="0.118" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAEAgAAAABAAAAAAAAAAAAAAABAAEIAAAAAAAAAAI=</HashCode>
+      <FileName>src\PhysicsManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AudioManager" Collapsed="true">
+    <Position X="17.5" Y="10.75" Width="1.5" />
+    <InheritanceLine Type="Manager" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="17" Y="9.875" />
+        <Point X="17.079" Y="9.875" />
+        <Point X="17.079" Y="9.89" />
+        <Point X="17.24" Y="9.89" />
+        <Point X="17.24" Y="11.096" />
+        <Point X="17.5" Y="11.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAACAAAA=</HashCode>
+      <FileName>src\AudioManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InputManager" Collapsed="true">
+    <Position X="17.5" Y="11.75" Width="1.5" />
+    <InheritanceLine Type="Manager" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="17" Y="9.875" />
+        <Point X="17.079" Y="9.875" />
+        <Point X="17.079" Y="9.89" />
+        <Point X="17.24" Y="9.89" />
+        <Point X="17.24" Y="12.096" />
+        <Point X="17.5" Y="12.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAIAAkCAIAgAAAAAAAAAAsAFAAAAAAFGAAAgIQAKAAA=</HashCode>
+      <FileName>src\InputManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneManager" Collapsed="true">
+    <Position X="17.5" Y="12.75" Width="1.5" />
+    <InheritanceLine Type="Manager" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="17" Y="9.875" />
+        <Point X="17.24" Y="9.875" />
+        <Point X="17.24" Y="13.125" />
+        <Point X="17.5" Y="13.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAAAAAIAAAAAIAAAAAAACAAAAAAQ=</HashCode>
+      <FileName>src\SceneManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Manager" Collapsed="true">
+    <Position X="15.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAgAA=</HashCode>
+      <FileName>src\Manager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ResourceManager" Collapsed="true">
+    <Position X="17.5" Y="13.75" Width="1.5" />
+    <InheritanceLine Type="Manager" ManuallyRouted="true" FixedFromPoint="true">
+      <Path>
+        <Point X="17" Y="9.875" />
+        <Point X="17.24" Y="9.875" />
+        <Point X="17.24" Y="14.096" />
+        <Point X="17.5" Y="14.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AEAAghAAAAAAAAAACAAAEAAAAACAAAAAAAAIAARIAAA=</HashCode>
+      <FileName>src\ResourceManager.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="11.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAoAAAAAAAQAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Image" Collapsed="true">
+    <Position X="7.25" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAAAAAAAIAAAAABIAAAAAAAAQAAA=</HashCode>
+      <FileName>src\Image.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisplayObject" Collapsed="true">
+    <Position X="10.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>RgAANIywAoABDBooIZjWJgiCiAAjwAEHCACSCGA0BAA=</HashCode>
+      <FileName>src\DisplayObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DisplayObjectContainer" Collapsed="true">
+    <Position X="12.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAAAAQAAABCAAAAAEAAAQAUAAI=</HashCode>
+      <FileName>src\DisplayObjectContainer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameObject" Collapsed="true">
+    <Position X="14" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ATBAAAAgAAARAFCBAAgCgAAQAQgFAABABAACECIEAAg=</HashCode>
+      <FileName>src\GameObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="InteractiveObject" Collapsed="true">
+    <Position X="12.75" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>src\InteractiveObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bitmap" Collapsed="true">
+    <Position X="17.5" Y="8.5" Width="1.5" />
+    <InheritanceLine Type="Resource" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.188" Y="7.562" />
+        <Point X="18.188" Y="8.5" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ACAAARIAAQAgAAAAAggACACoIAhIAAAAAAAAAAAAgYg=</HashCode>
+      <FileName>src\Bitmap.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Resource" Collapsed="true">
+    <Position X="17.5" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAQAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\Resource.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Gamepad" Collapsed="true">
+    <Position X="5.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QQaSAABAUAI8QATJBIABUAAAAEAACAoECABgAGAMBCQ=</HashCode>
+      <FileName>src\Gamepad.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Camera" Collapsed="true">
+    <Position X="9.5" Y="11" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAACgAAAAgCAAAAIYAIAAAAAAAABAAAAAAAIAAAUAAA=</HashCode>
+      <FileName>src\Camera.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RenderTimer" Collapsed="true">
+    <Position X="24.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABQAAAFAAEAAABgAAgggAAAABkgAACAABAAAQAAEgA=</HashCode>
+      <FileName>src\RenderTimer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="WindowData" Collapsed="true">
+    <Position X="24.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAARACAAAEEAAAAAAAAQAAEAAwAAQAAEAAAABA=</HashCode>
+      <FileName>src\ComaWindow.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Listener" Collapsed="true">
+    <Position X="22.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIgAAAAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EventDispatcher.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="EventFunction" Collapsed="true">
+    <Position X="24.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\EventDispatcher.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="PointU" Collapsed="true">
+    <Position X="22.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Point" Collapsed="true">
+    <Position X="28" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Rect" Collapsed="true">
+    <Position X="24.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="RectU" Collapsed="true">
+    <Position X="26.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Size" Collapsed="true">
+    <Position X="28" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="SizeU" Collapsed="true">
+    <Position X="22.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Color" Collapsed="true">
+    <Position X="22.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Matrix3x2" Collapsed="true">
+    <Position X="26.25" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="TAG" Collapsed="true">
+    <Position X="24.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="Vector" Collapsed="true">
+    <Position X="26.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>src\comaUtil.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

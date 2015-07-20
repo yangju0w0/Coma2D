@@ -15,10 +15,10 @@ public:
 	b2World* getWorld(){ return world; }
 	void nextStep(double deltaTime);
 	void setGravity(Vector gravity){ if (world) world->SetGravity(gravity); }
-	void setPixelPerMeter(int pixels){ pixelPerMeter = pixels; GameObject::setPixelPerMeter(pixels); }
+	void setPixelPerMeter(float pixels){ pixelPerMeter = pixels; GameObject::setPixelPerMeter(pixels); }
 private:
 	b2World* world;
-	int pixelPerMeter;
+	float pixelPerMeter;
 };
 
 COMA_END
