@@ -23,6 +23,8 @@
 #include "MouseEvent.h"
 #include "KeyboardEvent.h"
 #include "GamepadEvent.h"
+#include "SceneEvent.h"
+#include "SpriteEvent.h"
 
 #include "DisplayObject.h"
 #include "InteractiveObject.h"
@@ -32,3 +34,4 @@
 #include "Image.h"
 #include "Camera.h"
 #include "Scene.h"
+#include "Sprite.h"

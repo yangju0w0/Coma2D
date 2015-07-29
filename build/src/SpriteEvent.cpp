@@ -45,30 +45,25 @@
 */
 
 /*
-* filename	Image.h
-* fileinfo	이미지 표시객체 클래스 헤더 파일
+* filename	SpriteEvent.cpp
+* fileinfo	애니메이션 스프라이트 클래스 이벤트 구현 파일
 * author	주헌양 (Heonyang Ju)
 */
 
-#pragma once
-#include "DisplayObject.h"
-#include "Bitmap.h"
+#include "SpriteEvent.h"
 
-COMA_NS_BEGIN
+COMA_USING_NS
 
-class Image :
-	public DisplayObject
+const std::string SpriteEvent::ENTER_FRAME = "sprite_enterFrame";
+const std::string SpriteEvent::STOPPED = "sprite_stopped";
+const std::string SpriteEvent::PLAY = "sprite_play";
+
+SpriteEvent::SpriteEvent(std::string type, Sprite* target)
+:Event(type), target(target)
 {
-public:
-	Image(Bitmap* bitmap);
-	Image(Bitmap* bitmap, Size size);
-	Image(Bitmap* bitmap, float width, float height);
-	virtual ~Image();
-	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
-	Bitmap* getBitmap(){ return bitmap; }
-protected:
-	bool sizeFixed;
-	Bitmap* bitmap;
-};
+}
 
-COMA_END
+
+SpriteEvent::~SpriteEvent()
+{
+}

@@ -133,7 +133,13 @@
       <Filter>Coma2D\Manage</Filter>
     </ClInclude>
     <ClInclude Include="src\SceneEvent.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Coma2D\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sprite.h">
+      <Filter>Coma2D\RenderObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpriteEvent.h">
+      <Filter>Coma2D\Event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -222,7 +228,13 @@
       <Filter>Coma2D\Manage</Filter>
     </ClCompile>
     <ClCompile Include="src\SceneEvent.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sprite.cpp">
+      <Filter>Coma2D\RenderObjects</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpriteEvent.cpp">
+      <Filter>Coma2D\Event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

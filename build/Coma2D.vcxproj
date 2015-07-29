@@ -81,6 +81,8 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\SpriteEvent.h" />
+    <ClInclude Include="src\Sprite.h" />
     <ClInclude Include="src\SceneEvent.h" />
     <ClInclude Include="src\PhysicsManager.h" />
     <ClInclude Include="src\Gamepad.h" />
@@ -115,6 +117,8 @@
     <ClInclude Include="src\WindowEvent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SpriteEvent.cpp" />
+    <ClCompile Include="src\Sprite.cpp" />
     <ClCompile Include="src\SceneEvent.cpp" />
     <ClCompile Include="src\PhysicsManager.cpp" />
     <ClCompile Include="src\Gamepad.cpp" />
