@@ -132,6 +132,9 @@
     <ClInclude Include="src\PhysicsManager.h">
       <Filter>Coma2D\Manage</Filter>
     </ClInclude>
+    <ClInclude Include="src\SceneEvent.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ComaDevice.cpp">
@@ -217,6 +220,9 @@
     </ClCompile>
     <ClCompile Include="src\PhysicsManager.cpp">
       <Filter>Coma2D\Manage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SceneEvent.cpp">
+      <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -51,7 +51,7 @@
 */
 
 #include "SceneManager.h"
-
+#include "SceneEvent.h"
 COMA_USING_NS
 
 SceneManager::SceneManager()
@@ -68,4 +68,5 @@ void SceneManager::changeScene(Scene* scene)
 {
 	DisplayObject::_setWorld(scene);
 	this->scene = scene;
+	scene->dispatchEvent(new SceneEvent(SceneEvent::CHANGED, scene));
 }
