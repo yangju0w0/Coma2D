@@ -78,6 +78,17 @@ void DisplayObjectContainer::addChild(DisplayObject* object)
 	objectList.push_back(object);
 	_resetSize();
 }
+void DisplayObjectContainer::addChildCenter(DisplayObject* object)
+{
+	if (object->getParent())
+		return;
+	for (unsigned int i = 0; i < objectList.size(); i++)
+		if (objectList[i] == object) return;
+	if (!object->_registerParent(this)) return;
+	objectList.push_back(object);
+	object->setPosition(object->getWidth() / -2, object->getHeight() / -2);
+	_resetSize();
+}
 void DisplayObjectContainer::removeChild(DisplayObject* object)
 {
 	for (unsigned int i = 0; i < objectList.size(); i++)
