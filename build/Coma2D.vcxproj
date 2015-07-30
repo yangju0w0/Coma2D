@@ -76,7 +76,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>windowscodecs.lib;Box2D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>windowscodecs.lib;Box2D.lib;dwrite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>./lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -115,6 +115,7 @@
     <ClInclude Include="src\ResourceManager.h" />
     <ClInclude Include="src\ResourceManagerEvent.h" />
     <ClInclude Include="src\WindowEvent.h" />
+    <ClInclude Include="src\TextView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SpriteEvent.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="src\ResourceManager.cpp" />
     <ClCompile Include="src\ResourceManagerEvent.cpp" />
     <ClCompile Include="src\WindowEvent.cpp" />
+    <ClCompile Include="src\TextView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

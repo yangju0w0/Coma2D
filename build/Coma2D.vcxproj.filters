@@ -141,6 +141,9 @@
     <ClInclude Include="src\SpriteEvent.h">
       <Filter>Coma2D\Event</Filter>
     </ClInclude>
+    <ClInclude Include="src\TextView.h">
+      <Filter>Coma2D\RenderObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ComaDevice.cpp">
@@ -235,6 +238,9 @@
     </ClCompile>
     <ClCompile Include="src\SpriteEvent.cpp">
       <Filter>Coma2D\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextView.cpp">
+      <Filter>Coma2D\RenderObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
