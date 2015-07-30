@@ -57,7 +57,7 @@ COMA_USING_NS
 IDWriteFactory* TextView::factory = 0;
 bool TextView::factoryAvailable = false;
 
-TextView::TextView(Size layoutSize, std::wstring text, std::wstring fontName, float fontSize, Color color)
+TextView::TextView(Size layoutSize, std::wstring text, std::wstring fontName, float fontSize, Color color, int textAlign)
 {
 	if (!factoryAvailable)
 		initFactory();
@@ -67,6 +67,19 @@ TextView::TextView(Size layoutSize, std::wstring text, std::wstring fontName, fl
 	this->text = text;
 	this->color = color;
 	this->color.a = getScreenAlpha();
+	this->textAlign = textAlign;
+	switch (textAlign)
+	{
+	case ALIGN_LEFT:
+		format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+		break;
+	case ALIGN_RIGHT:
+		format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
+		break;
+	case ALIGN_CENTER:
+		format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+		break;
+	}
 }
 
 
