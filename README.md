@@ -1,4 +1,19 @@
-Coma2D를 사용해주셔서 감사합니다!
+# Coma2D
+Coma2D is a Windows-based 2D game framework.  
+This framework simplifies sprite rendering, camera handling, user input, and more.
 
-Coma2D는 C++기반 2D 게임 프레임워크입니다.
-궁금한 점이 있다면 letepyu@naver.com으로 연락해주시기 바랍니다.
+## Build
+1. In the project root path, you can create a project with the following command-line command.
+
+		premake5 vs2017
+	- You need premake5 to build your Coma2D project. You can download it from the link below.
+		- <https://premake.github.io/>
+	- You can build to the desired version of Visual Studio as above.
+	- This project supports only Visual Studio builds.
+
+2. A solution file is created in the **Projects** folder.
+3. Open and build the solution.
+4. **Coma2D.lib** is created in the **Bin** folder.
+
+## Etc
+If you have any questions, please contact <yangju0w0@gmail.com>.
