@@ -67,7 +67,7 @@ COMA_NS_BEGIN
 class ComaDevice
 {
 private:
-	ComaDevice(){};
+	ComaDevice() :window(nullptr), renderer(nullptr), running(false), initialized(false), resourceManager(nullptr), sceneManager(nullptr), inputManager(nullptr), physicsManager(nullptr) {};
 	ComaDevice(const ComaDevice& other);
 	~ComaDevice()
 	{

@@ -67,7 +67,7 @@ LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 // »ý¼ºÀÚ
 ComaWindow::ComaWindow(HINSTANCE hInstance, int nCmdShow)
 	:hInstance(0), hWnd(0), created(false), running(false), activated(false), fullscreen(false),
-	maximized(false), minimized(false), resizing(false)
+	maximized(false), minimized(false), resizing(false), inputManager(nullptr)
 {
 	this->hInstance = hInstance;
 	comaWindow = this;

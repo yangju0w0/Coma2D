@@ -1,6 +1,6 @@
 #include "comaUtil.h"
 #include "ComaDevice.h"
-#include "ComaRenderer.h"
+#include "ComaWindow.h"
 #include "ComaRenderer.h"
 
 #include "Resource.h"
