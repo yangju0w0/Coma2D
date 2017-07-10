@@ -3,6 +3,7 @@
 COMA_USING_NS
 
 PhysicsManager::PhysicsManager()
+	:world(nullptr), pixelPerMeter(0)
 {
 }
 
