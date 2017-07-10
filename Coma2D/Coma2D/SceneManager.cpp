@@ -16,12 +16,13 @@ SceneManager::SceneManager()
 
 SceneManager::~SceneManager()
 {
-	if(scene)delete scene;
+	if(scene) delete scene;
 }
 
 void SceneManager::changeScene(Scene* scene)
 {
 	DisplayObject::_setWorld(scene);
+	if(this->scene) delete this->scene;
 	this->scene = scene;
 	scene->dispatchEvent(new SceneEvent(SceneEvent::CHANGED, scene));
 }

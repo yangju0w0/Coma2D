@@ -12,7 +12,7 @@ COMA_NS_BEGIN
 class Scene :
 	public DisplayObjectContainer
 {
-protected:
+public:
 	Scene();
 public:
 	virtual ~Scene();
