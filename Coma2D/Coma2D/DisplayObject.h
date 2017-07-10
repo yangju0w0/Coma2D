@@ -26,27 +26,27 @@ protected:
 
 	static ID2D1SolidColorBrush* brush;
 private:
-	static DisplayObjectContainer* world;	//월드 객체
+	static DisplayObjectContainer* world;
 
-	DisplayObjectContainer* parentObject;	//부모 객체
-	Camera*					camera;			//카메라 객체
+	DisplayObjectContainer* parentObject;
+	Camera* camera;
 
-	Point	position;		//위치
-	Size	scale;			//크기
-	float	rotation;		//회전
-	Point	anchorPoint;	//기준점
-	bool	visible;		//가시 여부
-	float	alpha;			//투명도
-	Size	localSize;		//로컬 크기
-	Point	localPoint;		//로컬 시작 위치
+	Point position;
+	Size scale;
+	float rotation;
+	Point anchorPoint;
+	bool visible;
+	float alpha;
+	Size localSize;
+	Point localPoint;
 
-	bool	outlineDrawing;	//경계선 그리기 여부
+	bool outlineDrawing;
 
 public:
 	virtual ~DisplayObject();
 
-	virtual void update(double deltaTime);										//그리기 작업 전에 호출
-	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);	//그리기 작업
+	virtual void update(double deltaTime); // 렌더링 이전에 호출
+	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime); // 렌더링
 	
 //Getter
 	static DisplayObjectContainer* getWorld(){ return DisplayObject::world; }

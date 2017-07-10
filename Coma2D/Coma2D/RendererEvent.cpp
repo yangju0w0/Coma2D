@@ -16,11 +16,9 @@ const std::string RendererEvent::LOAD_RESOURCE_REQ		= "renderer_loadResourceRequ
 const std::string RendererEvent::RENDER_TARGET_CREATED	= "renderer_renderTargetCreated";
 const std::string RendererEvent::RENDER_TARGET_RELEASED = "renderer_renderTargetReleased";
 
-RendererEvent::RendererEvent(std::string type, ComaRenderer* target)
-	:Event(type)
-{
-	targetRenderer = target;
-}
+RendererEvent::RendererEvent(const std::string& type, ComaRenderer* target)
+	:Event(type), targetRenderer(target)
+{}
 
 
 RendererEvent::~RendererEvent()

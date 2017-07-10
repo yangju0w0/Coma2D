@@ -13,7 +13,7 @@ float GameObject::pixelPerMeter = 20;
 float GameObject::meterPerPixel = 1 / 20.f;
 
 GameObject::GameObject()
-	:DisplayObjectContainer(), usePhysics(false)
+	:DisplayObjectContainer(), usePhysics(false), collider(nullptr), body(nullptr)
 {
 	collider = new b2PolygonShape();
 

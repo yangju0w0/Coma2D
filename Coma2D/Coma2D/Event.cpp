@@ -7,7 +7,7 @@
 #include "Event.h"
 COMA_USING_NS
 
-Event::Event(std::string type)
+Event::Event(const std::string& type)
 	:type(type)
 {
 }

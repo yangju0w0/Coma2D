@@ -14,7 +14,7 @@ class Image :
 	public DisplayObject
 {
 public:
-	Image(Bitmap* bitmap);
+	explicit Image(Bitmap* bitmap);
 	Image(Bitmap* bitmap, Size size);
 	Image(Bitmap* bitmap, float width, float height);
 	virtual ~Image();

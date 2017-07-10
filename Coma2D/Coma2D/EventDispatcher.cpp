@@ -17,7 +17,7 @@ EventDispatcher::~EventDispatcher()
 	listenerList.clear();
 }
 
-void EventDispatcher::setEventListener(std::string type, EventFunction function, void* target)
+void EventDispatcher::setEventListener(const std::string& type, EventFunction function, void* target)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{
@@ -30,7 +30,7 @@ void EventDispatcher::setEventListener(std::string type, EventFunction function,
 	listenerList.push_back(Listener{ type, function, target });
 }
 
-void EventDispatcher::removeEventListener(std::string type, void* target)
+void EventDispatcher::removeEventListener(const std::string& type, void* target)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{
@@ -44,7 +44,7 @@ void EventDispatcher::removeEventListener(std::string type, void* target)
 		}
 	}
 }
-bool EventDispatcher::hasEventListener(std::string type)
+bool EventDispatcher::hasEventListener(const std::string& type)
 {
 	for (unsigned int i = 0; i < listenerList.size(); i++)
 	{

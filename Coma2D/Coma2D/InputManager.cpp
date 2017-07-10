@@ -12,6 +12,7 @@
 COMA_USING_NS
 
 InputManager::InputManager()
+	:charIn(0), inputString(""), mousePosition(Point{0, 0}), leftMouseDowned(false), rightMouseDowned(false), middleMouseDowned(false)
 {
 	for (int i = 0; i < 256; i++)
 	{

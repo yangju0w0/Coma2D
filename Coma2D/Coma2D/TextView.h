@@ -18,14 +18,14 @@ class TextView :
 	public DisplayObject
 {
 public:
-	TextView(Size layoutSize, std::wstring text = L"", std::wstring fontName = L"±¼¸²", float fontSize = 12, Color color = Color{ 0, 0, 0 }, int textAlign = ALIGN_LEFT);
+	TextView(Size layoutSize, const std::wstring& text = L"", const std::wstring& fontName = L"±¼¸²", float fontSize = 12, const Color& color = Color{ 0, 0, 0 }, int textAlign = ALIGN_LEFT);
 	virtual ~TextView();
 
 	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
 
 	void setColor(Color color);
 	void setColor(float r, float g, float b);
-	void setText(std::wstring text);
+	void setText(const std::wstring& text);
 
 private:
 	static IDWriteFactory* factory;
@@ -33,7 +33,7 @@ private:
 	static bool factoryAvailable;
 
 	IDWriteTextFormat* format;
-	ID2D1SolidColorBrush* brush;
+	ID2D1SolidColorBrush* textBrush_;
 
 	std::wstring text;
 	Color color;

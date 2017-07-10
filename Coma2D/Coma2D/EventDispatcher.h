@@ -4,7 +4,6 @@
 * author	주헌양 (Heonyang Ju)
 */
 
-
 /*===================================================================================
 EventDispatcher.h
 EventDispatcher클래스는 이벤트를 전달하고 등록, 해제, 발생을 담당하는 기본 클래스이다.
@@ -39,11 +38,11 @@ COMA_NS_BEGIN
 
 typedef std::function<void(Event*)> EventFunction;
 
-struct Listener	//이벤트 리스너를 저장하는 구조체
+struct Listener
 {
-	std::string type;		//이벤트 타입
+	std::string type;
 	EventFunction function;	//실행 함수
-	void* target;			//이벤트를 선언한 클래스
+	void* target; //이벤트를 선언한 클래스
 };
 
 
@@ -52,13 +51,21 @@ class EventDispatcher
 public:
 	EventDispatcher();
 	virtual ~EventDispatcher();
+
+	//이벤트 리스너 객체를 등록한다.
+	void setEventListener(const std::string& type, EventFunction function, void* target = nullptr); 
+
+	//이벤트 리스너 객체를 제거한다.
+	void removeEventListener(const std::string& type, void* target);
 	
-	void setEventListener(std::string type, EventFunction function, void* target = nullptr);			//이벤트 리스너 객체를 등록한다.
-	void removeEventListener(std::string type, void* target);		//이벤트 리스너 객체를 제거한다.
-	bool hasEventListener(std::string type);								//해당 타입의 리스너가 존재할 경우 true반환
-	void dispatchEvent(Event* event);										//이벤트를 발생시킨다 (등록된 해당 리스너 실행)
+	//해당 타입의 리스너가 존재할 경우 true반환
+	bool hasEventListener(const std::string& type);
+	
+	//이벤트를 발생시킨다 (등록된 해당 리스너 실행)
+	void dispatchEvent(Event* event);
+
 private:
-	std::vector<Listener> listenerList;	//이벤트 리스너가 저장된 리스트
+	std::vector<Listener> listenerList;
 };
 
 COMA_END

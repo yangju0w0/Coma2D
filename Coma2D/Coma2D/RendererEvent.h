@@ -15,7 +15,7 @@ class RendererEvent :
 	public Event
 {
 public:
-	RendererEvent(std::string type, ComaRenderer* target);
+	RendererEvent(const std::string& type, ComaRenderer* target);
 	virtual ~RendererEvent();
 
 public:

@@ -14,7 +14,7 @@ class SpriteEvent :
 	public Event
 {
 public:
-	SpriteEvent(std::string type, Sprite* target);
+	SpriteEvent(const std::string& type, Sprite* target);
 	virtual ~SpriteEvent();
 
 	static const std::string ENTER_FRAME;

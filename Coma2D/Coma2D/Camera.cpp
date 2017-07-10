@@ -9,7 +9,7 @@
 COMA_USING_NS
 
 Camera::Camera(float width, float height)
-:DisplayObject(), ref(0), cameraOn(false)
+:DisplayObject(), ref(0), cameraOn(false), cameraBrush_(nullptr)
 {
 	setLocalSize(width, height);
 	setVisible(false);
@@ -19,7 +19,7 @@ Camera::Camera(float width, float height)
 
 Camera::~Camera()
 {
-	if(brush)brush->Release();
+	if(cameraBrush_)cameraBrush_->Release();
 }
 
 void Camera::update()
@@ -30,12 +30,12 @@ void Camera::render(ID2D1HwndRenderTarget* renderTarget)
 {
 	if (!isVisible())
 		return;
-	if (!brush)
+	if (!cameraBrush_)
 	{
-		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.8f, 0.1f, 0.1f, getAlpha()), &brush);
+		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.8f, 0.1f, 0.1f, getAlpha()), &cameraBrush_);
 	}
 	renderTarget->SetTransform(getScreenMatrix());
-	renderTarget->DrawRectangle(Rect{ 0, 0, getLocalSize().width, getLocalSize().height }, brush);
+	renderTarget->DrawRectangle(Rect{ 0, 0, getLocalSize().width, getLocalSize().height }, cameraBrush_);
 }
 
 void Camera::on(){ cameraOn = true; }

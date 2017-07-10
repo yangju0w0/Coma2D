@@ -4,8 +4,6 @@
 * author	주헌양 (Heonyang Ju)
 */
 
-
-
 /*===================================================================================
 Event.h
 Event클래스는 이벤트의 정보를 담는 클래스이다. EventDispatcher의 dispatchEvent에서 인
@@ -46,14 +44,14 @@ COMA_NS_BEGIN
 class Event
 {
 public:
-	Event(std::string type);	//생성자를 통해 이벤트 타입을 지정한다.
+	explicit Event(const std::string& type);
 	virtual ~Event();
-	std::string getType()	//이벤트 타입 Getter
+	const std::string& getType() const
 	{
 		return type;
 	}
 private:
-	std::string type;	//이벤트 타입을 저장한다.
+	const std::string type;
 };
 
 COMA_END

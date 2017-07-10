@@ -9,6 +9,7 @@
 COMA_USING_NS
 
 SceneManager::SceneManager()
+	:scene(nullptr)
 {
 }
 

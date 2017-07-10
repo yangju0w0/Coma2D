@@ -33,7 +33,7 @@ class Gamepad :
 	public EventDispatcher
 {
 public:
-	Gamepad(UINT controllerIndex);
+	explicit Gamepad(UINT controllerIndex);
 	virtual ~Gamepad();
 
 public:

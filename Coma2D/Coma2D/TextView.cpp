@@ -11,17 +11,15 @@ COMA_USING_NS
 IDWriteFactory* TextView::factory = 0;
 bool TextView::factoryAvailable = false;
 
-TextView::TextView(Size layoutSize, std::wstring text, std::wstring fontName, float fontSize, Color color, int textAlign)
+TextView::TextView(Size layoutSize, const std::wstring& text, const std::wstring& fontName, float fontSize, const Color& color, int textAlign)
+	:format(nullptr), textBrush_(nullptr), text(text), color(color), tempScreenAlpha(0.0f), textAlign(textAlign)
 {
 	if (!factoryAvailable)
 		initFactory();
 	
 	factory->CreateTextFormat(fontName.c_str(), 0, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, fontSize, L"ko", &format);
 	setLocalSize(layoutSize);
-	this->text = text;
-	this->color = color;
 	this->color.a = getScreenAlpha();
-	this->textAlign = textAlign;
 	switch (textAlign)
 	{
 	case ALIGN_LEFT:
@@ -42,7 +40,7 @@ TextView::~TextView()
 	if(factory) factory->Release();
 	factoryAvailable = false;
 	if (format)format->Release();
-	if (brush) brush->Release();
+	if (textBrush_) textBrush_->Release();
 }
 
 
@@ -69,31 +67,31 @@ void TextView::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 	{
 		tempScreenAlpha = std::roundf(getScreenAlpha() * 1000);
 		color.a = getScreenAlpha();
-		if (brush)brush->Release();
-		brush = nullptr;
+		if (textBrush_)textBrush_->Release();
+		textBrush_ = nullptr;
 	}
-	if (!brush)
+	if (!textBrush_)
 	{
-		renderTarget->CreateSolidColorBrush(color, &brush);
+		renderTarget->CreateSolidColorBrush(color, &textBrush_);
 	}
 	
 	renderTarget->SetTransform(getScreenMatrix());
 	Rect rect = { 0, 0, getLocalSize().width, getLocalSize().height };
-	renderTarget->DrawTextW(text.c_str(), text.length(), format, rect, brush);
+	renderTarget->DrawTextW(text.c_str(), text.length(), format, rect, textBrush_);
 }
 
 void TextView::setColor(Color color)
 {
 	this->color = color;
 	color.a = getScreenAlpha();
-	if (brush) brush->Release();
-	brush = nullptr;
+	if (textBrush_) textBrush_->Release();
+	textBrush_ = nullptr;
 }
 void TextView::setColor(float r, float g, float b)
 {
 	setColor(Color{ r, g, b });
 }
-void TextView::setText(std::wstring text)
+void TextView::setText(const std::wstring& text)
 {
 	this->text = text;
 }

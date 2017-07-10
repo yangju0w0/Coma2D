@@ -30,7 +30,7 @@ public:
 	bool _unregisterParent();
 
 private:
-	ID2D1SolidColorBrush* brush;
+	ID2D1SolidColorBrush* cameraBrush_;
 	bool cameraOn;
 	int ref;
 };
