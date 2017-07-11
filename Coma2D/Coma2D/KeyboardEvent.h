@@ -13,7 +13,7 @@ class KeyboardEvent :
 	public Event
 {
 public:
-	KeyboardEvent(std::string type, unsigned int charCode=0, unsigned int keyCode=0, bool altKey=false, bool ctrlKey=false, bool shiftKey=false);
+	KeyboardEvent(const std::string& type, unsigned int charCode = 0, unsigned int keyCode = 0, bool altKey = false, bool ctrlKey = false, bool shiftKey = false);
 	virtual ~KeyboardEvent();
 
 public:
@@ -22,20 +22,21 @@ public:
 	static const std::string KEY_CHAR;
 
 public:
-	unsigned int getCharCode(){ return charCode; }
-	unsigned int getKeyCode(){ return keyCode; }
+	unsigned int GetCharCode() const { return charCode_; }
+	unsigned int GetKeyCode() const { return keyCode_; }
 
-	bool getAltKey(){ return altKey; }
-	bool getCtrlKey(){ return ctrlKey; }
-	bool getShiftKey(){ return shiftKey; }
+	bool GetAltKey() const { return altKey_; }
+	bool GetCtrlKey() const { return ctrlKey_; }
+	bool GetShiftKey() const { return shiftKey_; }
+
 private:
-	unsigned int charCode;
-	unsigned int keyCode;
-	unsigned int keyLocation;
+	unsigned int charCode_;
+	unsigned int keyCode_;
+	unsigned int keyLocation_;
 
-	bool altKey;
-	bool ctrlKey;
-	bool shiftKey;
+	bool altKey_;
+	bool ctrlKey_;
+	bool shiftKey_;
 };
 
 COMA_END

@@ -13,7 +13,7 @@ class ResourceManagerEvent :
 	public Event
 {
 public:
-	ResourceManagerEvent(std::string type, ResourceManager* manager, int resourceNumbers=0, int processedResourceNumbers = 0);
+	ResourceManagerEvent(const std::string& type, ResourceManager* manager, int resourceNumbers = 0, int processedResourceNumbers = 0);
 	virtual ~ResourceManagerEvent();
 
 public:
@@ -24,17 +24,27 @@ public:
 	static const std::string UNLOAD_BEGIN;
 	static const std::string UNLOADING;
 	static const std::string UNLOAD_COMPLETE;
+
 public:
-	int getResourceNumbers(){ return resourceNumbers; }	//처리될 리소스 개수
-	int getLeftResourceNumbers(){ return leftResourceNumbers; }	//처리되지 않은 리소스 개수
-	int getProcessedResourceNumbers(){ return processedResourceNumbers; } //처리된 리소스 개수
-	float getProgress(){ return (float)processedResourceNumbers / (float)resourceNumbers; } //진행도 (0.0f ~ 1.0f)
-	ResourceManager* getTarget(){ return target; }//타겟
+	//처리될 리소스 개수
+	int GetResourceNumbers() const { return resourceNumbers_; }
+
+	//처리되지 않은 리소스 개수
+	int GetLeftResourceNumbers() const { return leftResourceNumbers_; }
+
+	//처리된 리소스 개수
+	int GetProcessedResourceNumbers() const { return processedResourceNumbers_; }
+
+	//진행도 (0.0f ~ 1.0f)
+	float GetProgress() const { return (float)processedResourceNumbers_ / (float)resourceNumbers_; }
+
+	ResourceManager* GetTarget() const { return target_; }
+
 private:
-	int resourceNumbers;
-	int leftResourceNumbers;
-	int processedResourceNumbers;
-	ResourceManager* target;
+	int resourceNumbers_;
+	int leftResourceNumbers_;
+	int processedResourceNumbers_;
+	ResourceManager* target_;
 };
 
 COMA_END

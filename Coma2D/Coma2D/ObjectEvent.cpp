@@ -9,13 +9,13 @@
 
 COMA_USING_NS
 
-const std::string ObjectEvent::UPDATE	= "object_update";
-const std::string ObjectEvent::RENDER	= "object_render";
-const std::string ObjectEvent::ADDED	= "object_added";
-const std::string ObjectEvent::REMOVED	= "object_removed";
+const std::string ObjectEvent::UPDATE = "object_update";
+const std::string ObjectEvent::RENDER = "object_render";
+const std::string ObjectEvent::ADDED = "object_added";
+const std::string ObjectEvent::REMOVED = "object_removed";
 
-ObjectEvent::ObjectEvent(std::string type, DisplayObject* target, double deltaTime)
-	:Event(type), target(target), time(deltaTime)
+ObjectEvent::ObjectEvent(const std::string& type, DisplayObject* target, double deltaTime)
+	:Event(type), target_(target), time_(deltaTime)
 {
 }
 

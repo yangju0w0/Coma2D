@@ -8,63 +8,62 @@
 COMA_USING_NS
 
 EventDispatcher::EventDispatcher()
-{
-}
-
+{}
 
 EventDispatcher::~EventDispatcher()
 {
-	listenerList.clear();
+	listenerList_.clear();
 }
 
-void EventDispatcher::setEventListener(const std::string& type, EventFunction function, void* target)
+void EventDispatcher::SetEventListener(const std::string& type, EventCallback function, void* target)
 {
-	for (unsigned int i = 0; i < listenerList.size(); i++)
+	for (const auto& iter : listenerList_)
 	{
-		if (listenerList[i].type == type)
+		if (iter.type == type && &iter.function == &function)
 		{
-			if (&listenerList[i].function == &function)
-				return;
+			return;
 		}
 	}
-	listenerList.push_back(Listener{ type, function, target });
+	listenerList_.push_back(Listener{ type, function, target });
 }
 
-void EventDispatcher::removeEventListener(const std::string& type, void* target)
+void EventDispatcher::RemoveEventListener(const std::string& type, void* target)
 {
-	for (unsigned int i = 0; i < listenerList.size(); i++)
+	for (auto iter = listenerList_.begin(); iter != listenerList_.end(); )
 	{
-		if (listenerList[i].type == type)
+		if ((*iter).type == type && (*iter).target == target)
 		{
-			if (listenerList[i].target == target)
-			{
-				listenerList.erase(listenerList.begin() + i);
-				i--;
-			}
+			iter = listenerList_.erase(iter);
+		}
+		else
+		{
+			++iter;
 		}
 	}
 }
-bool EventDispatcher::hasEventListener(const std::string& type)
+
+bool EventDispatcher::HasEventListener(const std::string& type)
 {
-	for (unsigned int i = 0; i < listenerList.size(); i++)
+	for (const auto& iter : listenerList_)
 	{
-		if (listenerList[i].type == type)
+		if (iter.type == type)
+		{
 			return true;
+		}
 	}
 	return false;
 }
 
-
-void EventDispatcher::dispatchEvent(Event* event)
+void EventDispatcher::DispatchEvent(Event* event)
 {
-	for (unsigned int i = 0; i < listenerList.size(); i++)
+	for (const auto& iter : listenerList_)
 	{
-		if (listenerList[i].type == event->getType())
+		if (iter.type == event->GetType())
 		{
-			if (listenerList[i].target)
-				listenerList[i].function(event);
-			else
-				listenerList.erase(listenerList.begin() + i);
+			if (iter.target)
+			{
+				iter.function(event);
+			}
 		}
 	}
 	delete event;
