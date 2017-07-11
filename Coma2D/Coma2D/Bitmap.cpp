@@ -12,8 +12,8 @@ Bitmap::~Bitmap()
 {
 	if (renderer)
 	{
-		renderer->removeEventListener(RendererEvent::LOAD_RESOURCE_REQ,		this);
-		renderer->removeEventListener(RendererEvent::UNLOAD_RESOURCES_REQ,	this);
+		renderer->RemoveEventListener(RendererEvent::LOAD_RESOURCE_REQ,		this);
+		renderer->RemoveEventListener(RendererEvent::UNLOAD_RESOURCES_REQ,	this);
 	}
 	if(decoder)decoder->Release();
 	if(bitmap && isLoaded()) bitmap->Release();

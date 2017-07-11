@@ -34,7 +34,7 @@ void Sprite::update(double deltaTime)
 	if (tempFrame != currentFrame)
 	{
 		tempFrame = currentFrame;
-		dispatchEvent(new SpriteEvent(SpriteEvent::ENTER_FRAME, this));
+		DispatchEvent(new SpriteEvent(SpriteEvent::ENTER_FRAME, this));
 	}
 }
 void Sprite::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
@@ -61,7 +61,7 @@ void Sprite::stop()
 		return;
 	playing = false;
 	timeCount = frameChangeTime * (currentFrame - 1) + frameChangeTime*0.05f;
-	dispatchEvent(new SpriteEvent(SpriteEvent::STOPPED, this));
+	DispatchEvent(new SpriteEvent(SpriteEvent::STOPPED, this));
 }
 void Sprite::play()
 {
@@ -69,7 +69,7 @@ void Sprite::play()
 		return;
 	playing = true;
 	timeCount = frameChangeTime * (currentFrame - 1) + frameChangeTime*0.05f;
-	dispatchEvent(new SpriteEvent(SpriteEvent::PLAY, this));
+	DispatchEvent(new SpriteEvent(SpriteEvent::PLAY, this));
 }
 void Sprite::gotoAndStop(unsigned int frame)
 {

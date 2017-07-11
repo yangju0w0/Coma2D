@@ -21,7 +21,7 @@ ComaRenderer::ComaRenderer()
 
 ComaRenderer::~ComaRenderer()
 {
-	dispatchEvent(new RendererEvent(RendererEvent::UNLOAD_RESOURCES_REQ, this));
+	DispatchEvent(new RendererEvent(RendererEvent::UNLOAD_RESOURCES_REQ, this));
 	if (factory)factory->Release();
 	if (renderTarget)renderTarget->Release();
 	delete timer;
@@ -55,16 +55,16 @@ bool ComaRenderer::createRenderTarget(HWND hWnd)
 		&renderTarget
 		) != S_OK)
 		return false;
-	dispatchEvent(new RendererEvent(RendererEvent::RENDER_TARGET_CREATED, this));
+	DispatchEvent(new RendererEvent(RendererEvent::RENDER_TARGET_CREATED, this));
 	return true;
 }
 void ComaRenderer::releaseRenderTarget()
 {
 	if (renderTarget)
 	{
-		dispatchEvent(new RendererEvent(RendererEvent::UNLOAD_RESOURCES_REQ, this));
+		DispatchEvent(new RendererEvent(RendererEvent::UNLOAD_RESOURCES_REQ, this));
 		renderTarget->Release();
-		dispatchEvent(new RendererEvent(RendererEvent::RENDER_TARGET_RELEASED, this));
+		DispatchEvent(new RendererEvent(RendererEvent::RENDER_TARGET_RELEASED, this));
 	}
 }
 
@@ -74,7 +74,7 @@ bool ComaRenderer::run()
 		return false;
 	timer->start();
 	running = true;
-	dispatchEvent(new RendererEvent(RendererEvent::RUN, this));
+	DispatchEvent(new RendererEvent(RendererEvent::RUN, this));
 	return true;
 }
 bool ComaRenderer::pause()
@@ -83,7 +83,7 @@ bool ComaRenderer::pause()
 		return false;
 	timer->stop();
 	running = false;
-	dispatchEvent(new RendererEvent(RendererEvent::PAUSED, this));
+	DispatchEvent(new RendererEvent(RendererEvent::PAUSED, this));
 	return true;
 }
 bool ComaRenderer::update()
@@ -102,13 +102,13 @@ bool ComaRenderer::update()
 		deltaTime = minFrameTime;
 	}
 	fps = 1 / (float)deltaTime;
-	dispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
+	DispatchEvent(new RendererEvent(RendererEvent::UPDATE, this));
 
 	//RenderProcess
 	renderTarget->BeginDraw();
 	renderTarget->Clear(backgroundColor);
 
-	dispatchEvent(new RendererEvent(RendererEvent::RENDER, this));
+	DispatchEvent(new RendererEvent(RendererEvent::RENDER, this));
 
 	if (renderTarget->EndDraw() != S_OK)
 	{
@@ -139,7 +139,7 @@ void ComaRenderer::restoreDevice()
 	pause();
 	releaseRenderTarget();
 	Sleep(100);
-	dispatchEvent(new RendererEvent(RendererEvent::LOAD_RESOURCE_REQ, this));
+	DispatchEvent(new RendererEvent(RendererEvent::LOAD_RESOURCE_REQ, this));
 	createRenderTarget(targetWindow);
 	run();
 }

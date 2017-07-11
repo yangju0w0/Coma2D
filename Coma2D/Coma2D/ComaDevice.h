@@ -43,18 +43,18 @@ public:
 		{
 			if (window)
 			{
-				window->removeEventListener(WindowEvent::DESTROY,			this);
-				window->removeEventListener(WindowEvent::MINIMIZED,			this);
-				window->removeEventListener(WindowEvent::RESTORED,			this);
-				window->removeEventListener(WindowEvent::RESIZE,			this);
-				window->removeEventListener(WindowEvent::ENTER_RESIZEMOVE,	this);
-				window->removeEventListener(WindowEvent::EXIT_RESIZEMOVE,	this);
-				window->removeEventListener(WindowEvent::UPDATE,			this);
+				window->RemoveEventListener(WindowEvent::DESTROY,			this);
+				window->RemoveEventListener(WindowEvent::MINIMIZED,			this);
+				window->RemoveEventListener(WindowEvent::RESTORED,			this);
+				window->RemoveEventListener(WindowEvent::RESIZE,			this);
+				window->RemoveEventListener(WindowEvent::ENTER_RESIZEMOVE,	this);
+				window->RemoveEventListener(WindowEvent::EXIT_RESIZEMOVE,	this);
+				window->RemoveEventListener(WindowEvent::UPDATE,			this);
 			}
 			if (renderer)
 			{
-				renderer->removeEventListener(RendererEvent::UPDATE, this);
-				renderer->removeEventListener(RendererEvent::RENDER, this);
+				renderer->RemoveEventListener(RendererEvent::UPDATE, this);
+				renderer->RemoveEventListener(RendererEvent::RENDER, this);
 			}
 		}
 		delete device;

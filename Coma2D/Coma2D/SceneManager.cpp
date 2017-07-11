@@ -24,5 +24,5 @@ void SceneManager::changeScene(Scene* scene)
 	DisplayObject::_setWorld(scene);
 	if(this->scene) delete this->scene;
 	this->scene = scene;
-	scene->dispatchEvent(new SceneEvent(SceneEvent::CHANGED, scene));
+	scene->DispatchEvent(new SceneEvent(SceneEvent::CHANGED, scene));
 }

@@ -107,11 +107,11 @@ void DisplayObject::_transformApply()
 
 void DisplayObject::update(double deltaTime)
 {
-	dispatchEvent(new ObjectEvent(ObjectEvent::UPDATE, this, deltaTime));
+	DispatchEvent(new ObjectEvent(ObjectEvent::UPDATE, this, deltaTime));
 }
 void DisplayObject::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
-	dispatchEvent(new ObjectEvent(ObjectEvent::RENDER, this, deltaTime));
+	DispatchEvent(new ObjectEvent(ObjectEvent::RENDER, this, deltaTime));
 	if (isOutlineDrawing())
 		drawOutline(renderTarget);
 }
@@ -119,13 +119,13 @@ void DisplayObject::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime
 bool DisplayObject::_registerParent(DisplayObjectContainer* parent)
 { 
 	parentObject = parent;
-	dispatchEvent(new ObjectEvent(ObjectEvent::ADDED, this));
+	DispatchEvent(new ObjectEvent(ObjectEvent::ADDED, this));
 	return true;
 }	
 bool DisplayObject::_unregisterParent()
 {
 	parentObject = nullptr;
-	dispatchEvent(new ObjectEvent(ObjectEvent::REMOVED, this));
+	DispatchEvent(new ObjectEvent(ObjectEvent::REMOVED, this));
 	return true;
 }
 

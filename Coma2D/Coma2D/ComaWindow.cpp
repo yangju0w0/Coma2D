@@ -103,7 +103,7 @@ bool ComaWindow::createWindow()
 		fullscreen = false;
 		setFullscreen(true);
 	}
-	dispatchEvent(new WindowEvent(WindowEvent::CREATED, this));
+	DispatchEvent(new WindowEvent(WindowEvent::CREATED, this));
 	return true;
 }
 
@@ -125,7 +125,7 @@ bool ComaWindow::run()
 		}
 		else
 		{
-			dispatchEvent(new WindowEvent(WindowEvent::UPDATE, this));
+			DispatchEvent(new WindowEvent(WindowEvent::UPDATE, this));
 		}
 	}
 	return true;
@@ -147,7 +147,7 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				minimizeWindow();
 				fullscreen = true;
 			}
-			dispatchEvent(new WindowEvent(WindowEvent::INACTIVATED, this, wParam, lParam));
+			DispatchEvent(new WindowEvent(WindowEvent::INACTIVATED, this, wParam, lParam));
 		}
 		else if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
 		{
@@ -157,27 +157,27 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				fullscreen = false;
 				setFullscreen(true);
 			}
-			dispatchEvent(new WindowEvent(WindowEvent::ACTIVATED, this, wParam, lParam));
+			DispatchEvent(new WindowEvent(WindowEvent::ACTIVATED, this, wParam, lParam));
 		}
 		return 0;
 
 	case WM_ENTERSIZEMOVE:
-		dispatchEvent(new WindowEvent(WindowEvent::ENTER_RESIZEMOVE, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::ENTER_RESIZEMOVE, this, wParam, lParam));
 		return 0;
 
 	case WM_EXITSIZEMOVE:
 		moving = false;
 		resizing = false;
-		dispatchEvent(new WindowEvent(WindowEvent::EXIT_RESIZEMOVE, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::EXIT_RESIZEMOVE, this, wParam, lParam));
 		return 0;
 
 	case WM_MOVE:
-		dispatchEvent(new WindowEvent(WindowEvent::MOVE, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::MOVE, this, wParam, lParam));
 		return 0;
 
 	case WM_MOVING:
 		moving = true;
-		dispatchEvent(new WindowEvent(WindowEvent::MOVING, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::MOVING, this, wParam, lParam));
 		return 0;
 
 	case WM_SIZE:
@@ -186,14 +186,14 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 			minimized = true;
 			maximized = false;
 			resizing = false;
-			dispatchEvent(new WindowEvent(WindowEvent::MINIMIZED, this, wParam, lParam));
+			DispatchEvent(new WindowEvent(WindowEvent::MINIMIZED, this, wParam, lParam));
 		}
 		else if (wParam == SIZE_MAXIMIZED)
 		{
 			minimized = false;
 			maximized = true;
 			resizing = false;
-			dispatchEvent(new WindowEvent(WindowEvent::MAXIMIZED, this, wParam, lParam));
+			DispatchEvent(new WindowEvent(WindowEvent::MAXIMIZED, this, wParam, lParam));
 		}
 		else if (wParam == SIZE_RESTORED)
 		{
@@ -202,26 +202,26 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 				maximized = false;
 				minimized = false;
 				resizing = false;
-				dispatchEvent(new WindowEvent(WindowEvent::RESTORED, this, wParam, lParam));
+				DispatchEvent(new WindowEvent(WindowEvent::RESTORED, this, wParam, lParam));
 			}
 			else if (minimized)
 			{
 				maximized = false;
 				minimized = false;
 				resizing = false;
-				dispatchEvent(new WindowEvent(WindowEvent::RESTORED, this, wParam, lParam));
+				DispatchEvent(new WindowEvent(WindowEvent::RESTORED, this, wParam, lParam));
 			}
 			else if (resizing)
 			{
 				
 			}
 		}
-		dispatchEvent(new WindowEvent(WindowEvent::RESIZE, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::RESIZE, this, wParam, lParam));
 		return 0;
 
 	case WM_SIZING:
 		resizing = true;
-		dispatchEvent(new WindowEvent(WindowEvent::RESIZING, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::RESIZING, this, wParam, lParam));
 		return 0;
 
 	case WM_GETMINMAXINFO:
@@ -243,7 +243,7 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
 	case WM_DESTROY:
-		dispatchEvent(new WindowEvent(WindowEvent::DESTROY, this, wParam, lParam));
+		DispatchEvent(new WindowEvent(WindowEvent::DESTROY, this, wParam, lParam));
 		PostQuitMessage(0);
 		created = false;
 		running = false;
@@ -597,7 +597,7 @@ bool ComaWindow::setFullscreen(bool mode)
 			minimizeWindow();
 
 		fullscreen = false;
-		dispatchEvent(new WindowEvent(WindowEvent::EXIT_FULLSCREEN, this));
+		DispatchEvent(new WindowEvent(WindowEvent::EXIT_FULLSCREEN, this));
 		return true;
 	} //풀스크린 해제
 
@@ -642,7 +642,7 @@ bool ComaWindow::setFullscreen(bool mode, int width ,int height)
 	setWindowSize(width, height);
 	setWindowPosition(0, 0);
 	fullscreen = true;
-	dispatchEvent(new WindowEvent(WindowEvent::ENTER_FULLSCREEN, this));
+	DispatchEvent(new WindowEvent(WindowEvent::ENTER_FULLSCREEN, this));
 	return true;
 }
 bool ComaWindow::minimizeWindow()
