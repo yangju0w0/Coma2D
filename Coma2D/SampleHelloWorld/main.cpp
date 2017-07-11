@@ -30,7 +30,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	device->getSceneManager()->changeScene(scene);
 
-
 	if (!device->run())
 	{
 		MessageBox(NULL, TEXT("Coma2D failed to run."), TEXT("Error"), MB_ICONERROR);
@@ -38,9 +37,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	}
 
 	if (textView) delete textView;
-	if (window) delete window;
-	if (renderer) delete renderer;
-	if (device) device->Release();
+	if (device) device->ReleaseAll();
 
 	return 0;
 }
