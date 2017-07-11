@@ -12,180 +12,227 @@ COMA_USING_NS
 
 ComaDevice* ComaDevice::device;
 
-bool ComaDevice::setWindow(ComaWindow* window)
+ComaDevice::ComaDevice() :window_(nullptr), renderer_(nullptr), running_(false), initialized_(false), resourceManager_(nullptr), sceneManager_(nullptr), inputManager_(nullptr), physicsManager_(nullptr)
+{}
+
+ComaDevice::~ComaDevice()
 {
-	if (initialized)
+	if (resourceManager_) delete resourceManager_;
+	if (sceneManager_) delete sceneManager_;
+	if (physicsManager_) delete physicsManager_;
+	//inputManager은 window에서 가져오므로 해제할 필요가 없다.
+}
+
+ComaDevice* ComaDevice::GetDevice()
+{
+	if (device == 0) device = new ComaDevice();
+	return device;
+}
+
+void ComaDevice::Release()
+{
+	if (initialized_)
+	{
+		if (window_)
+		{
+			window_->RemoveEventListener(WindowEvent::DESTROY, this);
+			window_->RemoveEventListener(WindowEvent::MINIMIZED, this);
+			window_->RemoveEventListener(WindowEvent::RESTORED, this);
+			window_->RemoveEventListener(WindowEvent::RESIZE, this);
+			window_->RemoveEventListener(WindowEvent::ENTER_RESIZEMOVE, this);
+			window_->RemoveEventListener(WindowEvent::EXIT_RESIZEMOVE, this);
+			window_->RemoveEventListener(WindowEvent::UPDATE, this);
+		}
+		if (renderer_)
+		{
+			renderer_->RemoveEventListener(RendererEvent::UPDATE, this);
+			renderer_->RemoveEventListener(RendererEvent::RENDER, this);
+		}
+	}
+	delete device;
+}
+
+void ComaDevice::ReleaseAll()
+{
+	if (window_) delete window_;
+	if (renderer_) delete renderer_;
+	delete device;
+}
+
+bool ComaDevice::SetWindow(ComaWindow* window)
+{
+	if (initialized_)
 		return false;
-	this->window = window;
+	this->window_ = window;
 	return true;
 }
-bool ComaDevice::setRenderer(ComaRenderer* renderer)
+bool ComaDevice::SetRenderer(ComaRenderer* renderer)
 {
-	if (initialized)
+	if (initialized_)
 		return false;
-	this->renderer = renderer;
+	this->renderer_ = renderer;
 	return true;
 }
-bool ComaDevice::setWindowRenderer(ComaWindow* window, ComaRenderer* renderer)
+bool ComaDevice::SetWindowRenderer(ComaWindow* window, ComaRenderer* renderer)
 {
-	if (!setWindow(window))
+	if (!SetWindow(window))
 		return false;
-	if (!setRenderer(renderer))
+	if (!SetRenderer(renderer))
 		return false;
 	return true;
 }
 
-bool ComaDevice::initDevice()
+bool ComaDevice::InitDevice()
 {
-	if (initialized)
+	if (initialized_)
 		return false;
-	if (!initWindow())
+	if (!InitWindow())
 		return false;
-	if (!initRenderer())
+	if (!InitRenderer())
 		return false;
-	if (!initManagers())
+	if (!InitManagers())
 		return false;
-	if (!initOthers())
+	if (!InitOthers())
 		return false;
-	initialized = true;
+	initialized_ = true;
 	return true;
 }
-bool ComaDevice::initDevice(HINSTANCE hInstance)
+bool ComaDevice::InitDevice(HINSTANCE hInstance)
 {
-	if (initialized)
+	if (initialized_)
 		return false;
-	if (!initWindow(hInstance))
+	if (!InitWindow(hInstance))
 		return false;
-	if (!initRenderer())
+	if (!InitRenderer())
 		return false;
-	if (!initManagers())
+	if (!InitManagers())
 		return false;
-	if (!initOthers())
+	if (!InitOthers())
 		return false;
-	initialized = true;
-	return true;
-}
-
-bool ComaDevice::run()
-{
-	if (running || !initialized || !window || !renderer)
-		return false;
-	running = true;
-
-	if (!renderer->isRunning())
-		renderer->run();
-
-	if (!window->isRunning())
-		window->run();
-
+	initialized_ = true;
 	return true;
 }
 
-bool ComaDevice::initWindow()
+bool ComaDevice::Run()
 {
-	if (!window)
+	if (running_ || !initialized_ || !window_ || !renderer_)
 		return false;
-	if (!window->isCreated())
-		if (!window->createWindow())
+	running_ = true;
+
+	if (!renderer_->isRunning())
+		renderer_->run();
+
+	if (!window_->isRunning())
+		window_->run();
+
+	return true;
+}
+
+bool ComaDevice::InitWindow()
+{
+	if (!window_)
+		return false;
+	if (!window_->isCreated())
+		if (!window_->createWindow())
 			return false;
 
-	window->SetEventListener(WindowEvent::DESTROY, BIND(ComaDevice::windowDestroyListener), this);
-	window->SetEventListener(WindowEvent::MINIMIZED, BIND(ComaDevice::windowMinimizeListener), this);
-	window->SetEventListener(WindowEvent::RESTORED, BIND(ComaDevice::windowRestoreListener), this);
-	window->SetEventListener(WindowEvent::RESIZE, BIND(ComaDevice::windowResizeListener), this);
-	window->SetEventListener(WindowEvent::ENTER_RESIZEMOVE, BIND(ComaDevice::windowEnterResizeMoveListener), this);
-	window->SetEventListener(WindowEvent::EXIT_RESIZEMOVE, BIND(ComaDevice::windowExitResizeMoveListener), this);
-	window->SetEventListener(WindowEvent::UPDATE, BIND(ComaDevice::windowUpdateListener), this);
+	window_->SetEventListener(WindowEvent::DESTROY, BIND(ComaDevice::WindowDestroyListener), this);
+	window_->SetEventListener(WindowEvent::MINIMIZED, BIND(ComaDevice::WindowMinimizeListener), this);
+	window_->SetEventListener(WindowEvent::RESTORED, BIND(ComaDevice::WindowRestoreListener), this);
+	window_->SetEventListener(WindowEvent::RESIZE, BIND(ComaDevice::WindowResizeListener), this);
+	window_->SetEventListener(WindowEvent::ENTER_RESIZEMOVE, BIND(ComaDevice::WindowEnterResizeMoveListener), this);
+	window_->SetEventListener(WindowEvent::EXIT_RESIZEMOVE, BIND(ComaDevice::WindowExitResizeMoveListener), this);
+	window_->SetEventListener(WindowEvent::UPDATE, BIND(ComaDevice::WindowUpdateListener), this);
 	return true;
 }
-bool ComaDevice::initWindow(HINSTANCE hInstance)
+bool ComaDevice::InitWindow(HINSTANCE hInstance)
 {
-	if (window)
-		return initWindow();
+	if (window_)
+		return InitWindow();
 
-	window = new ComaWindow(hInstance);
-	return initWindow();
+	window_ = new ComaWindow(hInstance);
+	return InitWindow();
 }
 
-bool ComaDevice::initRenderer()
+bool ComaDevice::InitRenderer()
 {
-	if (!window)
+	if (!window_)
 		return false;
 
-	if (!renderer)
-		renderer = new ComaRenderer();
+	if (!renderer_)
+		renderer_ = new ComaRenderer();
 
-	if (!renderer->isInitialized())
-		if (!renderer->initRenderer(window->getWindow()))
+	if (!renderer_->isInitialized())
+		if (!renderer_->initRenderer(window_->getWindow()))
 			return false;
 
-	renderer->SetEventListener(RendererEvent::UPDATE, BIND(ComaDevice::rendererUpdateListener), this);
-	renderer->SetEventListener(RendererEvent::RENDER, BIND(ComaDevice::rendererRenderListener), this);
+	renderer_->SetEventListener(RendererEvent::UPDATE, BIND(ComaDevice::RendererUpdateListener), this);
+	renderer_->SetEventListener(RendererEvent::RENDER, BIND(ComaDevice::RendererRenderListener), this);
 		
 	return true;
 }
-bool ComaDevice::initManagers()
+bool ComaDevice::InitManagers()
 {
-	resourceManager = new ResourceManager();
-	sceneManager = new SceneManager();
-	inputManager = window->getInputManager();
-	physicsManager = new PhysicsManager();
-	physicsManager->initBox2D(Vector{ 0.0f, 10.0f });
+	resourceManager_ = new ResourceManager();
+	sceneManager_ = new SceneManager();
+	inputManager_ = window_->getInputManager();
+	physicsManager_ = new PhysicsManager();
+	physicsManager_->initBox2D(Vector{ 0.0f, 10.0f });
 	return true;
 }
-bool ComaDevice::initOthers()
+bool ComaDevice::InitOthers()
 {
-	Bitmap::setRenderer(renderer);
+	Bitmap::setRenderer(renderer_);
 	return true;
 }
 
-void ComaDevice::windowDestroyListener(Event* event)
+void ComaDevice::WindowDestroyListener(const Event* event)
 {
 	
 }
-void ComaDevice::windowMinimizeListener(Event* event)
+void ComaDevice::WindowMinimizeListener(const Event* event)
 {
-	renderer->pause();
+	renderer_->pause();
 }
-void ComaDevice::windowRestoreListener(Event* event)
+void ComaDevice::WindowRestoreListener(const Event* event)
 {
-	renderer->run();
+	renderer_->run();
 }
-void ComaDevice::windowEnterResizeMoveListener(Event* event)
+void ComaDevice::WindowEnterResizeMoveListener(const Event* event)
 {
-	renderer->pause();
+	renderer_->pause();
 }
-void ComaDevice::windowExitResizeMoveListener(Event* event)
+void ComaDevice::WindowExitResizeMoveListener(const Event* event)
 {
-	renderer->resetSize();
-	renderer->run();
+	renderer_->resetSize();
+	renderer_->run();
 }
-void ComaDevice::windowUpdateListener(Event* event)
+void ComaDevice::WindowUpdateListener(const Event* event)
 {
-	renderer->update();
+	renderer_->update();
 }
-void ComaDevice::windowResizeListener(Event* event)
+void ComaDevice::WindowResizeListener(const Event* event)
 {
-	if (!window->isResizing() && !window->isMinimized())
-		renderer->resetSize();
+	if (!window_->isResizing() && !window_->isMinimized())
+		renderer_->resetSize();
 }
 
-void ComaDevice::rendererUpdateListener(Event* event)
+void ComaDevice::RendererUpdateListener(const Event* event)
 {
 	RendererEvent* rEvent = (RendererEvent*)event;
 
-	inputManager->updateGamepad(rEvent->DeltaTime());
+	inputManager_->updateGamepad(rEvent->DeltaTime());
 
-	physicsManager->nextStep(rEvent->DeltaTime());
-	if (!sceneManager || !sceneManager->getScene())
+	physicsManager_->nextStep(rEvent->DeltaTime());
+	if (!sceneManager_ || !sceneManager_->getScene())
 		return;
-	sceneManager->getScene()->update(rEvent->DeltaTime());
+	sceneManager_->getScene()->update(rEvent->DeltaTime());
 }
-void ComaDevice::rendererRenderListener(Event* event)
+void ComaDevice::RendererRenderListener(const Event* event)
 {
 	RendererEvent* rEvent = (RendererEvent*)event;
 
-	if (!sceneManager || !sceneManager->getScene())
+	if (!sceneManager_ || !sceneManager_->getScene())
 		return;
-	sceneManager->getScene()->render(rEvent->GetRenderTarget(), rEvent->DeltaTime());
+	sceneManager_->getScene()->render(rEvent->GetRenderTarget(), rEvent->DeltaTime());
 }

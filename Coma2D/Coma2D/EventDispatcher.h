@@ -36,7 +36,7 @@ void DispatchEvent(Event*)
 
 COMA_NS_BEGIN
 
-typedef std::function<void(Event*)> EventCallback;
+typedef std::function<void(const Event*)> EventCallback;
 
 struct Listener
 {
@@ -62,7 +62,7 @@ public:
 	bool HasEventListener(const std::string& type);
 	
 	//이벤트를 발생시킨다 (등록된 해당 리스너 실행)
-	void DispatchEvent(Event* event);
+	void DispatchEvent(const Event* event);
 
 private:
 	std::vector<Listener> listenerList_;

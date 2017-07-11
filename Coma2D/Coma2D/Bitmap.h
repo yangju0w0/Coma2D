@@ -58,8 +58,8 @@ private:
 	IWICBitmapDecoder* decoder;
 	bool reload;
 	
-	void loadReqListener(Event* event);
-	void unloadReqListener(Event* event);
+	void loadReqListener(const Event* event);
+	void unloadReqListener(const Event* event);
 };
 
 COMA_END

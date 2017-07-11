@@ -14,9 +14,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	renderer->setBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	ComaDevice* device = ComaDevice::GetDevice();
-	device->setWindowRenderer(window, renderer);
+	device->SetWindowRenderer(window, renderer);
 
-	if (!device->initDevice())
+	if (!device->InitDevice())
 	{
 		MessageBox(NULL, TEXT("Coma2D device initialization failed."), TEXT("Error"), MB_ICONERROR);
 		return -1;
@@ -28,9 +28,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	scene->addChild(textView);
 
-	device->getSceneManager()->changeScene(scene);
+	device->GetSceneManager()->changeScene(scene);
 
-	if (!device->run())
+	if (!device->Run())
 	{
 		MessageBox(NULL, TEXT("Coma2D failed to run."), TEXT("Error"), MB_ICONERROR);
 		return -1;

@@ -54,7 +54,7 @@ bool EventDispatcher::HasEventListener(const std::string& type)
 	return false;
 }
 
-void EventDispatcher::DispatchEvent(Event* event)
+void EventDispatcher::DispatchEvent(const Event* event)
 {
 	for (const auto& iter : listenerList_)
 	{

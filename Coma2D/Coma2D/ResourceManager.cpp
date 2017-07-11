@@ -86,7 +86,7 @@ bool ResourceManager::unloadResources()
 	return true;
 }
 
-void ResourceManager::completeListener(Event* event)
+void ResourceManager::completeListener(const Event* event)
 {
 	loading = false;
 }

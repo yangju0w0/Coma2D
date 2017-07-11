@@ -31,7 +31,7 @@ private:
 	bool loading;
 
 private:
-	void completeListener(Event* event);
+	void completeListener(const Event* event);
 };
 
 COMA_END

@@ -21,108 +21,75 @@ COMA_NS_BEGIN
 class ComaDevice
 {
 private:
-	ComaDevice() :window(nullptr), renderer(nullptr), running(false), initialized(false), resourceManager(nullptr), sceneManager(nullptr), inputManager(nullptr), physicsManager(nullptr) {};
+	ComaDevice();
 	ComaDevice(const ComaDevice& other);
-	~ComaDevice()
-	{
-		if(resourceManager) delete resourceManager;
-		if(sceneManager) delete sceneManager;
-		if(physicsManager) delete physicsManager;
-		//inputManager은 window에서 가져오므로 해제할 필요가 없다.
-		
-	};
+	~ComaDevice();
+
 	static ComaDevice* device;
+
 public:
-	static ComaDevice* GetDevice()
-	{
-		if (device == 0) device = new ComaDevice();
-		return device;
-	}
-	void Release(){ 
-		if (initialized)
-		{
-			if (window)
-			{
-				window->RemoveEventListener(WindowEvent::DESTROY,			this);
-				window->RemoveEventListener(WindowEvent::MINIMIZED,			this);
-				window->RemoveEventListener(WindowEvent::RESTORED,			this);
-				window->RemoveEventListener(WindowEvent::RESIZE,			this);
-				window->RemoveEventListener(WindowEvent::ENTER_RESIZEMOVE,	this);
-				window->RemoveEventListener(WindowEvent::EXIT_RESIZEMOVE,	this);
-				window->RemoveEventListener(WindowEvent::UPDATE,			this);
-			}
-			if (renderer)
-			{
-				renderer->RemoveEventListener(RendererEvent::UPDATE, this);
-				renderer->RemoveEventListener(RendererEvent::RENDER, this);
-			}
-		}
-		delete device;
-	}
-	void ReleaseAll()
-	{
-		if (window) delete window;
-		if (renderer) delete renderer;
-		delete device;
-	}
+	static ComaDevice* GetDevice();
+
+	void Release();
+	void ReleaseAll();
 	
 public:
 	//Device Setter
-	bool setWindow(ComaWindow* window);
-	bool setRenderer(ComaRenderer* renderer);
-	bool setWindowRenderer(ComaWindow* window, ComaRenderer* renderer);
+	bool SetWindow(ComaWindow* window);
+	bool SetRenderer(ComaRenderer* renderer);
+	bool SetWindowRenderer(ComaWindow* window, ComaRenderer* renderer);
 
 	//Device Getter
-	ComaWindow* getWindow(){ return window; }
-	ComaRenderer* getRenderer(){ return renderer; }
+	ComaWindow* GetWindow(){ return window_; }
+	ComaRenderer* GetRenderer(){ return renderer_; }
 
 	//Device Control
-	bool initDevice();
-	bool initDevice(HINSTANCE hInstance);
-	bool run();
+	bool InitDevice();
+	bool InitDevice(HINSTANCE hInstance);
+	bool Run();
 
 	//Device Status Getter
-	bool isRunning(){ return running; }
-	bool isInitialized(){ return initialized; }
+	bool IsRunning(){ return running_; }
+	bool IsInitialized(){ return initialized_; }
 
 	//ManagerGetter
-	ResourceManager* getResourceManager(){ return resourceManager; }
-	SceneManager* getSceneManager(){ return sceneManager; }
-	InputManager* getInputManager(){ return inputManager; }
-	PhysicsManager* getPhysicsManager(){ return physicsManager; }
+	ResourceManager* GetResourceManager(){ return resourceManager_; }
+	SceneManager* GetSceneManager(){ return sceneManager_; }
+	InputManager* GetInputManager(){ return inputManager_; }
+	PhysicsManager* GetPhysicsManager(){ return physicsManager_; }
 
 private:
 	//Events
-	void windowDestroyListener(Event* event);
-	void windowMinimizeListener(Event* event);
-	void windowRestoreListener(Event* event);
-	void windowResizeListener(Event* event);
-	void windowEnterResizeMoveListener(Event* event);
-	void windowExitResizeMoveListener(Event* event);
-	void windowUpdateListener(Event* event);
-	void rendererUpdateListener(Event* event);
-	void rendererRenderListener(Event* event);
+	void WindowDestroyListener(const Event* event);
+	void WindowMinimizeListener(const Event* event);
+	void WindowRestoreListener(const Event* event);
+	void WindowResizeListener(const Event* event);
+	void WindowEnterResizeMoveListener(const Event* event);
+	void WindowExitResizeMoveListener(const Event* event);
+	void WindowUpdateListener(const Event* event);
+	void RendererUpdateListener(const Event* event);
+	void RendererRenderListener(const Event* event);
 
 private:
-	bool initWindow();
-	bool initWindow(HINSTANCE hInstance);
-	bool initRenderer();
-	bool initManagers();
-	bool initOthers();
+	bool InitWindow();
+	bool InitWindow(HINSTANCE hInstance);
+	bool InitRenderer();
+	bool InitManagers();
+	bool InitOthers();
 private:
 	//Device Essencials
-	ComaWindow* window;
-	ComaRenderer* renderer;
+	ComaWindow* window_;
+	ComaRenderer* renderer_;
 
 	//Device Status
-	bool running;
-	bool initialized;
+	bool running_;
+	bool initialized_;
 
 	//Managers
-	ResourceManager* resourceManager;
-	SceneManager* sceneManager;
-	InputManager* inputManager;
-	PhysicsManager* physicsManager;
+	ResourceManager* resourceManager_;
+	SceneManager* sceneManager_;
+	InputManager* inputManager_;
+	PhysicsManager* physicsManager_;
 };
 
 COMA_END

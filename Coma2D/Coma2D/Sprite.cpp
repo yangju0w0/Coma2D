@@ -10,7 +10,7 @@
 COMA_USING_NS
 
 Sprite::Sprite(Bitmap* bitmap, Size imageSize, Size tileSize, unsigned int widthNumber, unsigned int heightNumber, int tileNumber, float frameChangeTime, bool autoReplay)
-:Image(bitmap, imageSize), tileSize(tileSize), widthNumber(widthNumber), heightNumber(heightNumber), frameChangeTime(frameChangeTime), autoReplay(autoReplay), playing(true), currentFrame(1)
+	:Image(bitmap, imageSize), tileSize(tileSize), widthNumber(widthNumber), heightNumber(heightNumber), frameChangeTime(frameChangeTime), autoReplay(autoReplay), playing(true), currentFrame(1)
 {
 	if (tileNumber == 0)
 		totalFrame = widthNumber*heightNumber;
@@ -20,8 +20,8 @@ Sprite::Sprite(Bitmap* bitmap, Size imageSize, Size tileSize, unsigned int width
 
 
 Sprite::~Sprite()
-{
-}
+{}
+
 void Sprite::update(double deltaTime)
 {
 	if (isPlaying())
@@ -49,8 +49,8 @@ void Sprite::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 		D2D1_RECT_F resSize = {
 			((currentFrame - 1) % widthNumber)*tileSize.width,
 			((currentFrame - 1) / widthNumber)*tileSize.height,
-			((currentFrame - 1) % widthNumber)*tileSize.width+tileSize.width, 
-			((currentFrame - 1) / widthNumber)*tileSize.height+tileSize.height };
+			((currentFrame - 1) % widthNumber)*tileSize.width + tileSize.width,
+			((currentFrame - 1) / widthNumber)*tileSize.height + tileSize.height };
 		renderTarget->DrawBitmap(bitmap->getResource(), size, getScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, resSize);
 	}
 }

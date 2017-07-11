@@ -174,14 +174,14 @@ ID2D1Bitmap* Bitmap::createID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderT
 	return bitmap;
 }
 
-void Bitmap::loadReqListener(Event* event)
+void Bitmap::loadReqListener(const Event* event)
 {
 	if (!reload)
 		return;
 	//reload = false;
 	//loadResource();
 }
-void Bitmap::unloadReqListener(Event* event)
+void Bitmap::unloadReqListener(const Event* event)
 {
 	if (!isLoaded())
 		return;
