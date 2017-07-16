@@ -28,7 +28,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	scene->addChild(textView);
 
-	device->GetSceneManager()->changeScene(scene);
+	device->GetSceneManager()->ChangeScene(scene);
 
 	if (!device->Run())
 	{
