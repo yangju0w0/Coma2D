@@ -7,8 +7,8 @@ using namespace coma2d;
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
 	ComaWindow* window = new ComaWindow(hInstance, nCmdShow);
-	window->setScreenSize(800, 480);
-	window->setTitle(TEXT("HELLO WORLD!"));
+	window->SetScreenSize(800, 480);
+	window->SetTitle(TEXT("HELLO WORLD!"));
 
 	ComaRenderer* renderer = new ComaRenderer();
 	renderer->setBackgroundColor(0.0f, 0.0f, 0.0f);

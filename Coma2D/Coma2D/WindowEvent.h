@@ -42,26 +42,26 @@ public:
 	static const std::string UPDATE;
 
 public:
-	POINT GetWindowPosition() const { return target_->getWindowPosition(); }
-	RECT GetScreenSize() const { return target_->getScreenSize(); }
-	RECT GetWindowSize() const { return target_->getWindowSize(); }
-	RECT GetWindowRect() const { return target_->getWindowRect(); }
+	POINT GetWindowPosition() const { return target_->GetWindowPosition(); }
+	RECT GetScreenSize() const { return target_->GetScreenSize(); }
+	RECT GetWindowSize() const { return target_->GetWindowSize(); }
+	RECT GetWindowRect() const { return target_->GetWindowRect(); }
 
-	int GetWindowX() const { return target_->getWindowPosition().x; }
-	int GetWindowY() const { return target_->getWindowPosition().y; }
-	int GetScreenWidth() const { return target_->getScreenSize().right; }
-	int GetScreenHeight() const { return target_->getScreenSize().bottom; }
-	int GetWindowWidth() const { return target_->getWindowSize().right; }
-	int GetWindowHeight() const { return target_->getWindowSize().bottom; }
+	int GetWindowX() const { return target_->GetWindowPosition().x; }
+	int GetWindowY() const { return target_->GetWindowPosition().y; }
+	int GetScreenWidth() const { return target_->GetScreenSize().right; }
+	int GetScreenHeight() const { return target_->GetScreenSize().bottom; }
+	int GetWindowWidth() const { return target_->GetWindowSize().right; }
+	int GetWindowHeight() const { return target_->GetWindowSize().bottom; }
 
-	bool IsCreated() const { return target_->isCreated(); }
-	bool IsRunning() const { return target_->isRunning(); }
-	bool IsActivated() const { return target_->isActivated(); }
-	bool IsFullscreen() const { return target_->isFullscreen(); }
-	bool IsMaximized() const { return target_->isMaximized(); }
-	bool IsMinimized() const { return target_->isMinimized(); }
-	bool IsResizing() const { return target_->isResizing(); }
-	bool IsMoving() const { return target_->isMoving(); }
+	bool IsCreated() const { return target_->IsCreated(); }
+	bool IsRunning() const { return target_->IsRunning(); }
+	bool IsActivated() const { return target_->IsActivated(); }
+	bool IsFullscreen() const { return target_->IsFullscreen(); }
+	bool IsMaximized() const { return target_->IsMaximized(); }
+	bool IsMinimized() const { return target_->IsMinimized(); }
+	bool IsResizing() const { return target_->IsResizing(); }
+	bool IsMoving() const { return target_->IsMoving(); }
 
 	ComaWindow* GetTarget() const { return target_; }
 	WPARAM GetWParam() const { return wParam_; }

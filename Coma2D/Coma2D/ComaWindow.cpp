@@ -10,109 +10,99 @@ COMA_USING_NS
 
 ComaWindow* comaWindow;
 
-// 메인 윈도우 프로시저
 LRESULT CALLBACK MainWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	return comaWindow->messageProc(hWnd, uMsg, wParam, lParam);
-	//받은 메시지를 모두 messageProc 함수로 넘긴다. (클래스 내부에서 처리)
+	return comaWindow->MessageProc(hWnd, uMsg, wParam, lParam);
 }
 
-
-// 생성자
 ComaWindow::ComaWindow(HINSTANCE hInstance, int nCmdShow)
-	:hInstance(0), hWnd(0), created(false), running(false), activated(false), fullscreen(false),
-	maximized(false), minimized(false), resizing(false), inputManager(nullptr)
+	:hInstance_(hInstance), hWnd_(0), created_(false), running_(false), activated_(false), fullscreen_(false), maximized_(false), minimized_(false), resizing_(false), inputManager_(nullptr)
 {
-	this->hInstance = hInstance;
 	comaWindow = this;
 
-	windowData.icon = LoadIcon(0, IDI_APPLICATION);
-	windowData.cursor = LoadCursor(0, IDC_ARROW);
-	windowData.backgroundColor = (HBRUSH)GetStockObject(NULL_BRUSH);
-	windowData.style = WS_OVERLAPPEDWINDOW;
-	windowData.styleEx = NULL;
-	windowData.title = TEXT("ComaWindow");
-	windowData.nCmdShow = nCmdShow;
-	windowData.windowPosition = { CW_USEDEFAULT, CW_USEDEFAULT };
-	windowData.windowSize = { 0, 0, CW_USEDEFAULT, CW_USEDEFAULT };
-	windowData.minWindowSize = { 0, 0, -1, -1 };
-	windowData.maxWindowSize = { 0, 0, -1, -1 };
+	windowData_.icon = LoadIcon(0, IDI_APPLICATION);
+	windowData_.cursor = LoadCursor(0, IDC_ARROW);
+	windowData_.backgroundColor = (HBRUSH)GetStockObject(NULL_BRUSH);
+	windowData_.style = WS_OVERLAPPEDWINDOW;
+	windowData_.styleEx = NULL;
+	windowData_.title = TEXT("ComaWindow");
+	windowData_.nCmdShow = nCmdShow;
+	windowData_.windowPosition = { CW_USEDEFAULT, CW_USEDEFAULT };
+	windowData_.windowSize = { 0, 0, CW_USEDEFAULT, CW_USEDEFAULT };
+	windowData_.minWindowSize = { 0, 0, -1, -1 };
+	windowData_.maxWindowSize = { 0, 0, -1, -1 };
 }
 
-
-// 소멸자
 ComaWindow::~ComaWindow()
 {
-	if(inputManager) delete inputManager;
-	DestroyWindow(hWnd);
+	if (inputManager_) delete inputManager_;
+	DestroyWindow(hWnd_);
 }
 
-// 윈도우 생성
-bool ComaWindow::createWindow()
+bool ComaWindow::CreateComaWindow()
 {
-	if (isCreated())
+	if (IsCreated())
 		return false;
 
-	//윈도우 클래스 등록
 	TCHAR* className = TEXT("ComaWindow");
 	WNDCLASS windowClass;
-	
+
 	windowClass.style = CS_HREDRAW | CS_VREDRAW;
 	windowClass.lpfnWndProc = MainWndProc;
 	windowClass.cbClsExtra = 0;
 	windowClass.cbWndExtra = 0;
-	windowClass.hInstance = hInstance;
-	windowClass.hIcon = windowData.icon;
-	windowClass.hCursor = windowData.cursor;
-	windowClass.hbrBackground = windowData.backgroundColor;
+	windowClass.hInstance = hInstance_;
+	windowClass.hIcon = windowData_.icon;
+	windowClass.hCursor = windowData_.cursor;
+	windowClass.hbrBackground = windowData_.backgroundColor;
 	windowClass.lpszMenuName = 0;
 	windowClass.lpszClassName = className;
 
 	if (!RegisterClass(&windowClass))
 		return false;
-	
 
-	//윈도우 생성
-	hWnd = CreateWindowEx(
-		windowData.styleEx, className,
-		windowData.title,
-		windowData.style,
-		windowData.windowPosition.x, windowData.windowPosition.y, //x,y
-		windowData.windowSize.right - windowData.windowSize.left, //width
-		windowData.windowSize.bottom - windowData.windowSize.top, //height
-		0, 0, hInstance, 0);
-	
-	if (!hWnd)
-		return false;
-	
-	created = true;
+	hWnd_ = CreateWindowEx(
+		windowData_.styleEx, className,
+		windowData_.title,
+		windowData_.style,
+		windowData_.windowPosition.x, windowData_.windowPosition.y,
+		windowData_.windowSize.right - windowData_.windowSize.left,
+		windowData_.windowSize.bottom - windowData_.windowSize.top,
+		0, 0, hInstance_, 0);
 
-	inputManager = new InputManager();
-
-	if (isMaximized())
-		windowData.nCmdShow = SW_SHOWMAXIMIZED;
-	else if (isMinimized())
-		windowData.nCmdShow = SW_SHOWMINIMIZED;
-
-	//윈도우 출력
-	ShowWindow(hWnd, windowData.nCmdShow);
-	UpdateWindow(hWnd);
-
-	if (isFullscreen())
+	if (!hWnd_)
 	{
-		fullscreen = false;
-		setFullscreen(true);
+		return false;
 	}
+
+	created_ = true;
+
+	inputManager_ = new InputManager();
+
+	if (IsMaximized())
+		windowData_.nCmdShow = SW_SHOWMAXIMIZED;
+	else if (IsMinimized())
+		windowData_.nCmdShow = SW_SHOWMINIMIZED;
+
+	ShowWindow(hWnd_, windowData_.nCmdShow);
+	UpdateWindow(hWnd_);
+
+	if (IsFullscreen())
+	{
+		fullscreen_ = false;
+		SetFullscreen(true);
+	}
+
 	DispatchEvent(new WindowEvent(WindowEvent::CREATED, this));
 	return true;
 }
 
 // 윈도우 루프
-bool ComaWindow::run()
+bool ComaWindow::Run()
 {
-	if (!hWnd || isRunning())
+	if (!hWnd_ || IsRunning())
 		return false;
-	running = true;
+	running_ = true;
 
 	MSG msg = { 0 };
 
@@ -132,30 +122,30 @@ bool ComaWindow::run()
 }
 
 // 메세지 처리부
-LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+LRESULT ComaWindow::MessageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE)
 		{
-			activated = false;
-			if (isFullscreen())
+			activated_ = false;
+			if (IsFullscreen())
 			{
 				ChangeDisplaySettings(NULL, 0);
-				fullscreen = false;
-				minimizeWindow();
-				fullscreen = true;
+				fullscreen_ = false;
+				MinimizeWindow();
+				fullscreen_ = true;
 			}
 			DispatchEvent(new WindowEvent(WindowEvent::INACTIVATED, this, wParam, lParam));
 		}
 		else if (LOWORD(wParam) == WA_ACTIVE || LOWORD(wParam) == WA_CLICKACTIVE)
 		{
-			activated = true;
-			if (isFullscreen())
+			activated_ = true;
+			if (IsFullscreen())
 			{
-				fullscreen = false;
-				setFullscreen(true);
+				fullscreen_ = false;
+				SetFullscreen(true);
 			}
 			DispatchEvent(new WindowEvent(WindowEvent::ACTIVATED, this, wParam, lParam));
 		}
@@ -166,8 +156,8 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		return 0;
 
 	case WM_EXITSIZEMOVE:
-		moving = false;
-		resizing = false;
+		moving_ = false;
+		resizing_ = false;
 		DispatchEvent(new WindowEvent(WindowEvent::EXIT_RESIZEMOVE, this, wParam, lParam));
 		return 0;
 
@@ -176,252 +166,312 @@ LRESULT ComaWindow::messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		return 0;
 
 	case WM_MOVING:
-		moving = true;
+		moving_ = true;
 		DispatchEvent(new WindowEvent(WindowEvent::MOVING, this, wParam, lParam));
 		return 0;
 
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED)
 		{
-			minimized = true;
-			maximized = false;
-			resizing = false;
+			minimized_ = true;
+			maximized_ = false;
+			resizing_ = false;
 			DispatchEvent(new WindowEvent(WindowEvent::MINIMIZED, this, wParam, lParam));
 		}
 		else if (wParam == SIZE_MAXIMIZED)
 		{
-			minimized = false;
-			maximized = true;
-			resizing = false;
+			minimized_ = false;
+			maximized_ = true;
+			resizing_ = false;
 			DispatchEvent(new WindowEvent(WindowEvent::MAXIMIZED, this, wParam, lParam));
 		}
 		else if (wParam == SIZE_RESTORED)
 		{
-			if (maximized)
+			if (maximized_)
 			{
-				maximized = false;
-				minimized = false;
-				resizing = false;
+				maximized_ = false;
+				minimized_ = false;
+				resizing_ = false;
 				DispatchEvent(new WindowEvent(WindowEvent::RESTORED, this, wParam, lParam));
 			}
-			else if (minimized)
+			else if (minimized_)
 			{
-				maximized = false;
-				minimized = false;
-				resizing = false;
+				maximized_ = false;
+				minimized_ = false;
+				resizing_ = false;
 				DispatchEvent(new WindowEvent(WindowEvent::RESTORED, this, wParam, lParam));
 			}
-			else if (resizing)
+			else if (resizing_)
 			{
-				
+
 			}
 		}
 		DispatchEvent(new WindowEvent(WindowEvent::RESIZE, this, wParam, lParam));
 		return 0;
 
 	case WM_SIZING:
-		resizing = true;
+		resizing_ = true;
 		DispatchEvent(new WindowEvent(WindowEvent::RESIZING, this, wParam, lParam));
 		return 0;
 
 	case WM_GETMINMAXINFO:
-		if (windowData.maxWindowSize.right - windowData.maxWindowSize.left > 0)
-			((MINMAXINFO*)lParam)->ptMaxTrackSize.x = windowData.maxWindowSize.right - windowData.maxWindowSize.left;
-		if (windowData.maxWindowSize.bottom - windowData.maxWindowSize.top > 0)
-			((MINMAXINFO*)lParam)->ptMaxTrackSize.y = windowData.maxWindowSize.bottom - windowData.maxWindowSize.top;
-		if (windowData.minWindowSize.right - windowData.minWindowSize.left > 0)
-			((MINMAXINFO*)lParam)->ptMinTrackSize.x = windowData.minWindowSize.right - windowData.minWindowSize.left;
-		if (windowData.minWindowSize.bottom - windowData.minWindowSize.top > 0)
-			((MINMAXINFO*)lParam)->ptMinTrackSize.y = windowData.minWindowSize.bottom - windowData.minWindowSize.top;
+		if (windowData_.maxWindowSize.right - windowData_.maxWindowSize.left > 0)
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.x = windowData_.maxWindowSize.right - windowData_.maxWindowSize.left;
+		if (windowData_.maxWindowSize.bottom - windowData_.maxWindowSize.top > 0)
+			((MINMAXINFO*)lParam)->ptMaxTrackSize.y = windowData_.maxWindowSize.bottom - windowData_.maxWindowSize.top;
+		if (windowData_.minWindowSize.right - windowData_.minWindowSize.left > 0)
+			((MINMAXINFO*)lParam)->ptMinTrackSize.x = windowData_.minWindowSize.right - windowData_.minWindowSize.left;
+		if (windowData_.minWindowSize.bottom - windowData_.minWindowSize.top > 0)
+			((MINMAXINFO*)lParam)->ptMinTrackSize.y = windowData_.minWindowSize.bottom - windowData_.minWindowSize.top;
 		return 0;
 	case WM_SYSCOMMAND:
 		if (LOWORD(wParam) == SC_MINIMIZE)
 		{
-			windowData.windowSize = getWindowSize();
-			windowData.windowPosition = getWindowPosition();
-			//최소화되기 전에, 화면 크기를 저장해둔다.
+			windowData_.windowSize = GetWindowSize();
+			windowData_.windowPosition = GetWindowPosition();
+			//최소화되기 전의 화면 크기를 저장.
 		}
 		return DefWindowProc(hWnd, uMsg, wParam, lParam);
+
 	case WM_DESTROY:
 		DispatchEvent(new WindowEvent(WindowEvent::DESTROY, this, wParam, lParam));
 		PostQuitMessage(0);
-		created = false;
-		running = false;
-		activated = false;
-		fullscreen = false;
-		maximized = false;
-		minimized = false;
-		resizing = false;
+		created_ = false;
+		running_ = false;
+		activated_ = false;
+		fullscreen_ = false;
+		maximized_ = false;
+		minimized_ = false;
+		resizing_ = false;
 		return 0;
 	}
 
-	if (inputManager->createInputEvent(uMsg, wParam, lParam))
+	if (inputManager_->createInputEvent(uMsg, wParam, lParam))
 		return 0;
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-//Setter
-bool ComaWindow::setIcon(HICON icon)
+bool ComaWindow::SetIcon(HICON icon)
 {
-	if (isCreated())
+	if (IsCreated())
+	{
 		return false;
-	windowData.icon = icon;
+	}
+	windowData_.icon = icon;
 	return true;
 }
-bool ComaWindow::setCursor(HCURSOR cursor)
+
+bool ComaWindow::SetCursor(HCURSOR cursor)
 {
-	if (isCreated())
+	if (IsCreated())
 	{
 		SetCursor(cursor);
 	}
 	else
 	{
-		windowData.cursor = cursor;
+		windowData_.cursor = cursor;
 	}
 	return true;
 }
-bool ComaWindow::setBackgroundColor(HBRUSH brush)
+
+bool ComaWindow::SetBackgroundColor(HBRUSH brush)
 {
-	if (isCreated())
+	if (IsCreated())
+	{
 		return false;
-	windowData.backgroundColor = brush;
+	}
+	windowData_.backgroundColor = brush;
 	return true;
 }//수정 필요
-bool ComaWindow::setStyle(DWORD style)
+
+bool ComaWindow::SetStyle(DWORD style)
 {
-	if (isCreated() && !isFullscreen())
+	if (IsCreated() && !IsFullscreen())
 	{
-		SetWindowLong(hWnd, GWL_STYLE, style);
+		SetWindowLong(hWnd_, GWL_STYLE, style);
 	}
 	else
 	{
-		windowData.style = style;
+		windowData_.style = style;
 	}
-	return true;
-}
-bool ComaWindow::setStyleEx(DWORD styleEx)
-{
-	if (isCreated() && !isFullscreen())
-	{
-		SetWindowLong(hWnd, GWL_EXSTYLE, styleEx);
-	}
-	else
-	{
-		windowData.style = styleEx;
-	}
-	return true;
-}
-bool ComaWindow::setTitle(TCHAR* title)
-{
-	if (isCreated())
-	{
-		if (SetWindowText(hWnd, title))
-			return true;
-		return false;
-	}
-	else
-	{
-		windowData.title = title;
-	}
-	return true;
-}
-bool ComaWindow::setCmdShow(int nCmdShow)
-{
-	if (isCreated())
-		return false;
-	windowData.nCmdShow = nCmdShow;
 	return true;
 }
 
-
-bool ComaWindow::setWindowRect(RECT rect)
+bool ComaWindow::SetStyleEx(DWORD styleEx)
 {
-	if (isCreated() && !isFullscreen() && !isMinimized())
+	if (IsCreated() && !IsFullscreen())
 	{
-		if (SetWindowPos(hWnd, NULL, rect.left, rect.top, rect.right, rect.bottom, 0))
-			return true;
-		return false;
+		SetWindowLong(hWnd_, GWL_EXSTYLE, styleEx);
 	}
 	else
 	{
-		windowData.windowPosition = { rect.left, rect.top };
+		windowData_.style = styleEx;
+	}
+	return true;
+}
+
+bool ComaWindow::SetTitle(TCHAR* title)
+{
+	if (IsCreated())
+	{
+		return SetWindowText(hWnd_, title);
+	}
+	else
+	{
+		windowData_.title = title;
+	}
+	return true;
+}
+
+bool ComaWindow::SetCmdShow(int nCmdShow)
+{
+	if (IsCreated())
+	{
+		return false;
+	}
+	windowData_.nCmdShow = nCmdShow;
+	return true;
+}
+
+bool ComaWindow::SetWindowRect(RECT rect)
+{
+	if (IsCreated() && !IsFullscreen() && !IsMinimized())
+	{
+		return SetWindowPos(hWnd_, NULL, rect.left, rect.top, rect.right, rect.bottom, 0);
+	}
+	else
+	{
+		windowData_.windowPosition = { rect.left, rect.top };
 		if (rect.left == CW_USEDEFAULT)
+		{
 			rect.left = 0;
+		}
 		if (rect.top == CW_USEDEFAULT)
+		{
 			rect.top = 0;
-		windowData.windowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+		}
+		windowData_.windowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
 	}
 	return true;
 }
-bool ComaWindow::setWindowRect(int left, int top, int right, int bottom)
+
+bool ComaWindow::SetWindowRect(int left, int top, int right, int bottom)
 {
-	return setWindowRect(RECT{ left, top, right, bottom });
+	return SetWindowRect(RECT{ left, top, right, bottom });
 }
-bool ComaWindow::setWindowSize(RECT rect)
+
+bool ComaWindow::SetWindowSize(RECT rect)
 {
-	if (isCreated() && !isFullscreen() && !isMinimized())
+	if (IsCreated() && !IsFullscreen() && !IsMinimized())
 	{
-		POINT position = getWindowPosition();
-		if (SetWindowPos(hWnd, NULL, position.x, position.y, rect.right - rect.left, rect.bottom - rect.top, 0))
+		POINT position = GetWindowPosition();
+		return SetWindowPos(hWnd_, NULL, position.x, position.y, rect.right - rect.left, rect.bottom - rect.top, 0);
+	}
+	else
+	{
+		windowData_.windowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+	}
+	return true;
+}
+
+bool ComaWindow::SetWindowSize(int width, int height)
+{
+	return SetWindowSize(RECT{ 0, 0, width, height });
+}
+
+bool ComaWindow::SetWindowPosition(POINT point)
+{
+	if (IsCreated() && !IsFullscreen() && !IsMinimized())
+	{
+		RECT r = GetWindowSize();
+		if (SetWindowPos(hWnd_, NULL, point.x, point.y, r.right - r.left, r.bottom - r.top, 0))
 			return true;
 		return false;
 	}
 	else
 	{
-		windowData.windowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+		windowData_.windowPosition = { point.x, point.y };
 	}
 	return true;
 }
-bool ComaWindow::setWindowSize(int width, int height)
+
+bool ComaWindow::SetWindowPosition(int x, int y)
 {
-	return setWindowSize(RECT{ 0, 0, width, height });
+	return SetWindowPosition(POINT{ x, y });
 }
-bool ComaWindow::setWindowPosition(POINT point)
+
+bool ComaWindow::SetScreenSize(RECT rect)
 {
-	if (isCreated() && !isFullscreen() && !isMinimized())
-	{
-		RECT r = getWindowSize();
-		if (SetWindowPos(hWnd, NULL, point.x, point.y, r.right - r.left, r.bottom - r.top, 0))
-			return true;
+	if (!AdjustWindowRectEx(&rect, GetStyle(), false, GetStyleEx()))
 		return false;
-	}
-	else
-	{
-		windowData.windowPosition = { point.x, point.y };
-	}
-	return true;
+	return SetWindowSize(rect);
 }
-bool ComaWindow::setWindowPosition(int x, int y)
+
+bool ComaWindow::SetScreenSize(int width, int height)
 {
-	return setWindowPosition(POINT{ x, y });
-}
-bool ComaWindow::setScreenSize(RECT rect)
-{
-	if (!AdjustWindowRectEx(&rect, getStyle(), false, getStyleEx()))
-		return false;
-	return setWindowSize(rect);
-}
-bool ComaWindow::setScreenSize(int width, int height)
-{
-	return setScreenSize(RECT{ 0, 0, width, height });
+	return SetScreenSize(RECT{ 0, 0, width, height });
 }
 
 
-bool ComaWindow::setMaxWindowSize(RECT rect)
+bool ComaWindow::SetMaxWindowSize(RECT rect)
 {
-	windowData.maxWindowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+	windowData_.maxWindowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
 	return true;
 }
-bool ComaWindow::setMaxWindowSize(int width, int height)
+
+bool ComaWindow::SetMaxWindowSize(int width, int height)
 {
-	return setMaxWindowSize(RECT{ 0, 0, width, height });
+	return SetMaxWindowSize(RECT{ 0, 0, width, height });
 }
-bool ComaWindow::setMaxScreenSize(RECT rect)
+
+bool ComaWindow::SetMaxScreenSize(RECT rect)
 {
 	RECT outRect = rect;
-	if (!AdjustWindowRectEx(&outRect, getStyle(), false, getStyleEx()))
+	if (!AdjustWindowRectEx(&outRect, GetStyle(), false, GetStyleEx()))
+	{
 		return false;
+	}
+
+	if (rect.right - rect.left < 0)
+	{
+		outRect.right = -1;
+		outRect.left = 0;
+	}
+
+	if (rect.bottom - rect.top < 0)
+	{
+		outRect.bottom = -1;
+		outRect.top = 0;
+	}
+
+	windowData_.maxWindowSize = outRect;
+	return true;
+}
+
+bool ComaWindow::SetMaxScreenSize(int width, int height)
+{
+	return SetMaxScreenSize(RECT{ 0, 0, width, height });
+}
+
+bool ComaWindow::SetMinWindowSize(RECT rect)
+{
+	windowData_.minWindowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
+	return true;
+}
+
+bool ComaWindow::SetMinWindowSize(int width, int height)
+{
+	return SetMinWindowSize(RECT{ 0, 0, width, height });
+}
+
+bool ComaWindow::SetMinScreenSize(RECT rect)
+{
+	RECT outRect = rect;
+	if (!AdjustWindowRectEx(&outRect, GetStyle(), false, GetStyleEx()))
+	{
+		return false;
+	}
 	if (rect.right - rect.left < 0)
 	{
 		outRect.right = -1;
@@ -432,192 +482,176 @@ bool ComaWindow::setMaxScreenSize(RECT rect)
 		outRect.bottom = -1;
 		outRect.top = 0;
 	}
-	windowData.maxWindowSize = outRect;
+	windowData_.minWindowSize = outRect;
 	return true;
 }
-bool ComaWindow::setMaxScreenSize(int width, int height)
-{
-	return setMaxScreenSize(RECT{ 0, 0, width, height });
-}
-bool ComaWindow::setMinWindowSize(RECT rect)
-{
-	windowData.minWindowSize = { 0, 0, rect.right - rect.left, rect.bottom - rect.top };
-	return true;
-}
-bool ComaWindow::setMinWindowSize(int width, int height)
-{
-	return setMinWindowSize(RECT{ 0, 0, width, height });
-}
-bool ComaWindow::setMinScreenSize(RECT rect)
-{
-	RECT outRect = rect;
-	if (!AdjustWindowRectEx(&outRect, getStyle(), false, getStyleEx()))
-		return false;
-	if (rect.right - rect.left < 0)
-	{
-		outRect.right = -1;
-		outRect.left = 0;
-	}
-	if (rect.bottom - rect.top < 0)
-	{
-		outRect.bottom = -1;
-		outRect.top = 0;
-	}
-	windowData.minWindowSize = outRect;
-	return true;
-}
-bool ComaWindow::setMinScreenSize(int width, int height)
-{
-	return setMinScreenSize(RECT{ 0, 0, width, height });
-}
-//입력값이 음수이면 최대, 최소 크기를 검사하지 않는다.
 
-bool ComaWindow::addStyle(DWORD style)
+bool ComaWindow::SetMinScreenSize(int width, int height)
 {
-	DWORD st = getStyle();
+	return SetMinScreenSize(RECT{ 0, 0, width, height });
+}
+
+bool ComaWindow::AddStyle(DWORD style)
+{
+	DWORD st = GetStyle();
 	st |= style;
-	return setStyle(st);
-}
-bool ComaWindow::removeStyle(DWORD style)
-{
-	DWORD st = getStyle();
-	st &= ~style;
-	return setStyle(st);
-}
-bool ComaWindow::addStyleEx(DWORD styleEx)
-{
-	DWORD st = getStyleEx();
-	st |= styleEx;
-	return setStyleEx(st);
-}
-bool ComaWindow::removeStyleEx(DWORD styleEx)
-{
-	DWORD st = getStyleEx();
-	st &= ~styleEx;
-	return setStyleEx(st);
+	return SetStyle(st);
 }
 
-//Getter
-DWORD	ComaWindow::getStyle()
+bool ComaWindow::RemoveStyle(DWORD style)
 {
-	if (isCreated())
-	{
-		return GetWindowLong(hWnd, GWL_STYLE);
-	}
-	return windowData.style;
+	DWORD st = GetStyle();
+	st &= ~style;
+	return SetStyle(st);
 }
-DWORD	ComaWindow::getStyleEx()
+
+bool ComaWindow::AddStyleEx(DWORD styleEx)
 {
-	if (isCreated())
-	{
-		return GetWindowLong(hWnd, GWL_EXSTYLE);
-	}
-	return windowData.styleEx;
+	DWORD st = GetStyleEx();
+	st |= styleEx;
+	return SetStyleEx(st);
 }
-TCHAR*	ComaWindow::getTitle()
+
+bool ComaWindow::RemoveStyleEx(DWORD styleEx)
 {
-	if (isCreated())
+	DWORD st = GetStyleEx();
+	st &= ~styleEx;
+	return SetStyleEx(st);
+}
+
+DWORD ComaWindow::GetStyle()
+{
+	if (IsCreated())
+	{
+		return GetWindowLong(hWnd_, GWL_STYLE);
+	}
+	return windowData_.style;
+}
+DWORD ComaWindow::GetStyleEx()
+{
+	if (IsCreated())
+	{
+		return GetWindowLong(hWnd_, GWL_EXSTYLE);
+	}
+	return windowData_.styleEx;
+}
+
+TCHAR* ComaWindow::GetTitle()
+{
+	if (IsCreated())
 	{
 		TCHAR* title = new TCHAR[256];
-		GetWindowText(hWnd, title, 256);
+		GetWindowText(hWnd_, title, 256);
 		return title;
 	}
-	return windowData.title;
+	return windowData_.title;
 }
-RECT	ComaWindow::getWindowSize()
+
+RECT ComaWindow::GetWindowSize()
 {
-	if (isCreated() && !isMinimized())
+	if (IsCreated() && !IsMinimized())
 	{
 		RECT rect;
-		GetWindowRect(hWnd, &rect);
+		GetWindowRect(hWnd_, &rect);
 		return RECT{ 0, 0, rect.right - rect.left, rect.bottom - rect.top };
 	}
-	return windowData.windowSize;
+	return windowData_.windowSize;
 }
-RECT	ComaWindow::getWindowRect()
+
+RECT ComaWindow::GetWindowSizeRect()
 {
-	if (isCreated() && !isMinimized())
+	if (IsCreated() && !IsMinimized())
 	{
 		RECT rect;
-		GetWindowRect(hWnd, &rect);
+		GetWindowRect(hWnd_, &rect);
 		return rect;
 	}
-	return RECT{ 
-		windowData.windowPosition.x,
-		windowData.windowPosition.y,
-		windowData.windowPosition.x + windowData.windowSize.right - windowData.windowSize.left,
-		windowData.windowPosition.y + windowData.windowSize.bottom - windowData.windowSize.top
+	return RECT{
+		windowData_.windowPosition.x,
+		windowData_.windowPosition.y,
+		windowData_.windowPosition.x + windowData_.windowSize.right - windowData_.windowSize.left,
+		windowData_.windowPosition.y + windowData_.windowSize.bottom - windowData_.windowSize.top
 	};
 }
-RECT	ComaWindow::getScreenSize()
+
+RECT ComaWindow::GetScreenSize()
 {
 	RECT rect;
-	if (isCreated() && !isMinimized())
+	if (IsCreated() && !IsMinimized())
 	{
-		GetClientRect(hWnd, &rect);
+		GetClientRect(hWnd_, &rect);
 		return rect;
 	}
 	rect = { 0, 0, 0, 0 };
-	AdjustWindowRectEx(&rect, getStyle(), false, getStyleEx());
-	return RECT { 
-		windowData.windowSize.left - rect.left,
-		windowData.windowSize.top - rect.top,
-		windowData.windowSize.right - rect.right,
-		windowData.windowSize.bottom - rect.bottom
+	AdjustWindowRectEx(&rect, GetStyle(), false, GetStyleEx());
+	return RECT{
+		windowData_.windowSize.left - rect.left,
+		windowData_.windowSize.top - rect.top,
+		windowData_.windowSize.right - rect.right,
+		windowData_.windowSize.bottom - rect.bottom
 	};
 }//수정 필요
-POINT	ComaWindow::getWindowPosition()
+
+POINT ComaWindow::GetWindowPosition()
 {
-	if (isCreated() && !isMinimized())
+	if (IsCreated() && !IsMinimized())
 	{
 		RECT rect;
-		GetWindowRect(hWnd, &rect);
+		GetWindowRect(hWnd_, &rect);
 		return POINT{ rect.left, rect.top };
 	}
-	return windowData.windowPosition;
+	return windowData_.windowPosition;
 }
 
 //Status Changer
-bool ComaWindow::setFullscreen(bool mode)
+bool ComaWindow::SetFullscreen(bool mode)
 {
 	if (!mode)
 	{
-		if (!isFullscreen())
+		if (!IsFullscreen())
 			return false;
 
-		fullscreen = false;
+		fullscreen_ = false;
 		ChangeDisplaySettings(NULL, 0);
-		setStyle(windowData.style);
-		setStyleEx(windowData.styleEx);
-		setWindowPosition(windowData.windowPosition);
-		setWindowSize(windowData.windowSize);
-		if (isMaximized())
-			maximizeWindow();
-		else if (isMinimized())
-			minimizeWindow();
+		SetStyle(windowData_.style);
+		SetStyleEx(windowData_.styleEx);
+		SetWindowPosition(windowData_.windowPosition);
+		SetWindowSize(windowData_.windowSize);
+		if (IsMaximized())
+		{
+			MaximizeWindow();
+		}
+		else if (IsMinimized())
+		{
+			MinimizeWindow();
+		}
 
-		fullscreen = false;
+		fullscreen_ = false;
 		DispatchEvent(new WindowEvent(WindowEvent::EXIT_FULLSCREEN, this));
 		return true;
-	} //풀스크린 해제
+	}
 
-	RECT rect = getScreenSize();
-	if (setFullscreen(mode, rect.right, rect.bottom))
-		return true;
-	if (setFullscreen(mode, windowData.fullscreenSize.right, windowData.fullscreenSize.bottom))
-		return true;
-	//다양한 해상도로 시도
-	return false;
-}
-bool ComaWindow::setFullscreen(bool mode, int width ,int height)
-{
-	if (!isCreated())
+	RECT rect = GetScreenSize();
+	if (SetFullscreen(mode, rect.right, rect.bottom))
 	{
-		fullscreen = true;
-		windowData.fullscreenSize = {0,0, width, height };
 		return true;
 	}
-	if (isFullscreen())
+	if (SetFullscreen(mode, windowData_.fullscreenSize.right, windowData_.fullscreenSize.bottom))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool ComaWindow::SetFullscreen(bool mode, int width, int height)
+{
+	if (!IsCreated())
+	{
+		fullscreen_ = true;
+		windowData_.fullscreenSize = { 0,0, width, height };
+		return true;
+	}
+	if (IsFullscreen())
 		return false;
 
 	DEVMODE dm;
@@ -632,61 +666,58 @@ bool ComaWindow::setFullscreen(bool mode, int width ,int height)
 		ChangeDisplaySettings(&dm, 0);
 		return false;
 	}
-	windowData.fullscreenSize = { 0, 0, width, height };
-	windowData.style = getStyle();
-	windowData.styleEx = getStyleEx();
-	windowData.windowSize = getWindowSize();
-	windowData.windowPosition = getWindowPosition();
-	setStyle(windowData.style & ~WS_OVERLAPPEDWINDOW | WS_POPUP);
-	setStyleEx(windowData.styleEx | WS_EX_TOPMOST);
-	setWindowSize(width, height);
-	setWindowPosition(0, 0);
-	fullscreen = true;
+	windowData_.fullscreenSize = { 0, 0, width, height };
+	windowData_.style = GetStyle();
+	windowData_.styleEx = GetStyleEx();
+	windowData_.windowSize = GetWindowSize();
+	windowData_.windowPosition = GetWindowPosition();
+	SetStyle(windowData_.style & ~WS_OVERLAPPEDWINDOW | WS_POPUP);
+	SetStyleEx(windowData_.styleEx | WS_EX_TOPMOST);
+	SetWindowSize(width, height);
+	SetWindowPosition(0, 0);
+	fullscreen_ = true;
 	DispatchEvent(new WindowEvent(WindowEvent::ENTER_FULLSCREEN, this));
 	return true;
 }
-bool ComaWindow::minimizeWindow()
+
+bool ComaWindow::MinimizeWindow()
 {
-	if (isCreated() && !isFullscreen())
+	if (IsCreated() && !IsFullscreen())
 	{
-		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MINIMIZE, 0))
-			return false;
-		return true;
+		return PostMessage(hWnd_, WM_SYSCOMMAND, (WPARAM)SC_MINIMIZE, 0);
 	}
 	else
 	{
-		minimized = true;
-		maximized = false;
+		minimized_ = true;
+		maximized_ = false;
 	}
 	return true;
 }
-bool ComaWindow::maximizeWindow()
+
+bool ComaWindow::MaximizeWindow()
 {
-	if (isCreated() && !isFullscreen())
+	if (IsCreated() && !IsFullscreen())
 	{
-		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_MAXIMIZE, 0))
-			return false;
-		return true;
+		return PostMessage(hWnd_, WM_SYSCOMMAND, (WPARAM)SC_MAXIMIZE, 0));
 	}
 	else
 	{
-		minimized = false;
-		maximized = true;
+		minimized_ = false;
+		maximized_ = true;
 	}
 	return true;
 }
-bool ComaWindow::restoreWindow()
+
+bool ComaWindow::RestoreWindow()
 {
-	if (isCreated() && !isFullscreen())
+	if (IsCreated() && !IsFullscreen())
 	{
-		if (!PostMessage(hWnd, WM_SYSCOMMAND, (WPARAM)SC_RESTORE, 0))
-			return false;
-		return true;
+		return PostMessage(hWnd_, WM_SYSCOMMAND, (WPARAM)SC_RESTORE, 0));
 	}
 	else
 	{
-		minimized = false;
-		maximized = false;
+		minimized_ = false;
+		maximized_ = false;
 	}
 	return true;
 }

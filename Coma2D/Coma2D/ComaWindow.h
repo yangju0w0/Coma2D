@@ -5,10 +5,13 @@
 */
 
 #pragma once
+
 #include "EventDispatcher.h"
 #include "ComaRenderer.h"
 #include "InputManager.h"
+
 COMA_NS_BEGIN
+
 struct WindowData
 {
 	HICON icon;
@@ -33,94 +36,92 @@ public:
 	virtual ~ComaWindow();
 
 	//Window Initialize
-	bool	createWindow();
-	bool	run();
+	bool CreateComaWindow();
+	bool Run();
 
-	LRESULT messageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	LRESULT MessageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 public:
-	HINSTANCE	getInstance() { return hInstance; }
-	HWND		getWindow(){ return hWnd; }
-	InputManager* getInputManager(){ return inputManager; }
+	HINSTANCE GetInstance() { return hInstance_; }
+	HWND GetWindow() { return hWnd_; }
+	InputManager* GetInputManager() { return inputManager_; }
 
-	DWORD	getStyle();
-	DWORD	getStyleEx();
-	TCHAR*	getTitle();
-	RECT	getWindowSize();
-	RECT	getWindowRect();
-	RECT	getScreenSize();
-	POINT	getWindowPosition();
+	DWORD GetStyle();
+	DWORD GetStyleEx();
+	TCHAR* GetTitle();
+	RECT GetWindowSize();
+	RECT GetWindowSizeRect();
+	RECT GetScreenSize();
+	POINT GetWindowPosition();
 
 	//Window Setter
-	bool setIcon(HICON icon);
-	bool setCursor(HCURSOR cursor);
-	bool setBackgroundColor(HBRUSH brush);
-	bool setStyle(DWORD style);
-	bool setStyleEx(DWORD styleEx);
-	bool setTitle(TCHAR* title);
-	bool setCmdShow(int nCmdShow);
+	bool SetIcon(HICON icon);
+	bool SetCursor(HCURSOR cursor);
+	bool SetBackgroundColor(HBRUSH brush);
+	bool SetStyle(DWORD style);
+	bool SetStyleEx(DWORD styleEx);
+	bool SetTitle(TCHAR* title);
+	bool SetCmdShow(int nCmdShow);
 
 
-	bool setWindowRect(RECT rect);
-	bool setWindowRect(int left, int top, int right, int bottom);
-	bool setWindowSize(RECT rect);
-	bool setWindowSize(int width, int height);
-	bool setWindowPosition(POINT point);
-	bool setWindowPosition(int x, int y);
-	bool setScreenSize(RECT rect);
-	bool setScreenSize(int width, int height);
+	bool SetWindowRect(RECT rect);
+	bool SetWindowRect(int left, int top, int right, int bottom);
+	bool SetWindowSize(RECT rect);
+	bool SetWindowSize(int width, int height);
+	bool SetWindowPosition(POINT point);
+	bool SetWindowPosition(int x, int y);
+	bool SetScreenSize(RECT rect);
+	bool SetScreenSize(int width, int height);
 
 
-	bool setMaxScreenSize(RECT rect);
-	bool setMaxScreenSize(int width, int height);
-	bool setMaxWindowSize(RECT rect);
-	bool setMaxWindowSize(int width, int height);
-	bool setMinScreenSize(RECT rect);
-	bool setMinScreenSize(int width, int height);
-	bool setMinWindowSize(RECT rect);
-	bool setMinWindowSize(int width, int height);
+	bool SetMaxScreenSize(RECT rect);
+	bool SetMaxScreenSize(int width, int height);
+	bool SetMaxWindowSize(RECT rect);
+	bool SetMaxWindowSize(int width, int height);
+	bool SetMinScreenSize(RECT rect);
+	bool SetMinScreenSize(int width, int height);
+	bool SetMinWindowSize(RECT rect);
+	bool SetMinWindowSize(int width, int height);
 
-	bool addStyle(DWORD style);
-	bool removeStyle(DWORD style);
-	bool addStyleEx(DWORD styleEx);
-	bool removeStyleEx(DWORD styleEx);
-	
+	bool AddStyle(DWORD style);
+	bool RemoveStyle(DWORD style);
+	bool AddStyleEx(DWORD styleEx);
+	bool RemoveStyleEx(DWORD styleEx);
+
 	//Window Status Getter
-	bool isCreated(){ return created; }
-	bool isRunning(){ return running; }
-	bool isActivated(){ return activated; }
-	bool isFullscreen(){ return fullscreen; }
-	bool isMaximized(){ return maximized; }
-	bool isMinimized(){ return minimized; }
-	bool isResizing(){ return resizing; }
-	bool isMoving(){ return moving; }
+	bool IsCreated() { return created_; }
+	bool IsRunning() { return running_; }
+	bool IsActivated() { return activated_; }
+	bool IsFullscreen() { return fullscreen_; }
+	bool IsMaximized() { return maximized_; }
+	bool IsMinimized() { return minimized_; }
+	bool IsResizing() { return resizing_; }
+	bool IsMoving() { return moving_; }
 
 	//Window Status Changer
-	bool setFullscreen(bool mode);
-	bool setFullscreen(bool mode, int width, int height);
-	bool setscreen();
-	bool minimizeWindow();
-	bool maximizeWindow();
-	bool restoreWindow();
+	bool SetFullscreen(bool mode);
+	bool SetFullscreen(bool mode, int width, int height);
+	bool MinimizeWindow();
+	bool MaximizeWindow();
+	bool RestoreWindow();
 
 private:
 	//Window Essencials
-	HINSTANCE	hInstance;
-	HWND		hWnd;
-	WindowData windowData;
+	HINSTANCE hInstance_;
+	HWND hWnd_;
+	WindowData windowData_;
 
 	//Manager
-	InputManager* inputManager;
-	
-	//Window Status
-	bool created;
-	bool running;
-	bool activated;
-	bool fullscreen;
-	bool maximized;
-	bool minimized;
-	bool resizing;
-	bool moving;
+	InputManager* inputManager_;
 
+	//Window Status
+	bool created_;
+	bool running_;
+	bool activated_;
+	bool fullscreen_;
+	bool maximized_;
+	bool minimized_;
+	bool resizing_;
+	bool moving_;
 };
 
 COMA_END
