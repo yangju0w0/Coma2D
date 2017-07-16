@@ -258,7 +258,7 @@ LRESULT ComaWindow::MessageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPar
 		return 0;
 	}
 
-	if (inputManager_->createInputEvent(uMsg, wParam, lParam))
+	if (inputManager_->CreateInputEvent(uMsg, wParam, lParam))
 		return 0;
 
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);

@@ -10,28 +10,30 @@
 
 COMA_USING_NS
 
-ResourceManager::ResourceManager() : loading(false)
+ResourceManager::ResourceManager() : loading_(false)
 {
-	SetEventListener(ResourceManagerEvent::LOAD_COMPLETE, BIND(ResourceManager::completeListener));
-	SetEventListener(ResourceManagerEvent::UNLOAD_COMPLETE, BIND(ResourceManager::completeListener));
+	SetEventListener(ResourceManagerEvent::LOAD_COMPLETE, BIND(ResourceManager::CompleteListener));
+	SetEventListener(ResourceManagerEvent::UNLOAD_COMPLETE, BIND(ResourceManager::CompleteListener));
 }
-
 
 ResourceManager::~ResourceManager()
 {
-	clear();
+	Clear();
 }
 
-ResourceManager* ResourceManager::push(Resource* resource)
+ResourceManager* ResourceManager::Push(Resource* resource)
 {
 	if (resource)
-		resourceList.push_back(resource);
+	{
+		resourceList_.push_back(resource);
+	}
+
 	return this;
 }
 
-bool ResourceManager::clear()
+bool ResourceManager::Clear()
 {
-	resourceList.clear();
+	resourceList_.clear();
 	return true;
 }
 
@@ -40,53 +42,72 @@ void thread_loadResources(ResourceManager* manager, std::vector<Resource*> resou
 	int resourceNumbers = resources.size();
 	int loadedResourceNumbers = 0;
 	manager->DispatchEvent(new ResourceManagerEvent(ResourceManagerEvent::LOAD_BEGIN, manager, resourceNumbers, loadedResourceNumbers));
-	for (unsigned int i = 0; i < resources.size(); i++)
+
+	for (auto& resource : resources)
 	{
-		if (resources[i])
-			if (!resources[i]->isLoaded())
-				resources[i]->loadResource();
+		if (resource)
+		{
+			if (!resource->isLoaded())
+			{
+				resource->loadResource();
+			}
+		}
 		loadedResourceNumbers++;
 		manager->DispatchEvent(new ResourceManagerEvent(ResourceManagerEvent::LOADING, manager, resourceNumbers, loadedResourceNumbers));
 	}
+
 	manager->DispatchEvent(new ResourceManagerEvent(ResourceManagerEvent::LOAD_COMPLETE, manager, resourceNumbers, loadedResourceNumbers));
 }
+
 void thread_unloadResources(ResourceManager* manager, std::vector<Resource*> resources)
 {
 	int resourceNumbers = resources.size();
 	int unloadedResourceNumbers = 0;
 	manager->DispatchEvent(new ResourceManagerEvent(ResourceManagerEvent::UNLOAD_BEGIN, manager, resourceNumbers, unloadedResourceNumbers));
-	for (unsigned int i = 0; i < resources.size(); i++)
+
+	for (auto& resource : resources)
 	{
-		if (resources[i])
-			if (resources[i]->isLoaded())
-				resources[i]->unloadResource();
+		if (resource)
+		{
+			if (!resource->isLoaded())
+			{
+				resource->unloadResource();
+			}
+		}
 		unloadedResourceNumbers++;
 		manager->DispatchEvent(new ResourceManagerEvent(ResourceManagerEvent::UNLOADING, manager, resourceNumbers, unloadedResourceNumbers));
 	}
+
 	manager->DispatchEvent(new ResourceManagerEvent(ResourceManagerEvent::UNLOAD_COMPLETE, manager, resourceNumbers, unloadedResourceNumbers));
 }
 
-bool ResourceManager::loadResources()
+bool ResourceManager::LoadResources()
 {
-	if (loading)
+	if (loading_)
+	{
 		return false;
-	std::thread trd(thread_loadResources, this, resourceList);
+	}
+
+	std::thread trd(thread_loadResources, this, resourceList_);
 	trd.detach();
-	loading = true;
+	loading_ = true;
 	return true;
 }
 
-bool ResourceManager::unloadResources()
+bool ResourceManager::UnloadResources()
 {
-	if (loading)
+	if (loading_)
+	{
 		return false;
-	std::thread trd(thread_unloadResources, this, resourceList);
+	}
+
+	std::thread trd(thread_unloadResources, this, resourceList_);
 	trd.detach();
-	loading = true;
+	loading_ = true;
 	return true;
 }
 
-void ResourceManager::completeListener(const Event* event)
+void ResourceManager::CompleteListener(const Event* event)
 {
-	loading = false;
+	loading_ = false;
 }

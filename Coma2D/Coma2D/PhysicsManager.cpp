@@ -3,28 +3,52 @@
 COMA_USING_NS
 
 PhysicsManager::PhysicsManager()
-	:world(nullptr), pixelPerMeter(0)
+	:world_(nullptr), pixelPerMeter_(0)
 {
 }
 
 
 PhysicsManager::~PhysicsManager()
 {
-	delete world;
+	delete world_;
 }
 
-
-void PhysicsManager::initBox2D(Vector gravity)
+void PhysicsManager::InitBox2D(Vector gravity)
 {
-	if (pixelPerMeter == 0)
-		setPixelPerMeter(20);
-	if (world)
+	if (pixelPerMeter_ == 0)
+	{
+		SetPixelPerMeter(20);
+	}
+	if (world_)
+	{
 		return;
-	world = new b2World(gravity);
-	GameObject::setPhysicsWorld(world);
+	}
+	world_ = new b2World(gravity);
+	GameObject::setPhysicsWorld(world_);
 }
 
-void PhysicsManager::nextStep(double deltaTime)
+b2World* PhysicsManager::GetWorld() const
 {
-	world->Step(deltaTime, 3, 1);
+	return world_;
+}
+
+bool PhysicsManager::SetGravity(Vector gravity) const
+{
+	if (world_)
+	{
+		world_->SetGravity(gravity);
+		return true;
+	}
+	return false;
+}
+
+void PhysicsManager::SetPixelPerMeter(float pixels)
+{
+	pixelPerMeter_ = pixels;
+	GameObject::setPixelPerMeter(pixels);
+}
+
+void PhysicsManager::NextStep(double deltaTime) const
+{
+	world_->Step(deltaTime, 3, 1);
 }

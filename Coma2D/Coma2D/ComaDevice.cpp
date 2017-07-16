@@ -239,7 +239,7 @@ bool ComaDevice::InitManagers()
 	sceneManager_ = new SceneManager();
 	inputManager_ = window_->GetInputManager();
 	physicsManager_ = new PhysicsManager();
-	physicsManager_->initBox2D(Vector{ 0.0f, 10.0f });
+	physicsManager_->InitBox2D(Vector{ 0.0f, 10.0f });
 
 	return true;
 }
@@ -291,9 +291,9 @@ void ComaDevice::RendererUpdateListener(const Event* event)
 {
 	RendererEvent* rEvent = (RendererEvent*)event;
 
-	inputManager_->updateGamepad(rEvent->DeltaTime());
+	inputManager_->UpdateGamepad(rEvent->DeltaTime());
 
-	physicsManager_->nextStep(rEvent->DeltaTime());
+	physicsManager_->NextStep(rEvent->DeltaTime());
 
 	Scene* scene = sceneManager_->getScene();
 	if (scene)

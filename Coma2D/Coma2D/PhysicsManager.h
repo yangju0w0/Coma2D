@@ -11,14 +11,14 @@ public:
 	PhysicsManager();
 	virtual ~PhysicsManager();
 
-	void initBox2D(Vector gravity);
-	b2World* getWorld(){ return world; }
-	void nextStep(double deltaTime);
-	void setGravity(Vector gravity){ if (world) world->SetGravity(gravity); }
-	void setPixelPerMeter(float pixels){ pixelPerMeter = pixels; GameObject::setPixelPerMeter(pixels); }
+	void InitBox2D(Vector gravity);
+	b2World* GetWorld() const;
+	void NextStep(double deltaTime) const;
+	bool SetGravity(Vector gravity) const;
+	void SetPixelPerMeter(float pixels);
 private:
-	b2World* world;
-	float pixelPerMeter;
+	b2World* world_;
+	float pixelPerMeter_;
 };
 
 COMA_END

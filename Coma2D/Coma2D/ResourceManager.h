@@ -17,21 +17,21 @@ public:
 	ResourceManager();
 	virtual ~ResourceManager();
 
-	ResourceManager* push(Resource* resource);
-	bool clear();
+	ResourceManager* Push(Resource* resource);
+	bool Clear();
 
-	bool loadResources();
-	bool unloadResources();
+	bool LoadResources();
+	bool UnloadResources();
 
-	int getResourceNumbers(){ return resourceList.size(); }
-	bool isLoading(){ return loading; }
-
-private:
-	std::vector<Resource*> resourceList;
-	bool loading;
+	int GetResourceNumbers() const { return resourceList_.size(); }
+	bool IsLoading() const { return loading_; }
 
 private:
-	void completeListener(const Event* event);
+	std::vector<Resource*> resourceList_;
+	bool loading_;
+
+private:
+	void CompleteListener(const Event* event);
 };
 
 COMA_END
