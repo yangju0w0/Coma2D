@@ -157,9 +157,9 @@ bool ComaDevice::Run()
 	}
 	running_ = true;
 
-	if (!renderer_->isRunning())
+	if (!renderer_->IsRunning())
 	{
-		renderer_->run();
+		renderer_->Run();
 	}
 
 	if (!window_->IsRunning())
@@ -219,9 +219,9 @@ bool ComaDevice::InitRenderer()
 		renderer_ = new ComaRenderer();
 	}
 
-	if (!renderer_->isInitialized())
+	if (!renderer_->IsInitialized())
 	{
-		if (!renderer_->initRenderer(window_->GetWindow()))
+		if (!renderer_->InitRenderer(window_->GetWindow()))
 		{
 			return false;
 		}
@@ -255,35 +255,35 @@ void ComaDevice::WindowDestroyListener(const Event* event)
 
 void ComaDevice::WindowMinimizeListener(const Event* event)
 {
-	renderer_->pause();
+	renderer_->Pause();
 }
 
 void ComaDevice::WindowRestoreListener(const Event* event)
 {
-	renderer_->run();
+	renderer_->Run();
 }
 
 void ComaDevice::WindowEnterResizeMoveListener(const Event* event)
 {
-	renderer_->pause();
+	renderer_->Pause();
 }
 
 void ComaDevice::WindowExitResizeMoveListener(const Event* event)
 {
-	renderer_->resetSize();
-	renderer_->run();
+	renderer_->ResetSize();
+	renderer_->Run();
 }
 
 void ComaDevice::WindowUpdateListener(const Event* event)
 {
-	renderer_->update();
+	renderer_->Update();
 }
 
 void ComaDevice::WindowResizeListener(const Event* event)
 {
 	if (!window_->IsResizing() && !window_->IsMinimized())
 	{
-		renderer_->resetSize();
+		renderer_->ResetSize();
 	}
 }
 

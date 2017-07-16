@@ -29,8 +29,8 @@ public:
 	static const std::string RENDER_TARGET_CREATED;
 
 public:
-	double DeltaTime() const { return targetRenderer_->getDeltaTime(); }
-	ID2D1HwndRenderTarget* GetRenderTarget() const { return targetRenderer_->getRenderTarget(); }
+	double DeltaTime() const { return targetRenderer_->GetDeltaTime(); }
+	ID2D1HwndRenderTarget* GetRenderTarget() const { return targetRenderer_->GetRenderTarget(); }
 	ComaRenderer* GetTarget() const { return targetRenderer_; }
 private:
 	ComaRenderer* targetRenderer_;

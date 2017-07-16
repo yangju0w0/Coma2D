@@ -45,7 +45,7 @@ public:
 	POINT GetWindowPosition() const { return target_->GetWindowPosition(); }
 	RECT GetScreenSize() const { return target_->GetScreenSize(); }
 	RECT GetWindowSize() const { return target_->GetWindowSize(); }
-	RECT GetWindowRect() const { return target_->GetWindowRect(); }
+	RECT GetWindowSizeRect() const { return target_->GetWindowSizeRect(); }
 
 	int GetWindowX() const { return target_->GetWindowPosition().x; }
 	int GetWindowY() const { return target_->GetWindowPosition().y; }

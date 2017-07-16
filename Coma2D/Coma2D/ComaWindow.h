@@ -41,17 +41,17 @@ public:
 
 	LRESULT MessageProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 public:
-	HINSTANCE GetInstance() { return hInstance_; }
-	HWND GetWindow() { return hWnd_; }
-	InputManager* GetInputManager() { return inputManager_; }
+	HINSTANCE GetInstance() const { return hInstance_; }
+	HWND GetWindow() const { return hWnd_; }
+	InputManager* GetInputManager() const { return inputManager_; }
 
-	DWORD GetStyle();
-	DWORD GetStyleEx();
-	TCHAR* GetTitle();
-	RECT GetWindowSize();
-	RECT GetWindowSizeRect();
-	RECT GetScreenSize();
-	POINT GetWindowPosition();
+	DWORD GetStyle() const;
+	DWORD GetStyleEx() const;
+	const TCHAR* GetTitle();
+	RECT GetWindowSize() const;
+	RECT GetWindowSizeRect() const;
+	RECT GetScreenSize() const;
+	POINT GetWindowPosition() const;
 
 	//Window Setter
 	bool SetIcon(HICON icon);
@@ -59,9 +59,8 @@ public:
 	bool SetBackgroundColor(HBRUSH brush);
 	bool SetStyle(DWORD style);
 	bool SetStyleEx(DWORD styleEx);
-	bool SetTitle(TCHAR* title);
+	bool SetTitle(const TCHAR* title);
 	bool SetCmdShow(int nCmdShow);
-
 
 	bool SetWindowRect(RECT rect);
 	bool SetWindowRect(int left, int top, int right, int bottom);
@@ -71,7 +70,6 @@ public:
 	bool SetWindowPosition(int x, int y);
 	bool SetScreenSize(RECT rect);
 	bool SetScreenSize(int width, int height);
-
 
 	bool SetMaxScreenSize(RECT rect);
 	bool SetMaxScreenSize(int width, int height);
@@ -88,14 +86,14 @@ public:
 	bool RemoveStyleEx(DWORD styleEx);
 
 	//Window Status Getter
-	bool IsCreated() { return created_; }
-	bool IsRunning() { return running_; }
-	bool IsActivated() { return activated_; }
-	bool IsFullscreen() { return fullscreen_; }
-	bool IsMaximized() { return maximized_; }
-	bool IsMinimized() { return minimized_; }
-	bool IsResizing() { return resizing_; }
-	bool IsMoving() { return moving_; }
+	bool IsCreated() const { return created_; }
+	bool IsRunning() const { return running_; }
+	bool IsActivated() const { return activated_; }
+	bool IsFullscreen() const { return fullscreen_; }
+	bool IsMaximized() const { return maximized_; }
+	bool IsMinimized() const { return minimized_; }
+	bool IsResizing() const { return resizing_; }
+	bool IsMoving() const { return moving_; }
 
 	//Window Status Changer
 	bool SetFullscreen(bool mode);

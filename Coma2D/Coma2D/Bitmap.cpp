@@ -30,7 +30,7 @@ Bitmap* Bitmap::createBitmap(IStream* stream)
 	return createBitmap(mainRenderer, stream);
 }
 Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, TCHAR* filename){
-	if (!renderer->getRenderTarget())
+	if (!renderer->GetRenderTarget())
 		return nullptr;
 
 	IWICBitmapDecoder* decoder = createBitmapDecoderFromFile(filename);
@@ -40,7 +40,7 @@ Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, TCHAR* filename){
 	return new Bitmap(renderer, decoder);
 }
 Bitmap* Bitmap::createBitmap(ComaRenderer* renderer, IStream* stream){
-	if (!renderer->getRenderTarget())
+	if (!renderer->GetRenderTarget())
 		return nullptr;
 
 	IWICBitmapDecoder* decoder = createBitmapDecoderFromStream(stream);
@@ -59,7 +59,7 @@ Bitmap* Bitmap::createBitmapAndLoad(IStream* stream)
 	return createBitmapAndLoad(mainRenderer, stream);
 }
 Bitmap* Bitmap::createBitmapAndLoad(ComaRenderer* renderer, TCHAR* filename){
-	if (!renderer->getRenderTarget())
+	if (!renderer->GetRenderTarget())
 		return nullptr;
 
 	IWICBitmapDecoder* decoder = createBitmapDecoderFromFile(filename);
@@ -69,7 +69,7 @@ Bitmap* Bitmap::createBitmapAndLoad(ComaRenderer* renderer, TCHAR* filename){
 	return new Bitmap(renderer, decoder, true);
 }
 Bitmap* Bitmap::createBitmapAndLoad(ComaRenderer* renderer, IStream* stream){
-	if (!renderer->getRenderTarget())
+	if (!renderer->GetRenderTarget())
 		return nullptr;
 
 	IWICBitmapDecoder* decoder = createBitmapDecoderFromStream(stream);
@@ -193,7 +193,7 @@ bool Bitmap::loadResource()
 {
 	if (!isLoaded())
 	{
-		bitmap = createID2D1BitmapFromDecoder(renderer->getRenderTarget(), decoder);
+		bitmap = createID2D1BitmapFromDecoder(renderer->GetRenderTarget(), decoder);
 		return isLoaded();
 	}
 	return true;

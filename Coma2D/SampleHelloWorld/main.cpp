@@ -11,7 +11,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 	window->SetTitle(TEXT("HELLO WORLD!"));
 
 	ComaRenderer* renderer = new ComaRenderer();
-	renderer->setBackgroundColor(0.0f, 0.0f, 0.0f);
+	renderer->SetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	ComaDevice* device = ComaDevice::GetDevice();
 	device->SetWindowRenderer(window, renderer);

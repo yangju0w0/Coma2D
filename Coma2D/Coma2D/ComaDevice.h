@@ -32,7 +32,7 @@ public:
 
 	void Release();
 	void ReleaseAll();
-	
+
 public:
 	//Device Setter
 	bool SetWindow(ComaWindow* window);
@@ -40,8 +40,8 @@ public:
 	bool SetWindowRenderer(ComaWindow* window, ComaRenderer* renderer);
 
 	//Device Getter
-	ComaWindow* GetWindow(){ return window_; }
-	ComaRenderer* GetRenderer(){ return renderer_; }
+	ComaWindow* GetWindow() const { return window_; }
+	ComaRenderer* GetRenderer() const { return renderer_; }
 
 	//Device Control
 	bool InitDevice();
@@ -49,14 +49,14 @@ public:
 	bool Run();
 
 	//Device Status Getter
-	bool IsRunning(){ return running_; }
-	bool IsInitialized(){ return initialized_; }
+	bool IsRunning() const { return running_; }
+	bool IsInitialized() const { return initialized_; }
 
 	//ManagerGetter
-	ResourceManager* GetResourceManager(){ return resourceManager_; }
-	SceneManager* GetSceneManager(){ return sceneManager_; }
-	InputManager* GetInputManager(){ return inputManager_; }
-	PhysicsManager* GetPhysicsManager(){ return physicsManager_; }
+	ResourceManager* GetResourceManager() const { return resourceManager_; }
+	SceneManager* GetSceneManager() const { return sceneManager_; }
+	InputManager* GetInputManager() const { return inputManager_; }
+	PhysicsManager* GetPhysicsManager() const { return physicsManager_; }
 
 private:
 	//Events
