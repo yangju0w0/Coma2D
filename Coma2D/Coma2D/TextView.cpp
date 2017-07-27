@@ -18,8 +18,8 @@ TextView::TextView(Size layoutSize, const std::wstring& text, const std::wstring
 		initFactory();
 	
 	factory->CreateTextFormat(fontName.c_str(), 0, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, fontSize, L"ko", &format);
-	setLocalSize(layoutSize);
-	this->color.a = getScreenAlpha();
+	SetLocalSize(layoutSize);
+	this->color.a = GetScreenAlpha();
 	switch (textAlign)
 	{
 	case ALIGN_LEFT:
@@ -58,15 +58,15 @@ void TextView::initFactory()
 	factoryAvailable = true;
 }
 
-void TextView::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
+void TextView::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
-	DisplayObject::render(renderTarget, deltaTime);
-	if (!isVisible())
+	DisplayObject::Render(renderTarget, deltaTime);
+	if (!IsVisible())
 		return;
-	if (std::roundf(getScreenAlpha() * 1000) != tempScreenAlpha)
+	if (std::roundf(GetScreenAlpha() * 1000) != tempScreenAlpha)
 	{
-		tempScreenAlpha = std::roundf(getScreenAlpha() * 1000);
-		color.a = getScreenAlpha();
+		tempScreenAlpha = std::roundf(GetScreenAlpha() * 1000);
+		color.a = GetScreenAlpha();
 		if (textBrush_)textBrush_->Release();
 		textBrush_ = nullptr;
 	}
@@ -75,15 +75,15 @@ void TextView::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 		renderTarget->CreateSolidColorBrush(color, &textBrush_);
 	}
 	
-	renderTarget->SetTransform(getScreenMatrix());
-	Rect rect = { 0, 0, getLocalSize().width, getLocalSize().height };
+	renderTarget->SetTransform(GetScreenMatrix());
+	Rect rect = { 0, 0, GetLocalSize().width, GetLocalSize().height };
 	renderTarget->DrawTextW(text.c_str(), text.length(), format, rect, textBrush_);
 }
 
 void TextView::setColor(Color color)
 {
 	this->color = color;
-	color.a = getScreenAlpha();
+	color.a = GetScreenAlpha();
 	if (textBrush_) textBrush_->Release();
 	textBrush_ = nullptr;
 }

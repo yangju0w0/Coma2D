@@ -44,7 +44,7 @@ public:
 	void setFriction(float value);
 	void setRestitution(float value);
 
-	virtual void update(double deltaTime);
+	virtual void Update(double deltaTime);
 
 	b2Shape*		collider;
 	b2Body*			body;

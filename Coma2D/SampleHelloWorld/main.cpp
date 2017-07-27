@@ -24,9 +24,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	Scene* scene = new Scene();
 	TextView* textView = new TextView(Size{600,40}, L"Hello Coma2D World!", L"Ariel", 40.0f, Color{1,1,1}, ALIGN_CENTER);
-	textView->setPosition(100, 220);
+	textView->SetPosition(100, 220);
 
-	scene->addChild(textView);
+	scene->AddChild(textView);
 
 	device->GetSceneManager()->ChangeScene(scene);
 

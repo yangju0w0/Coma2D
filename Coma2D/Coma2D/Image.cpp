@@ -12,17 +12,17 @@ Image::Image(Bitmap* bitmap) : bitmap(bitmap), sizeFixed(false)
 {
 	if (bitmap->isLoaded())
 	{
-		setLocalSize(bitmap->getResource()->GetSize());
+		SetLocalSize(bitmap->getResource()->GetSize());
 		sizeFixed = true;
 	}
 }
 Image::Image(Bitmap* bitmap, Size size) : bitmap(bitmap), sizeFixed(true)
 {
-	setLocalSize(size.width, size.height);
+	SetLocalSize(size.width, size.height);
 }
 Image::Image(Bitmap* bitmap, float width, float height) : bitmap(bitmap), sizeFixed(true)
 {
-	setLocalSize(width, height);
+	SetLocalSize(width, height);
 }
 
 
@@ -31,20 +31,20 @@ Image::~Image()
 {
 	
 }
-void Image::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
+void Image::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
-	DisplayObject::render(renderTarget, deltaTime);
-	if (!isVisible())
+	DisplayObject::Render(renderTarget, deltaTime);
+	if (!IsVisible())
 		return;
 	if (bitmap->isLoaded())
 	{
 		if (!sizeFixed)
 		{
-			setLocalSize(bitmap->getResource()->GetSize());
+			SetLocalSize(bitmap->getResource()->GetSize());
 			sizeFixed = true;
 		}
-		renderTarget->SetTransform(getScreenMatrix());
-		D2D1_RECT_F size = { 0, 0, getLocalSize().width, getLocalSize().height };
-		renderTarget->DrawBitmap(bitmap->getResource(), size, getScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		renderTarget->SetTransform(GetScreenMatrix());
+		D2D1_RECT_F size = { 0, 0, GetLocalSize().width, GetLocalSize().height };
+		renderTarget->DrawBitmap(bitmap->getResource(), size, GetScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 }

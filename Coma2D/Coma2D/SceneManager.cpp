@@ -24,7 +24,7 @@ SceneManager::~SceneManager()
 
 void SceneManager::ChangeScene(Scene* scene)
 {
-	DisplayObject::_setWorld(scene);
+	DisplayObject::_SetWorld(scene);
 
 	if(this->scene_)
 	{

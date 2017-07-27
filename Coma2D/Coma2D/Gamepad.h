@@ -37,7 +37,7 @@ public:
 	virtual ~Gamepad();
 
 public:
-	void update(double deltaTime);
+	void Update(double deltaTime);
 	void updateConntected();
 
 
@@ -61,8 +61,8 @@ public:
 	bool getRightShoulder()	{ return ((state.Gamepad.wButtons&GAMEPAD_RIGHT_SHOULDER) != 0); }
 	bool getA()				{ return ((state.Gamepad.wButtons&GAMEPAD_A) != 0); }
 	bool getB()				{ return ((state.Gamepad.wButtons&GAMEPAD_B) != 0); }
-	bool getX()				{ return ((state.Gamepad.wButtons&GAMEPAD_X) != 0); }
-	bool getY()				{ return ((state.Gamepad.wButtons&GAMEPAD_Y) != 0); }
+	bool GetX()				{ return ((state.Gamepad.wButtons&GAMEPAD_X) != 0); }
+	bool GetY()				{ return ((state.Gamepad.wButtons&GAMEPAD_Y) != 0); }
 
 	BYTE	getRawLeftTrigger();
 	BYTE	getRawRightTrigger();

@@ -18,58 +18,70 @@ DisplayObjectContainer::~DisplayObjectContainer()
 {
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
-		objectList[i]->_unregisterParent();
+		objectList[i]->_UnregisterParent();
 	}
 }
 
-void DisplayObjectContainer::addChild(DisplayObject* object)
+void DisplayObjectContainer::AddChild(DisplayObject* object)
 {
-	if (object->getParent())
+	if (object->GetParent())
+	{
+		return;
+	}
+	for (unsigned int i = 0; i < objectList.size(); i++)
+	{
+		if (objectList[i] == object)
+		{
+			return;
+		}
+	}	
+	if (!object->_RegisterParent(this))
+	{
+		return;
+	}
+	objectList.push_back(object);
+	_UpdateSize();
+}
+
+void DisplayObjectContainer::AddChildCenter(DisplayObject* object)
+{
+	if (object->GetParent())
 		return;
 	for (unsigned int i = 0; i < objectList.size(); i++)
 		if (objectList[i] == object) return;
-	if (!object->_registerParent(this)) return;
+	if (!object->_RegisterParent(this)) return;
 	objectList.push_back(object);
-	_resetSize();
+	object->SetPosition(object->GetWidth() / -2, object->GetHeight() / -2);
+	_UpdateSize();
 }
-void DisplayObjectContainer::addChildCenter(DisplayObject* object)
-{
-	if (object->getParent())
-		return;
-	for (unsigned int i = 0; i < objectList.size(); i++)
-		if (objectList[i] == object) return;
-	if (!object->_registerParent(this)) return;
-	objectList.push_back(object);
-	object->setPosition(object->getWidth() / -2, object->getHeight() / -2);
-	_resetSize();
-}
-void DisplayObjectContainer::removeChild(DisplayObject* object)
+
+void DisplayObjectContainer::RemoveChild(DisplayObject* object)
 {
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
 		if (objectList[i] == object)
 		{
-			if (!object->_unregisterParent())
+			if (!object->_UnregisterParent())
 				return;
 			objectList.erase(objectList.begin() + i);
-			_resetSize();
+			_UpdateSize();
 			return;
 		}
 	}
 }
 
-void DisplayObjectContainer::_resetSize()
+void DisplayObjectContainer::_UpdateSize()
 {
-	Rect rect{ 10000000, 10000000, -10000000, -10000000 };
+	Rect rect{ 210000000, 210000000, -210000000, -210000000 };
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
-		Matrix3x2 matrix = objectList[i]->getMatrix() * objectList[i]->getCameraMatrix();
+		Matrix3x2 matrix = objectList[i]->GetMatrix() * objectList[i]->GetCameraMatrix();
 
 		Point point[4] = {
-			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x,										objectList[i]->getLocalPosition().y }),
-			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x + objectList[i]->getLocalSize().width, objectList[i]->getLocalPosition().y }),
-			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x + objectList[i]->getLocalSize().width, objectList[i]->getLocalPosition().y + objectList[i]->getLocalSize().height }),
-			matrix.TransformPoint(Point{ objectList[i]->getLocalPosition().x,										objectList[i]->getLocalPosition().y + objectList[i]->getLocalSize().height })
+			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x,										objectList[i]->GetLocalPosition().y }),
+			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x + objectList[i]->GetLocalSize().width, objectList[i]->GetLocalPosition().y }),
+			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x + objectList[i]->GetLocalSize().width, objectList[i]->GetLocalPosition().y + objectList[i]->GetLocalSize().height }),
+			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x,										objectList[i]->GetLocalPosition().y + objectList[i]->GetLocalSize().height })
 		};
 
 		for (int i = 0; i < 4; i++)
@@ -84,43 +96,43 @@ void DisplayObjectContainer::_resetSize()
 				rect.bottom = point[i].y;
 		}
 	}
-	setLocalSize(rect.right - rect.left,rect.bottom - rect.top);
-	setLocalPosition(rect.left, rect.top);
+	SetLocalSize(rect.right - rect.left,rect.bottom - rect.top);
+	SetLocalPosition(rect.left, rect.top);
 }
 
-void DisplayObjectContainer::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
+void DisplayObjectContainer::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
-	DisplayObject::render(renderTarget, deltaTime);
-	if (!isVisible())
+	DisplayObject::Render(renderTarget, deltaTime);
+	if (!IsVisible())
 		return;
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
 
-		objectList[i]->setDrawOutline(isOutlineDrawing());
-		objectList[i]->render(renderTarget, deltaTime);
+		objectList[i]->SetDrawOutline(IsOutlineDrawing());
+		objectList[i]->Render(renderTarget, deltaTime);
 	}
 }
-void DisplayObjectContainer::update(double deltaTime)
+
+void DisplayObjectContainer::Update(double deltaTime)
 {
-	DisplayObject::update(deltaTime);
+	DisplayObject::Update(deltaTime);
 	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
-		objectList[i]->update(deltaTime);
+		objectList[i]->Update(deltaTime);
 	}
 }
 
-
-void DisplayObjectContainer::drawOutline(ID2D1HwndRenderTarget* renderTarget)
+void DisplayObjectContainer::DrawOutline(ID2D1HwndRenderTarget* renderTarget)
 {
 	if (!brush)
 		renderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &brush);
 	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
 	renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
-	Point position = localToScreen(getLocalPosition());
-	Point position2 = localToScreen(Point{ getLocalPosition().x + getLocalSize().width, getLocalPosition().y + getLocalSize().height });
+	Point position = LocalToScreen(GetLocalPosition());
+	Point position2 = LocalToScreen(Point{ GetLocalPosition().x + GetLocalSize().width, GetLocalPosition().y + GetLocalSize().height });
 	renderTarget->DrawRectangle(Rect{ position.x, position.y, position2.x, position2.y }, brush);
-	renderTarget->SetTransform(getScreenMatrix());
+	renderTarget->SetTransform(GetScreenMatrix());
 	renderTarget->DrawEllipse(D2D1::Ellipse(Point{ 0, 0 }, 2, 2), brush);
 	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Blue));
-	renderTarget->DrawEllipse(D2D1::Ellipse(getAnchorPoint(), 1.7f,1.7f),brush);
+	renderTarget->DrawEllipse(D2D1::Ellipse(GetAnchorPoint(), 1.7f,1.7f),brush);
 }

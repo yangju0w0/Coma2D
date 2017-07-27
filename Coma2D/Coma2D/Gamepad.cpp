@@ -29,7 +29,7 @@ Gamepad::~Gamepad()
 	delete[] indexData;
 }
 
-void Gamepad::update(double deltaTime)
+void Gamepad::Update(double deltaTime)
 {
 	DWORD result;
 	if (connected)

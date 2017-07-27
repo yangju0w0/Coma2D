@@ -22,14 +22,14 @@ Sprite::Sprite(Bitmap* bitmap, Size imageSize, Size tileSize, unsigned int width
 Sprite::~Sprite()
 {}
 
-void Sprite::update(double deltaTime)
+void Sprite::Update(double deltaTime)
 {
 	if (isPlaying())
 		timeCount += deltaTime;
 	currentFrame = ((int)(timeCount / frameChangeTime) % totalFrame) + 1;
 	if (currentFrame >= totalFrame && !autoReplay)
 		stop();
-	DisplayObject::update(deltaTime);
+	DisplayObject::Update(deltaTime);
 
 	if (tempFrame != currentFrame)
 	{
@@ -37,21 +37,21 @@ void Sprite::update(double deltaTime)
 		DispatchEvent(new SpriteEvent(SpriteEvent::ENTER_FRAME, this));
 	}
 }
-void Sprite::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
+void Sprite::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
-	DisplayObject::render(renderTarget, deltaTime);
-	if (!isVisible())
+	DisplayObject::Render(renderTarget, deltaTime);
+	if (!IsVisible())
 		return;
 	if (bitmap->isLoaded())
 	{
-		renderTarget->SetTransform(getScreenMatrix());
-		D2D1_RECT_F size = { 0, 0, getLocalSize().width, getLocalSize().height };
+		renderTarget->SetTransform(GetScreenMatrix());
+		D2D1_RECT_F size = { 0, 0, GetLocalSize().width, GetLocalSize().height };
 		D2D1_RECT_F resSize = {
 			((currentFrame - 1) % widthNumber)*tileSize.width,
 			((currentFrame - 1) / widthNumber)*tileSize.height,
 			((currentFrame - 1) % widthNumber)*tileSize.width + tileSize.width,
 			((currentFrame - 1) / widthNumber)*tileSize.height + tileSize.height };
-		renderTarget->DrawBitmap(bitmap->getResource(), size, getScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, resSize);
+		renderTarget->DrawBitmap(bitmap->getResource(), size, GetScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, resSize);
 	}
 }
 

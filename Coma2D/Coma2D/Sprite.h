@@ -16,8 +16,8 @@ public:
 	Sprite(Bitmap* bitmap, Size imageSize, Size tileSize, unsigned int widthNumber, unsigned int heightNumber, int tileNumber = 0, float frameChangeTime=0.01666666f, bool autoReplay=true);
 	virtual ~Sprite();
 
-	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
-	virtual void update(double deltaTime);
+	virtual void Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
+	virtual void Update(double deltaTime);
 
 	void stop();
 	void play();

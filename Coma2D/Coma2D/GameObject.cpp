@@ -51,8 +51,8 @@ void GameObject::createPhysics(bool setDefault)
 		return;
 	if (setDefault)
 	{
-		Point pos = localToWorld(Point{ getLocalPosition().x + getLocalSize().width / 2, getLocalPosition().y + getLocalSize().height / 2 });
-		Point pos2 = localToWorld(getLocalPosition());
+		Point pos = LocalToWorld(Point{ GetLocalPosition().x + GetLocalSize().width / 2, GetLocalPosition().y + GetLocalSize().height / 2 });
+		Point pos2 = LocalToWorld(GetLocalPosition());
 		bodyDef.position.Set(pos.x * meterPerPixel, pos.y * meterPerPixel);
 		((b2PolygonShape*)collider)->SetAsBox((pos.x - pos2.x)*meterPerPixel, (pos.y - pos2.y)*meterPerPixel);
 	}
@@ -72,7 +72,7 @@ void GameObject::setBodyType(b2BodyType type)
 }
 void GameObject::setColliderPosition(Point point)
 {
-	Point pos = localToWorld(point);
+	Point pos = LocalToWorld(point);
 	bodyDef.position.Set(pos.x*meterPerPixel, pos.y*meterPerPixel);
 }
 void GameObject::setColliderPosition(float x, float y)
@@ -83,16 +83,16 @@ void GameObject::setBoxCollider(float width, float height)
 {
 	if (collider) delete collider;
 	collider = new b2PolygonShape();
-	Point pos = localToWorld(Point{ 0, 0 });
-	Point pos2 = localToWorld(Point{width, height});
+	Point pos = LocalToWorld(Point{ 0, 0 });
+	Point pos2 = LocalToWorld(Point{width, height});
 	((b2PolygonShape*)collider)->SetAsBox((pos2.x - pos.x)*meterPerPixel, (pos2.y - pos.y)*meterPerPixel);
 }
 void GameObject::setCircleCollider(float radius)
 {
 	if (collider) delete collider;
 	collider = new b2CircleShape();
-	Point pos = localToWorld(Point{ 0, 0 });
-	Point pos2 = localToWorld(Point{ radius, radius });
+	Point pos = LocalToWorld(Point{ 0, 0 });
+	Point pos2 = LocalToWorld(Point{ radius, radius });
 	((b2CircleShape*)collider)->m_radius = ((pos2.x - pos.x) + (pos2.y - pos.y))/2 * meterPerPixel;
 }
 void GameObject::setCollider(b2Shape* shape)
@@ -115,18 +115,18 @@ void GameObject::setRestitution(float value)
 }
 
 
-void GameObject::update(double deltaTime)
+void GameObject::Update(double deltaTime)
 {
 	if (body && IsBadReadPtr(body, MAX_PATH))
 	{
 		return;
 	}
-	DisplayObjectContainer::update(deltaTime);
+	DisplayObjectContainer::Update(deltaTime);
 	if (!usePhysics || IsBadReadPtr(body, MAX_PATH))
 		return;
 	b2Vec2 position = body->GetPosition();
 	float32 angle = body->GetAngle();
-	this->setPosition(position.x*pixelPerMeter, position.y*pixelPerMeter);
-	this->setRotation(angle*(180.0f/PI));
+	this->SetPosition(position.x*pixelPerMeter, position.y*pixelPerMeter);
+	this->SetRotation(angle*(180.0f/PI));
 	
 }

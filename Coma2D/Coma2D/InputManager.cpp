@@ -141,6 +141,6 @@ void InputManager::UpdateGamepad(double deltaTime)
 {
 	for (int i = 0; i < MAX_CONTROLLERS; ++i)
 	{
-		gamePads_[i]->update(deltaTime);
+		gamePads_[i]->Update(deltaTime);
 	}
 }

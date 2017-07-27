@@ -298,7 +298,7 @@ void ComaDevice::RendererUpdateListener(const Event* event)
 	Scene* scene = sceneManager_->GetScene();
 	if (scene)
 	{
-		scene->update(rEvent->DeltaTime());
+		scene->Update(rEvent->DeltaTime());
 	}
 }
 
@@ -309,6 +309,6 @@ void ComaDevice::RendererRenderListener(const Event* event)
 	Scene* scene = sceneManager_->GetScene();
 	if (scene)
 	{
-		scene->render(rEvent->GetRenderTarget(), rEvent->DeltaTime());
+		scene->Render(rEvent->GetRenderTarget(), rEvent->DeltaTime());
 	}
 }

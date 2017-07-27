@@ -26,3 +26,8 @@ typedef D2D_COLOR_F Color;
 typedef D2D1::Matrix3x2F Matrix3x2;
 typedef UINT64 TAG;
 typedef b2Vec2 Vector;
+
+template <typename T>
+T Clamp(const T& n, const T& lower, const T& upper) {
+	return std::max(lower, std::min(n, upper));
+}

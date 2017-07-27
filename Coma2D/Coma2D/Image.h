@@ -18,7 +18,7 @@ public:
 	Image(Bitmap* bitmap, Size size);
 	Image(Bitmap* bitmap, float width, float height);
 	virtual ~Image();
-	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
+	virtual void Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
 	Bitmap* getBitmap(){ return bitmap; }
 protected:
 	bool sizeFixed;
