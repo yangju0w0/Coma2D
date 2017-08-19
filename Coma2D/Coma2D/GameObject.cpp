@@ -8,125 +8,147 @@
 
 COMA_USING_NS
 
-b2World* GameObject::physicsWorld = nullptr;
-float GameObject::pixelPerMeter = 20;
-float GameObject::meterPerPixel = 1 / 20.f;
+b2World* GameObject::physicsWorld_ = nullptr;
+float GameObject::pixelPerMeter_ = 20;
+float GameObject::meterPerPixel_ = 1 / 20.f;
 
 GameObject::GameObject()
-	:DisplayObjectContainer(), usePhysics(false), collider(nullptr), body(nullptr)
+	:DisplayObjectContainer(), usePhysics_(false), collider_(nullptr), body_(nullptr)
 {
-	collider = new b2PolygonShape();
+	collider_ = new b2PolygonShape();
 
 	//Point pos = localToWorld(Point{ getLocalPosition().x+ getLocalSize().width/2, getLocalPosition().y + getLocalSize().height/2 });
 	//Point pos2 = localToWorld(getLocalPosition());
 
-	bodyDef.type = b2_dynamicBody;
+	bodyDef_.type = b2_dynamicBody;
 	//bodyDef->position.Set(pos.x * meterPerPixel, pos.y * meterPerPixel);
 
 	//((b2PolygonShape*)collider)->SetAsBox((pos.x - pos2.x)*meterPerPixel, (pos.y - pos2.y)*meterPerPixel);
 
-	fixtureDef.friction = 0.3f;
-	fixtureDef.density = 1.0f;
+	fixtureDef_.friction = 0.3f;
+	fixtureDef_.density = 1.0f;
 }
-
 
 GameObject::~GameObject()
 {
-	if(collider) delete collider;
+	if (collider_) delete collider_;
 }
 
-void GameObject::setPhysicsWorld(b2World* world)
+void GameObject::SetPhysicsWorld(b2World* world)
 {
-	physicsWorld = world;
-}
-void GameObject::setPixelPerMeter(float pixel)
-{
-	pixelPerMeter = pixel;
-	meterPerPixel = 1.f / pixel;
+	physicsWorld_ = world;
 }
 
-void GameObject::createPhysics(bool setDefault)
+void GameObject::SetPixelPerMeter(float pixel)
 {
-	if (!physicsWorld)
+	pixelPerMeter_ = pixel;
+	meterPerPixel_ = 1.f / pixel;
+}
+
+void GameObject::CreatePhysics(bool setDefault)
+{
+	if (!physicsWorld_)
+	{
 		return;
+	}
+
 	if (setDefault)
 	{
-		Point pos = localToWorld(Point{ getLocalPosition().x + getLocalSize().width / 2, getLocalPosition().y + getLocalSize().height / 2 });
-		Point pos2 = localToWorld(getLocalPosition());
-		bodyDef.position.Set(pos.x * meterPerPixel, pos.y * meterPerPixel);
-		((b2PolygonShape*)collider)->SetAsBox((pos.x - pos2.x)*meterPerPixel, (pos.y - pos2.y)*meterPerPixel);
+		Point pos = LocalToWorld(Point{ GetLocalPosition().x + GetLocalSize().width / 2, GetLocalPosition().y + GetLocalSize().height / 2 });
+		Point pos2 = LocalToWorld(GetLocalPosition());
+		bodyDef_.position.Set(pos.x * meterPerPixel_, pos.y * meterPerPixel_);
+		((b2PolygonShape*)collider_)->SetAsBox((pos.x - pos2.x) * meterPerPixel_, (pos.y - pos2.y) * meterPerPixel_);
 	}
-	body = physicsWorld->CreateBody(&bodyDef);
-	fixtureDef.shape = collider;
-	body->CreateFixture(&fixtureDef);
-	usePhysics = true;
-}
-void GameObject::destroyPhysics()
-{
-	usePhysics = false;
+	body_ = physicsWorld_->CreateBody(&bodyDef_);
+	fixtureDef_.shape = collider_;
+	body_->CreateFixture(&fixtureDef_);
+	usePhysics_ = true;
 }
 
-void GameObject::setBodyType(b2BodyType type)
+void GameObject::DestroyPhysics()
 {
-	bodyDef.type = type;
-}
-void GameObject::setColliderPosition(Point point)
-{
-	Point pos = localToWorld(point);
-	bodyDef.position.Set(pos.x*meterPerPixel, pos.y*meterPerPixel);
-}
-void GameObject::setColliderPosition(float x, float y)
-{
-	setColliderPosition(Point{ x, y });
-}
-void GameObject::setBoxCollider(float width, float height)
-{
-	if (collider) delete collider;
-	collider = new b2PolygonShape();
-	Point pos = localToWorld(Point{ 0, 0 });
-	Point pos2 = localToWorld(Point{width, height});
-	((b2PolygonShape*)collider)->SetAsBox((pos2.x - pos.x)*meterPerPixel, (pos2.y - pos.y)*meterPerPixel);
-}
-void GameObject::setCircleCollider(float radius)
-{
-	if (collider) delete collider;
-	collider = new b2CircleShape();
-	Point pos = localToWorld(Point{ 0, 0 });
-	Point pos2 = localToWorld(Point{ radius, radius });
-	((b2CircleShape*)collider)->m_radius = ((pos2.x - pos.x) + (pos2.y - pos.y))/2 * meterPerPixel;
-}
-void GameObject::setCollider(b2Shape* shape)
-{
-	if (collider) delete collider;
-	collider = shape;
+	usePhysics_ = false;
 }
 
-void GameObject::setDensity(float value)
+void GameObject::SetBodyType(b2BodyType type)
 {
-	fixtureDef.density = value;
-}
-void GameObject::setFriction(float value)
-{
-	fixtureDef.friction = value;
-}
-void GameObject::setRestitution(float value)
-{
-	fixtureDef.restitution = value;
+	bodyDef_.type = type;
 }
 
-
-void GameObject::update(double deltaTime)
+void GameObject::SetColliderPosition(Point point)
 {
-	if (body && IsBadReadPtr(body, MAX_PATH))
+	Point pos = LocalToWorld(point);
+	bodyDef_.position.Set(pos.x * meterPerPixel_, pos.y * meterPerPixel_);
+}
+
+void GameObject::SetColliderPosition(float x, float y)
+{
+	SetColliderPosition(Point{ x, y });
+}
+
+void GameObject::SetBoxCollider(float width, float height)
+{
+	if (collider_)
+	{
+		delete collider_;
+	}
+	collider_ = new b2PolygonShape();
+	Point pos = LocalToWorld(Point{ 0, 0 });
+	Point pos2 = LocalToWorld(Point{ width, height });
+	((b2PolygonShape*)collider_)->SetAsBox((pos2.x - pos.x) * meterPerPixel_, (pos2.y - pos.y) * meterPerPixel_);
+}
+
+void GameObject::SetCircleCollider(float radius)
+{
+	if (collider_)
+	{
+		delete collider_;
+	}
+	collider_ = new b2CircleShape();
+	Point pos = LocalToWorld(Point{ 0, 0 });
+	Point pos2 = LocalToWorld(Point{ radius, radius });
+	((b2CircleShape*)collider_)->m_radius = ((pos2.x - pos.x) + (pos2.y - pos.y)) / 2 * meterPerPixel_;
+}
+
+void GameObject::SetCollider(b2Shape* shape)
+{
+	if (collider_)
+	{
+		delete collider_;
+	}
+	collider_ = shape;
+}
+
+void GameObject::SetDensity(float value)
+{
+	fixtureDef_.density = value;
+}
+
+void GameObject::SetFriction(float value)
+{
+	fixtureDef_.friction = value;
+}
+
+void GameObject::SetRestitution(float value)
+{
+	fixtureDef_.restitution = value;
+}
+
+void GameObject::Update(double deltaTime)
+{
+	if (body_ && IsBadReadPtr(body_, MAX_PATH))
 	{
 		return;
 	}
-	DisplayObjectContainer::update(deltaTime);
-	if (!usePhysics || IsBadReadPtr(body, MAX_PATH))
+
+	DisplayObjectContainer::Update(deltaTime);
+	if (!usePhysics_ || IsBadReadPtr(body_, MAX_PATH))
+	{
 		return;
-	b2Vec2 position = body->GetPosition();
-	float32 angle = body->GetAngle();
-	this->setPosition(position.x*pixelPerMeter, position.y*pixelPerMeter);
-	this->setRotation(angle*(180.0f/PI));
-	
+	}
+	b2Vec2 position = body_->GetPosition();
+	float32 angle = body_->GetAngle();
+	this->SetPosition(position.x * pixelPerMeter_, position.y * pixelPerMeter_);
+	this->SetRotation(angle*(180.0f / PI));
+
 }

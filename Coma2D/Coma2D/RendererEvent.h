@@ -27,13 +27,13 @@ public:
 	static const std::string LOAD_RESOURCE_REQ;
 	static const std::string RENDER_TARGET_RELEASED;
 	static const std::string RENDER_TARGET_CREATED;
-	
+
 public:
-	double deltaTime(){ return targetRenderer->getDeltaTime(); }
-	ID2D1HwndRenderTarget* getRenderTarget(){ return targetRenderer->getRenderTarget(); }
-	ComaRenderer* getTarget(){ return targetRenderer; }
+	double DeltaTime() const { return targetRenderer_->GetDeltaTime(); }
+	ID2D1HwndRenderTarget* GetRenderTarget() const { return targetRenderer_->GetRenderTarget(); }
+	ComaRenderer* GetTarget() const { return targetRenderer_; }
 private:
-	ComaRenderer* targetRenderer;
+	ComaRenderer* targetRenderer_;
 };
 
 COMA_END

@@ -18,11 +18,11 @@ public:
 	Image(Bitmap* bitmap, Size size);
 	Image(Bitmap* bitmap, float width, float height);
 	virtual ~Image();
-	virtual void render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
-	Bitmap* getBitmap(){ return bitmap; }
+	virtual void Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
+	Bitmap* GetBitmap() { return bitmap_; }
 protected:
-	bool sizeFixed;
-	Bitmap* bitmap;
+	bool sizeFixed_;
+	Bitmap* bitmap_;
 };
 
 COMA_END

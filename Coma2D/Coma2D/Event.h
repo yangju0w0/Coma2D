@@ -11,13 +11,13 @@ Event클래스는 이벤트의 정보를 담는 클래스이다. EventDispatcher의 dispatchEvent에
 대한 정보를 해당 함수에 알릴 수 있다는 것이다.
 
 이벤트 발생 순서
-dispatchEvent(new Event("mouseEvent"))
+DispatchEvent(new Event("mouseEvent"))
 => type이 "mouseEvent"인 리스너 탐색
 => 존재할 경우 해당 함수 실행 (Event* 인자 전달)
 
 이벤트 등록 순서
 void mouseListener(Event* event);
-EventDispatcher->setEventListener("mouseEvent", BIND(mouseListener));
+EventDispatcher->SetEventListener("mouseEvent", BIND(mouseListener));
 => 이벤트 발생 시 mouseListener함수 호출
 
 
@@ -25,8 +25,8 @@ static const std::string을 이용하여 이벤트 타입을 지정할 수 있다.
 또한 상속을 받아, 이벤트와 관련된 데이터를 전달할 수도 있다.
 
 예) MouseEvent (Event클래스 상속)
-dispatchEvent(new MouseEvent( MouseEvent::CLICK, x, y ));
-setEventListener(MouseEvent::CLICK, BIND(mouseListener));
+DispatchEvent(new MouseEvent( MouseEvent::CLICK, x, y ));
+SetEventListener(MouseEvent::CLICK, BIND(mouseListener));
 void mouseListener(Event* event)
 {
 	MouseEvent* mouseEvent = (MouseEvent*) event;
@@ -46,12 +46,12 @@ class Event
 public:
 	explicit Event(const std::string& type);
 	virtual ~Event();
-	const std::string& getType() const
+	const std::string& GetType() const
 	{
-		return type;
+		return type_;
 	}
 private:
-	const std::string type;
+	const std::string type_;
 };
 
 COMA_END

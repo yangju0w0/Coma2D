@@ -14,7 +14,7 @@ class ObjectEvent :
 	public Event
 {
 public:
-	ObjectEvent(std::string type, DisplayObject* target, double deltaTime = 0.0);
+	ObjectEvent(const std::string& type, DisplayObject* target, double deltaTime = 0.0);
 	virtual ~ObjectEvent();
 
 public:
@@ -23,11 +23,12 @@ public:
 	static const std::string ADDED;
 	static const std::string REMOVED;
 
-	double deltaTime(){ return time; }
-	DisplayObject* getTarget(){ return target; }
+	double DeltaTime() const { return time_; }
+	DisplayObject* GetTarget() const { return target_; }
+
 private:
-	double time;
-	DisplayObject* target;
+	double time_;
+	DisplayObject* target_;
 };
 
 COMA_END

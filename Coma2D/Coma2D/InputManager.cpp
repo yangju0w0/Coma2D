@@ -12,29 +12,29 @@
 COMA_USING_NS
 
 InputManager::InputManager()
-	:charIn(0), inputString(""), mousePosition(Point{0, 0}), leftMouseDowned(false), rightMouseDowned(false), middleMouseDowned(false)
+	:charIn_(0), inputString_(""), mousePosition_(Point{ 0, 0 }), leftMouseDowned_(false), rightMouseDowned_(false), middleMouseDowned_(false)
 {
 	for (int i = 0; i < 256; i++)
 	{
-		pressedKey[i] = false;
+		pressedKey_[i] = false;
 	}
+
 	for (int i = 0; i < MAX_CONTROLLERS; i++)
 	{
-		gamePads[i] = new Gamepad(i);
-		gamePads[i]->updateConntected();
+		gamePads_[i] = new Gamepad(i);
+		gamePads_[i]->UpdateConntected();
 	}
 }
-
 
 InputManager::~InputManager()
 {
 	for (int i = 0; i < MAX_CONTROLLERS; i++)
 	{
-		delete gamePads[i];
+		delete gamePads_[i];
 	}
 }
 
-bool InputManager::createInputEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
+bool InputManager::CreateInputEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
@@ -42,83 +42,105 @@ bool InputManager::createInputEvent(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_SYSKEYDOWN:
 		if (wParam < 256)
 		{
-			pressedKey[wParam] = true;
+			pressedKey_[wParam] = true;
 		}
-		dispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_DOWN, 0, wParam, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT)));
+		DispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_DOWN, 0, wParam, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT)));
 		return true;
+
 	case WM_KEYUP:
 	case WM_SYSKEYUP:
 		if (wParam < 256)
 		{
-			pressedKey[wParam] = false;
+			pressedKey_[wParam] = false;
 		}
-		dispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_UP, 0, wParam, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT)));
+		DispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_UP, 0, wParam, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT)));
 		return true;
+
 	case WM_CHAR:
-		dispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_CHAR, wParam, 0, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT)));
+		DispatchEvent(new KeyboardEvent(KeyboardEvent::KEY_CHAR, wParam, 0, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT)));
 		return true;
+
 	case WM_MOUSEMOVE:
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_MOVE, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::MOUSE_MOVE, leftMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_LBUTTONDOWN:
-		leftMouseDowned = true;
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_DOWN, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
-		dispatchEvent(new MouseEvent(MouseEvent::CLICK, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		leftMouseDowned_ = true;
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::MOUSE_DOWN, leftMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
+		DispatchEvent(new MouseEvent(MouseEvent::CLICK, leftMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_LBUTTONUP:
-		leftMouseDowned = false;
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_MOVE, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		leftMouseDowned_ = false;
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::MOUSE_MOVE, leftMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_MBUTTONDOWN:
-		middleMouseDowned = true;
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::MIDDLE_MOUSE_DOWN, middleMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
-		dispatchEvent(new MouseEvent(MouseEvent::MIDDLE_CLICK, middleMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		middleMouseDowned_ = true;
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::MIDDLE_MOUSE_DOWN, middleMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
+		DispatchEvent(new MouseEvent(MouseEvent::MIDDLE_CLICK, middleMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_MBUTTONUP:
-		middleMouseDowned = false;
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::MIDDLE_MOUSE_UP, middleMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		middleMouseDowned_ = false;
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::MIDDLE_MOUSE_UP, middleMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
+
 	case WM_RBUTTONDOWN:
-		rightMouseDowned = true;
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::RIGHT_MOUSE_DOWN, rightMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
-		dispatchEvent(new MouseEvent(MouseEvent::RIGHT_CLICK, rightMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		rightMouseDowned_ = true;
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::RIGHT_MOUSE_DOWN, rightMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
+		DispatchEvent(new MouseEvent(MouseEvent::RIGHT_CLICK, rightMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_RBUTTONUP:
-		rightMouseDowned = false;
-		updateMousePosition(lParam);
-		dispatchEvent(new MouseEvent(MouseEvent::RIGHT_MOUSE_UP, rightMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), 0, mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		rightMouseDowned_ = false;
+		UpdateMousePosition(lParam);
+		DispatchEvent(new MouseEvent(MouseEvent::RIGHT_MOUSE_UP, rightMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), 0, mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_MOUSEWHEEL:
-		dispatchEvent(new MouseEvent(MouseEvent::MOUSE_WHEEL, leftMouseDowned, isKeyDown(VK_MENU), isKeyDown(VK_CONTROL), isKeyDown(VK_SHIFT), (SHORT)HIWORD(wParam), mousePosition.x, mousePosition.y, mousePosition.x, mousePosition.y));
+		DispatchEvent(new MouseEvent(MouseEvent::MOUSE_WHEEL, leftMouseDowned_, IsKeyDown(VK_MENU), IsKeyDown(VK_CONTROL), IsKeyDown(VK_SHIFT), (SHORT)HIWORD(wParam), mousePosition_.x, mousePosition_.y, mousePosition_.x, mousePosition_.y));
 		return true;
+
 	case WM_DEVICECHANGE:
-		updateGamepadConnected();
+		UpdateGamepadConnected();
 		return true;
 	}
 	return false;
 }
 
-void InputManager::updateMousePosition(LPARAM lParam)
+Gamepad* InputManager::GetGamepad(UINT index) const
 {
-	mousePosition.x = LOWORD(lParam);
-	mousePosition.y = HIWORD(lParam);
-}
-void InputManager::updateGamepadConnected()
-{
-	for (int i = 0; i < MAX_CONTROLLERS; i++)
+	if (index > MAX_CONTROLLERS - 1)
 	{
-		gamePads[i]->updateConntected();
+		return gamePads_[MAX_CONTROLLERS - 1];
+	}
+	return gamePads_[index];
+}
+
+void InputManager::UpdateMousePosition(LPARAM lParam)
+{
+	mousePosition_.x = LOWORD(lParam);
+	mousePosition_.y = HIWORD(lParam);
+}
+
+void InputManager::UpdateGamepadConnected()
+{
+	for (int i = 0; i < MAX_CONTROLLERS; ++i)
+	{
+		gamePads_[i]->UpdateConntected();
 	}
 }
-void InputManager::updateGamepad(double deltaTime)
+
+void InputManager::UpdateGamepad(double deltaTime)
 {
-	for (int i = 0; i < MAX_CONTROLLERS; i++)
+	for (int i = 0; i < MAX_CONTROLLERS; ++i)
 	{
-		gamePads[i]->update(deltaTime);
+		gamePads_[i]->Update(deltaTime);
 	}
 }

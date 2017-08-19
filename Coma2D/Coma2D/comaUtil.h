@@ -3,6 +3,7 @@
 * fileinfo	매크로 및 유틸리티 집합 파일
 * author	주헌양 (Heonyang Ju)
 */
+#pragma once
 #include <d2d1.h>
 #include <math.h>
 #include "Box2D/Box2D.h"
@@ -26,3 +27,8 @@ typedef D2D_COLOR_F Color;
 typedef D2D1::Matrix3x2F Matrix3x2;
 typedef UINT64 TAG;
 typedef b2Vec2 Vector;
+
+template <typename T>
+T Clamp(const T& n, const T& lower, const T& upper) {
+	return max(lower, min(n, upper));
+}

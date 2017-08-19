@@ -7,16 +7,16 @@ using namespace coma2d;
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmdParam, int nCmdShow)
 {
 	ComaWindow* window = new ComaWindow(hInstance, nCmdShow);
-	window->setScreenSize(800, 480);
-	window->setTitle(TEXT("HELLO WORLD!"));
+	window->SetScreenSize(800, 480);
+	window->SetTitle(TEXT("HELLO WORLD!"));
 
 	ComaRenderer* renderer = new ComaRenderer();
-	renderer->setBackgroundColor(0.0f, 0.0f, 0.0f);
+	renderer->SetBackgroundColor(0.0f, 0.0f, 0.0f);
 
 	ComaDevice* device = ComaDevice::GetDevice();
-	device->setWindowRenderer(window, renderer);
+	device->SetWindowRenderer(window, renderer);
 
-	if (!device->initDevice())
+	if (!device->InitDevice())
 	{
 		MessageBox(NULL, TEXT("Coma2D device initialization failed."), TEXT("Error"), MB_ICONERROR);
 		return -1;
@@ -24,23 +24,20 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpszCmd
 
 	Scene* scene = new Scene();
 	TextView* textView = new TextView(Size{600,40}, L"Hello Coma2D World!", L"Ariel", 40.0f, Color{1,1,1}, ALIGN_CENTER);
-	textView->setPosition(100, 220);
+	textView->SetPosition(100, 220);
 
-	scene->addChild(textView);
+	scene->AddChild(textView);
 
-	device->getSceneManager()->changeScene(scene);
+	device->GetSceneManager()->ChangeScene(scene);
 
-
-	if (!device->run())
+	if (!device->Run())
 	{
 		MessageBox(NULL, TEXT("Coma2D failed to run."), TEXT("Error"), MB_ICONERROR);
 		return -1;
 	}
 
 	if (textView) delete textView;
-	if (window) delete window;
-	if (renderer) delete renderer;
-	if (device) device->Release();
+	if (device) device->ReleaseAll();
 
 	return 0;
 }

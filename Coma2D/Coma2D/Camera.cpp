@@ -9,63 +9,88 @@
 COMA_USING_NS
 
 Camera::Camera(float width, float height)
-:DisplayObject(), ref(0), cameraOn(false), cameraBrush_(nullptr)
+	:DisplayObject(), ref_(0), cameraOn_(false), cameraBrush_(nullptr)
 {
-	setLocalSize(width, height);
-	setVisible(false);
-	setAnchorPoint(width / 2.0f, height / 2.0f);
+	SetLocalSize(width, height);
+	SetVisible(false);
+	SetAnchorPoint(width / 2.0f, height / 2.0f);
 }
 
 
 Camera::~Camera()
 {
-	if(cameraBrush_)cameraBrush_->Release();
+	if (cameraBrush_)
+	{
+		cameraBrush_->Release();
+	}
 }
 
-void Camera::update()
+void Camera::Update()
 {
-	
+
 }
-void Camera::render(ID2D1HwndRenderTarget* renderTarget)
+
+void Camera::Render(ID2D1HwndRenderTarget* renderTarget)
 {
-	if (!isVisible())
+	if (!IsVisible())
+	{
 		return;
+	}
+
 	if (!cameraBrush_)
 	{
-		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.8f, 0.1f, 0.1f, getAlpha()), &cameraBrush_);
+		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.8f, 0.1f, 0.1f, GetAlpha()), &cameraBrush_);
 	}
-	renderTarget->SetTransform(getScreenMatrix());
-	renderTarget->DrawRectangle(Rect{ 0, 0, getLocalSize().width, getLocalSize().height }, cameraBrush_);
+	renderTarget->SetTransform(GetScreenMatrix());
+	renderTarget->DrawRectangle(Rect{ 0, 0, GetLocalSize().width, GetLocalSize().height }, cameraBrush_);
 }
 
-void Camera::on(){ cameraOn = true; }
-void Camera::off(){ cameraOn = false; }
-bool Camera::isCameraOn(){ return cameraOn; }
-
-Matrix3x2 Camera::getMatrix()
+void Camera::On()
 {
-	if (isCameraOn())
+	cameraOn_ = true;
+}
+
+void Camera::Off()
+{
+	cameraOn_ = false;
+}
+
+bool Camera::IsCameraOn() const
+{
+	return cameraOn_;
+}
+
+Matrix3x2 Camera::GetMatrix()
+{
+	if (IsCameraOn())
 	{
-		return DisplayObject::getMatrix();
+		return DisplayObject::GetMatrix();
 	}
 	return Matrix3x2::Identity();
 }
-bool Camera::_registerParent(DisplayObjectContainer* parent) {
-	if (!getParent() && parent)
+
+bool Camera::_RegisterParent(DisplayObjectContainer* parent)
+{
+	if (!GetParent() && parent)
 	{
-		if (!DisplayObject::_registerParent(parent))
+		if (!DisplayObject::_RegisterParent(parent))
+		{
 			return false;
-		ref++;
+		}
+		ref_++;
 	}
 	return true;
 }
-bool Camera::_unregisterParent()
+
+bool Camera::_UnregisterParent()
 {
-	ref--;
-	if (ref <= 0)
+	ref_--;
+	if (ref_ <= 0)
 	{
-		if (!DisplayObject::_unregisterParent())
+		if (!DisplayObject::_UnregisterParent())
+		{
 			return false;
+		}
 	}
 	return true;
 }

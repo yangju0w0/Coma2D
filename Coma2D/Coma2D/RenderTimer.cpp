@@ -8,86 +8,87 @@
 
 
 RenderTimer::RenderTimer()
-	:baseTime(0), pausedTime(0), stopTime(0), prevTime(0), currentTime(0), secondsPerCount(0), deltaTime(0), running(false)
+	:baseTime_(0), pausedTime_(0), stopTime_(0), prevTime_(0), currentTime_(0), secondsPerCount_(0), deltaTime_(0), running_(false)
 {
 	__int64 freq;
 	QueryPerformanceFrequency((LARGE_INTEGER*)&freq);
-	secondsPerCount = 1.0 / freq;
+	secondsPerCount_ = 1.0 / freq;
 }
-
 
 RenderTimer::~RenderTimer()
 {
 }
 
-void RenderTimer::reset()
+void RenderTimer::Reset()
 {
-	running = false;
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	baseTime = currentTime;
-	stopTime = currentTime;
-	prevTime = currentTime;
-	pausedTime = 0;
+	running_ = false;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+	baseTime_ = currentTime_;
+	stopTime_ = currentTime_;
+	prevTime_ = currentTime_;
+	pausedTime_ = 0;
 }
 
-void RenderTimer::start()
+void RenderTimer::Start()
 {
-	if (running)
+	if (running_)
 		return;
 
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	pausedTime += currentTime - stopTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+	pausedTime_ += currentTime_ - stopTime_;
 
-	prevTime = currentTime;
+	prevTime_ = currentTime_;
 
-	running = true;
+	running_ = true;
 }
 
-void RenderTimer::stop()
+void RenderTimer::Stop()
 {
-	if (!running)
-		return;
-	
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	stopTime = currentTime;
-	running = false;
-}
-
-void RenderTimer::tick()
-{
-	if (!running)
+	if (!running_)
 		return;
 
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	deltaTime = (currentTime - prevTime) * secondsPerCount;
-	prevTime = currentTime;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+	stopTime_ = currentTime_;
+	running_ = false;
 }
 
-double RenderTimer::getTotalTime()
+void RenderTimer::Tick()
 {
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	return (currentTime - baseTime)*secondsPerCount;
+	if (!running_)
+		return;
+
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+	deltaTime_ = (currentTime_ - prevTime_) * secondsPerCount_;
+	prevTime_ = currentTime_;
 }
 
-double RenderTimer::getRunningTime()
+double RenderTimer::GetTotalTime()
 {
-	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	if (!running)
-		return (currentTime - baseTime - pausedTime - (currentTime-stopTime))*secondsPerCount;
-	return (currentTime - baseTime - pausedTime)*secondsPerCount;
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+	return (currentTime_ - baseTime_) * secondsPerCount_;
 }
 
-double RenderTimer::getPausedTime()
+double RenderTimer::GetRunningTime()
 {
-	if (!running)
+	QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+	if (!running_)
 	{
-		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-		return (pausedTime + (currentTime - stopTime))*secondsPerCount;
+		return (currentTime_ - baseTime_ - pausedTime_ - (currentTime_ - stopTime_))*secondsPerCount_;
 	}
-	return pausedTime*secondsPerCount;
+	return (currentTime_ - baseTime_ - pausedTime_)*secondsPerCount_;
 }
 
-double RenderTimer::getDeltaTime()
+double RenderTimer::GetPausedTime()
 {
-	return deltaTime;
+	if (!running_)
+	{
+		QueryPerformanceCounter((LARGE_INTEGER*)&currentTime_);
+		return (pausedTime_ + (currentTime_ - stopTime_)) * secondsPerCount_;
+	}
+	return pausedTime_ * secondsPerCount_;
+}
+
+double RenderTimer::GetDeltaTime()
+{
+	return deltaTime_;
 }

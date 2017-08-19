@@ -18,21 +18,21 @@ public:
 	Camera(float width, float height);
 	virtual ~Camera();
 
-	void update();
-	void render(ID2D1HwndRenderTarget* renderTarget);
+	virtual void Update();
+	virtual void Render(ID2D1HwndRenderTarget* renderTarget);
 
-	void on();
-	void off();
-	bool isCameraOn();
+	void On();
+	void Off();
+	bool IsCameraOn() const;
 
-	Matrix3x2 getMatrix();
-	bool _registerParent(DisplayObjectContainer* parent);
-	bool _unregisterParent();
+	Matrix3x2 GetMatrix();
+	bool _RegisterParent(DisplayObjectContainer* parent);
+	bool _UnregisterParent();
 
 private:
 	ID2D1SolidColorBrush* cameraBrush_;
-	bool cameraOn;
-	int ref;
+	bool cameraOn_;
+	int ref_;
 };
 
 COMA_END

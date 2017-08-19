@@ -21,11 +21,12 @@ public:
 	static const std::string STOPPED;
 	static const std::string PLAY;
 
-	Sprite* getTarget(){ return target; }
-	unsigned int getCurrentFrame(){ return target->getCurrentFrame(); }
-	unsigned int getTotalFrame(){ return target->getTotalFrame(); }
+	Sprite* GetTarget() const { return target_; }
+	unsigned int GetCurrentFrame() const { return target_->GetCurrentFrame(); }
+	unsigned int GetTotalFrame() const { return target_->GetTotalFrame(); }
+
 private:
-	Sprite* target;
+	Sprite* target_;
 };
 
 COMA_END

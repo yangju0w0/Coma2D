@@ -16,8 +16,8 @@ public:
 	Scene();
 public:
 	virtual ~Scene();
-	bool _registerParent(DisplayObjectContainer* parent) { return false; }	//(오버라이드) Scene객체는 addChild로 추가할 수 없다.
-	bool _unregisterParent(){ return false; }								//(오버라이드) Scene객체는 addChild로 추가할 수 없다.
+	bool _RegisterParent(DisplayObjectContainer* parent) { return false; }	//(오버라이드) Scene객체는 addChild로 추가할 수 없다.
+	bool _UnregisterParent(){ return false; }								//(오버라이드) Scene객체는 addChild로 추가할 수 없다.
 };
 
 COMA_END

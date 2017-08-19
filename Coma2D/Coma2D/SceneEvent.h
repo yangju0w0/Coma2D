@@ -14,14 +14,15 @@ class SceneEvent :
 	public Event
 {
 public:
-	SceneEvent(const std::string& type, const Scene* target);
+	SceneEvent(const std::string& type, Scene* target);
 	virtual ~SceneEvent();
 
 public:
 	static const std::string CHANGED;
-	const Scene* getScene() const{ return scene; }
+	Scene* GetScene() const { return scene_; }
+
 private:
-	const Scene* scene;
+	Scene* scene_;
 };
 
 COMA_END

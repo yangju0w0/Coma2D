@@ -8,7 +8,7 @@
 COMA_USING_NS
 
 Event::Event(const std::string& type)
-	:type(type)
+	:type_(type)
 {
 }
 

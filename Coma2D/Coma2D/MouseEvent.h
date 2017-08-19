@@ -13,7 +13,7 @@ class MouseEvent :
 	public Event
 {
 public:
-	MouseEvent(std::string type, bool buttonDown=false,bool altKey=false, bool ctrlKey=false, bool shiftKey=false, int delta=0, float stageX=0, float stageY=0, float localX=0, float localY=0);
+	MouseEvent(const std::string& type, bool buttonDown = false, bool altKey = false, bool ctrlKey = false, bool shiftKey = false, int delta = 0, float stageX = 0, float stageY = 0, float localX = 0, float localY = 0);
 	virtual ~MouseEvent();
 
 public:
@@ -32,33 +32,33 @@ public:
 	static const std::string RIGHT_CLICK;
 	static const std::string RIGHT_MOUSE_DOWN;
 	static const std::string RIGHT_MOUSE_UP;
-	
-public:
-	bool	getButtonDown()	{ return buttonDown; }
-	bool	getAltKey()		{ return altKey; }
-	bool	getCtrlKey()	{ return ctrlKey; }
-	bool	getShiftKey()	{ return shiftKey; }
 
-	int		getDelta()		{ return delta; }
-	
-	float	getStageX()		{ return stageX; }
-	float	getStageY()		{ return stageY; }
-	float	getLocalX()		{ return localX; }
-	float	getLocalY()		{ return localY; }
+public:
+	bool GetButtonDown() const { return buttonDown_; }
+	bool GetAltKey() const { return altKey_; }
+	bool GetCtrlKey() const { return ctrlKey_; }
+	bool GetShiftKey() const { return shiftKey_; }
+
+	int GetDelta() const { return delta_; }
+
+	float GetStageX() const { return stageX_; }
+	float GetStageY() const { return stageY_; }
+	float GetLocalX() const { return localX_; }
+	float GetLocalY() const { return localY_; }
 
 private:
-	bool buttonDown;
-	bool altKey;
-	bool ctrlKey;
-	bool shiftKey;
+	bool buttonDown_;
+	bool altKey_;
+	bool ctrlKey_;
+	bool shiftKey_;
 
-	int delta;
+	int delta_;
 
-	float stageX;
-	float stageY;
+	float stageX_;
+	float stageY_;
 
-	float localX;
-	float localY;
+	float localX_;
+	float localY_;
 };
 
 COMA_END

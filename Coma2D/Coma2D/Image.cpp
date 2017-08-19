@@ -8,43 +8,47 @@
 
 COMA_USING_NS
 
-Image::Image(Bitmap* bitmap) : bitmap(bitmap), sizeFixed(false)
+Image::Image(Bitmap* bitmap) : bitmap_(bitmap), sizeFixed_(false)
 {
-	if (bitmap->isLoaded())
+	if (bitmap_->IsLoaded())
 	{
-		setLocalSize(bitmap->getResource()->GetSize());
-		sizeFixed = true;
+		SetLocalSize(bitmap_->GetResource()->GetSize());
+		sizeFixed_ = true;
 	}
 }
-Image::Image(Bitmap* bitmap, Size size) : bitmap(bitmap), sizeFixed(true)
+
+Image::Image(Bitmap* bitmap, Size size) : bitmap_(bitmap), sizeFixed_(true)
 {
-	setLocalSize(size.width, size.height);
-}
-Image::Image(Bitmap* bitmap, float width, float height) : bitmap(bitmap), sizeFixed(true)
-{
-	setLocalSize(width, height);
+	SetLocalSize(size.width, size.height);
 }
 
-
+Image::Image(Bitmap* bitmap, float width, float height) : bitmap_(bitmap), sizeFixed_(true)
+{
+	SetLocalSize(width, height);
+}
 
 Image::~Image()
 {
 	
 }
-void Image::render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
+
+void Image::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
-	DisplayObject::render(renderTarget, deltaTime);
-	if (!isVisible())
-		return;
-	if (bitmap->isLoaded())
+	DisplayObject::Render(renderTarget, deltaTime);
+	if (!IsVisible())
 	{
-		if (!sizeFixed)
+		return;
+	}
+
+	if (bitmap_->IsLoaded())
+	{
+		if (!sizeFixed_)
 		{
-			setLocalSize(bitmap->getResource()->GetSize());
-			sizeFixed = true;
+			SetLocalSize(bitmap_->GetResource()->GetSize());
+			sizeFixed_ = true;
 		}
-		renderTarget->SetTransform(getScreenMatrix());
-		D2D1_RECT_F size = { 0, 0, getLocalSize().width, getLocalSize().height };
-		renderTarget->DrawBitmap(bitmap->getResource(), size, getScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
+		renderTarget->SetTransform(GetScreenMatrix());
+		D2D1_RECT_F size = { 0, 0, GetLocalSize().width, GetLocalSize().height };
+		renderTarget->DrawBitmap(bitmap_->GetResource(), size, GetScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR);
 	}
 }

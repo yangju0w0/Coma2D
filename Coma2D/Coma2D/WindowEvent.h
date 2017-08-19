@@ -14,7 +14,7 @@ class WindowEvent :
 	public Event
 {
 public:
-	WindowEvent(std::string type, ComaWindow* target, WPARAM wParam = NULL, LPARAM lParam = NULL);
+	WindowEvent(const std::string& type, ComaWindow* target, WPARAM wParam = NULL, LPARAM lParam = NULL);
 	~WindowEvent();
 
 public:
@@ -38,38 +38,37 @@ public:
 
 	static const std::string ENTER_RESIZEMOVE;
 	static const std::string EXIT_RESIZEMOVE;
-	
-	
+
 	static const std::string UPDATE;
 
 public:
-	POINT getWindowPosition(){ return target->getWindowPosition(); }
-	RECT getScreenSize(){ return target->getScreenSize(); }
-	RECT getWindowSize(){ return target->getWindowSize(); }
-	RECT getWindowRect(){ return target->getWindowRect(); }
+	POINT GetWindowPosition() const { return target_->GetWindowPosition(); }
+	RECT GetScreenSize() const { return target_->GetScreenSize(); }
+	RECT GetWindowSize() const { return target_->GetWindowSize(); }
+	RECT GetWindowSizeRect() const { return target_->GetWindowSizeRect(); }
 
-	int getWindowX(){ return target->getWindowPosition().x; }
-	int getWindowY(){ return target->getWindowPosition().y; }
-	int getScreenWidth(){ return target->getScreenSize().right; }
-	int getScreenHeight(){ return target->getScreenSize().bottom; }
-	int getWindowWidth(){ return target->getWindowSize().right; }
-	int getWindowHeight(){ return target->getWindowSize().bottom; }
-	
-	bool isCreated(){ return target->isCreated(); }
-	bool isRunning(){ return target->isRunning(); }
-	bool isActivated(){ return target->isActivated(); }
-	bool isFullscreen(){ return target->isFullscreen(); }
-	bool isMaximized(){ return target->isMaximized(); }
-	bool isMinimized(){ return target->isMinimized(); }
-	bool isResizing(){ return target->isResizing(); }
-	bool isMoving(){ return target->isMoving(); }
+	int GetWindowX() const { return target_->GetWindowPosition().x; }
+	int GetWindowY() const { return target_->GetWindowPosition().y; }
+	int GetScreenWidth() const { return target_->GetScreenSize().right; }
+	int GetScreenHeight() const { return target_->GetScreenSize().bottom; }
+	int GetWindowWidth() const { return target_->GetWindowSize().right; }
+	int GetWindowHeight() const { return target_->GetWindowSize().bottom; }
 
-	ComaWindow* getTarget(){ return target; }
-	WPARAM getWParam(){ return wParam; }
-	LPARAM getLParam(){ return lParam; }
+	bool IsCreated() const { return target_->IsCreated(); }
+	bool IsRunning() const { return target_->IsRunning(); }
+	bool IsActivated() const { return target_->IsActivated(); }
+	bool IsFullscreen() const { return target_->IsFullscreen(); }
+	bool IsMaximized() const { return target_->IsMaximized(); }
+	bool IsMinimized() const { return target_->IsMinimized(); }
+	bool IsResizing() const { return target_->IsResizing(); }
+	bool IsMoving() const { return target_->IsMoving(); }
+
+	ComaWindow* GetTarget() const { return target_; }
+	WPARAM GetWParam() const { return wParam_; }
+	LPARAM GetLParam() const { return lParam_; }
 private:
-	ComaWindow* target;
-	WPARAM wParam;
-	LPARAM lParam;
+	ComaWindow* target_;
+	WPARAM wParam_;
+	LPARAM lParam_;
 };
 COMA_END

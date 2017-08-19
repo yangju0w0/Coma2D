@@ -17,45 +17,44 @@ public:
 	virtual ~GameObject();
 
 public:
-	static void setPhysicsWorld(b2World* world);
-	static void setPixelPerMeter(float pixel);
+	static void SetPhysicsWorld(b2World* world);
+	static void SetPixelPerMeter(float pixel);
 
-	b2Shape*		getcollider()	{ return collider; }
-	b2Body*			getBody()		{ return body; }
-	b2BodyDef		getBodyDef()	{ return bodyDef; }
-	b2FixtureDef	getFixtureDef()	{ return fixtureDef; }
+	b2Shape* GetCollider() const { return collider_; }
+	b2Body* GetBody() const { return body_; }
+	const b2BodyDef& GetBodyDef() const { return bodyDef_; }
+	const b2FixtureDef& GetFixtureDef() const { return fixtureDef_; }
 
 public:
-	void createPhysics(bool setDefault=false);
-	void destroyPhysics();
+	void CreatePhysics(bool setDefault = false);
+	void DestroyPhysics();
 
-	void setBodyType(b2BodyType type);
-	void setColliderPosition(Point point);
-	void setColliderPosition(float x, float y);
-	void setBoxCollider(float width, float height);
-	void setCircleCollider(float radius);
-	void setCollider(b2Shape* shape);
+	void SetBodyType(b2BodyType type);
+	void SetColliderPosition(Point point);
+	void SetColliderPosition(float x, float y);
+	void SetBoxCollider(float width, float height);
+	void SetCircleCollider(float radius);
+	void SetCollider(b2Shape* shape);
 
+	void SetBodyDef(b2BodyDef def) { this->bodyDef_ = def; }
+	void SetFixtureDef(b2FixtureDef def) { this->fixtureDef_ = def; }
 
-	void setBodyDef(b2BodyDef def)			{ this->bodyDef = def; }
-	void setFixtureDef(b2FixtureDef def)	{ this->fixtureDef = def; }
+	void SetDensity(float value);
+	void SetFriction(float value);
+	void SetRestitution(float value);
 
-	void setDensity(float value);
-	void setFriction(float value);
-	void setRestitution(float value);
+	virtual void Update(double deltaTime);
 
-	virtual void update(double deltaTime);
-
-	b2Shape*		collider;
-	b2Body*			body;
-	b2BodyDef		bodyDef;
-	b2FixtureDef	fixtureDef;
+	b2Shape* collider_;
+	b2Body* body_;
+	b2BodyDef bodyDef_;
+	b2FixtureDef fixtureDef_;
 private:
-	static b2World*	physicsWorld;
-	static float	pixelPerMeter;
-	static float	meterPerPixel;
-	
-	bool usePhysics;
+	static b2World*	physicsWorld_;
+	static float pixelPerMeter_;
+	static float meterPerPixel_;
+
+	bool usePhysics_;
 };
 
 COMA_END

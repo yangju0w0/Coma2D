@@ -17,10 +17,11 @@ public:
 	SceneManager();
 	virtual ~SceneManager();
 public:
-	void changeScene(Scene* scene);
-	Scene* getScene(){ return scene; }
+	void ChangeScene(Scene* scene);
+	Scene* GetScene() const { return scene_; }
+
 private:
-	Scene* scene;
+	Scene* scene_;
 };
 
 COMA_END

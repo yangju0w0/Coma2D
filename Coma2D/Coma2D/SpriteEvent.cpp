@@ -13,11 +13,9 @@ const std::string SpriteEvent::STOPPED = "sprite_stopped";
 const std::string SpriteEvent::PLAY = "sprite_play";
 
 SpriteEvent::SpriteEvent(const std::string& type, Sprite* target)
-	:Event(type), target(target)
-{
-}
+	:Event(type), target_(target)
+{}
 
 
 SpriteEvent::~SpriteEvent()
-{
-}
+{}
