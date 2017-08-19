@@ -3,6 +3,7 @@
 * fileinfo	화면 표시 객체 컨테이너 클래스 구현 파일
 * author	주헌양 (Heonyang Ju)
 */
+
 #include "InteractiveObject.h"
 #include "DisplayObjectContainer.h"
 
@@ -13,12 +14,11 @@ DisplayObjectContainer::DisplayObjectContainer()
 {
 }
 
-
 DisplayObjectContainer::~DisplayObjectContainer()
 {
-	for (unsigned int i = 0; i < objectList.size(); i++)
+	for (const auto& obj : objectList_)
 	{
-		objectList[i]->_UnregisterParent();
+		obj->_UnregisterParent();
 	}
 }
 
@@ -28,42 +28,60 @@ void DisplayObjectContainer::AddChild(DisplayObject* object)
 	{
 		return;
 	}
-	for (unsigned int i = 0; i < objectList.size(); i++)
+
+	for (const auto& obj : objectList_)
 	{
-		if (objectList[i] == object)
+		if (obj == object)
 		{
 			return;
 		}
-	}	
+	}
+
 	if (!object->_RegisterParent(this))
 	{
 		return;
 	}
-	objectList.push_back(object);
+
+	objectList_.push_back(object);
 	_UpdateSize();
 }
 
 void DisplayObjectContainer::AddChildCenter(DisplayObject* object)
 {
 	if (object->GetParent())
+	{
 		return;
-	for (unsigned int i = 0; i < objectList.size(); i++)
-		if (objectList[i] == object) return;
-	if (!object->_RegisterParent(this)) return;
-	objectList.push_back(object);
+	}
+
+	for (const auto& obj : objectList_)
+	{
+		if (obj == object)
+		{
+			return;
+		}
+	}
+
+	if (!object->_RegisterParent(this))
+	{
+		return;
+	}
+
+	objectList_.push_back(object);
 	object->SetPosition(object->GetWidth() / -2, object->GetHeight() / -2);
 	_UpdateSize();
 }
 
 void DisplayObjectContainer::RemoveChild(DisplayObject* object)
 {
-	for (unsigned int i = 0; i < objectList.size(); i++)
+	for (auto iter = objectList_.begin(); iter != objectList_.end(); ++iter)
 	{
-		if (objectList[i] == object)
+		if ((*iter) == object)
 		{
 			if (!object->_UnregisterParent())
+			{
 				return;
-			objectList.erase(objectList.begin() + i);
+			}
+			objectList_.erase(iter);
 			_UpdateSize();
 			return;
 		}
@@ -72,28 +90,36 @@ void DisplayObjectContainer::RemoveChild(DisplayObject* object)
 
 void DisplayObjectContainer::_UpdateSize()
 {
-	Rect rect{ 210000000, 210000000, -210000000, -210000000 };
-	for (unsigned int i = 0; i < objectList.size(); i++)
+	Rect rect{ FLT_MAX, FLT_MAX, FLT_MIN, FLT_MIN };
+	for (unsigned int i = 0; i < objectList_.size(); i++)
 	{
-		Matrix3x2 matrix = objectList[i]->GetMatrix() * objectList[i]->GetCameraMatrix();
+		Matrix3x2 matrix = objectList_[i]->GetMatrix() * objectList_[i]->GetCameraMatrix();
 
 		Point point[4] = {
-			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x,										objectList[i]->GetLocalPosition().y }),
-			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x + objectList[i]->GetLocalSize().width, objectList[i]->GetLocalPosition().y }),
-			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x + objectList[i]->GetLocalSize().width, objectList[i]->GetLocalPosition().y + objectList[i]->GetLocalSize().height }),
-			matrix.TransformPoint(Point{ objectList[i]->GetLocalPosition().x,										objectList[i]->GetLocalPosition().y + objectList[i]->GetLocalSize().height })
+			matrix.TransformPoint(Point{ objectList_[i]->GetLocalPosition().x, objectList_[i]->GetLocalPosition().y }),
+			matrix.TransformPoint(Point{ objectList_[i]->GetLocalPosition().x + objectList_[i]->GetLocalSize().width, objectList_[i]->GetLocalPosition().y }),
+			matrix.TransformPoint(Point{ objectList_[i]->GetLocalPosition().x + objectList_[i]->GetLocalSize().width, objectList_[i]->GetLocalPosition().y + objectList_[i]->GetLocalSize().height }),
+			matrix.TransformPoint(Point{ objectList_[i]->GetLocalPosition().x, objectList_[i]->GetLocalPosition().y + objectList_[i]->GetLocalSize().height })
 		};
 
 		for (int i = 0; i < 4; i++)
 		{
 			if (point[i].x < rect.left)
+			{
 				rect.left = point[i].x;
+			}
 			if (point[i].y < rect.top)
+			{
 				rect.top = point[i].y;
+			}	
 			if (point[i].x > rect.right)
+			{
 				rect.right = point[i].x;
+			}	
 			if (point[i].y > rect.bottom)
+			{
 				rect.bottom = point[i].y;
+			}
 		}
 	}
 	SetLocalSize(rect.right - rect.left,rect.bottom - rect.top);
@@ -104,28 +130,33 @@ void DisplayObjectContainer::Render(ID2D1HwndRenderTarget* renderTarget, double 
 {
 	DisplayObject::Render(renderTarget, deltaTime);
 	if (!IsVisible())
-		return;
-	for (unsigned int i = 0; i < objectList.size(); i++)
 	{
+		return;
+	}
 
-		objectList[i]->SetDrawOutline(IsOutlineDrawing());
-		objectList[i]->Render(renderTarget, deltaTime);
+	for (const auto& obj : objectList_)
+	{
+		obj->SetDrawOutline(IsOutlineDrawing());
+		obj->Render(renderTarget, deltaTime);
 	}
 }
 
 void DisplayObjectContainer::Update(double deltaTime)
 {
 	DisplayObject::Update(deltaTime);
-	for (unsigned int i = 0; i < objectList.size(); i++)
+	for (const auto& obj : objectList_)
 	{
-		objectList[i]->Update(deltaTime);
+		obj->Update(deltaTime);
 	}
 }
 
 void DisplayObjectContainer::DrawOutline(ID2D1HwndRenderTarget* renderTarget)
 {
 	if (!brush)
+	{
 		renderTarget->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::Red), &brush);
+	}
+		
 	brush->SetColor(D2D1::ColorF(D2D1::ColorF::Red));
 	renderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 	Point position = LocalToScreen(GetLocalPosition());

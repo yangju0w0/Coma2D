@@ -36,9 +36,9 @@ public:
 	bool IsRunning() const { return running_; }
 
 	double GetDeltaTime() const { return deltaTime_; }
-	double GetTotalTime() const { return timer_->getTotalTime(); }
-	double GetRunningTime() const { return timer_->getRunningTime(); }
-	double GetPausedTime() const { return timer_->getPausedTime(); }
+	double GetTotalTime() const { return timer_->GetTotalTime(); }
+	double GetRunningTime() const { return timer_->GetRunningTime(); }
+	double GetPausedTime() const { return timer_->GetPausedTime(); }
 	float GetFps() const { return fps_; }
 	__int64 GetFrameCount() const { return frameCount_; }
 

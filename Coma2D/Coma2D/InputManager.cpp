@@ -22,7 +22,7 @@ InputManager::InputManager()
 	for (int i = 0; i < MAX_CONTROLLERS; i++)
 	{
 		gamePads_[i] = new Gamepad(i);
-		gamePads_[i]->updateConntected();
+		gamePads_[i]->UpdateConntected();
 	}
 }
 
@@ -133,7 +133,7 @@ void InputManager::UpdateGamepadConnected()
 {
 	for (int i = 0; i < MAX_CONTROLLERS; ++i)
 	{
-		gamePads_[i]->updateConntected();
+		gamePads_[i]->UpdateConntected();
 	}
 }
 

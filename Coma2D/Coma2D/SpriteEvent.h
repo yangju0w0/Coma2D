@@ -22,8 +22,8 @@ public:
 	static const std::string PLAY;
 
 	Sprite* GetTarget() const { return target_; }
-	unsigned int GetCurrentFrame() const { return target_->getCurrentFrame(); }
-	unsigned int GetTotalFrame() const { return target_->getTotalFrame(); }
+	unsigned int GetCurrentFrame() const { return target_->GetCurrentFrame(); }
+	unsigned int GetTotalFrame() const { return target_->GetTotalFrame(); }
 
 private:
 	Sprite* target_;

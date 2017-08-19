@@ -25,6 +25,7 @@ protected:
 	void SetLocalPosition(float x, float y);
 
 	static ID2D1SolidColorBrush* brush;
+
 private:
 	static DisplayObjectContainer* world;
 

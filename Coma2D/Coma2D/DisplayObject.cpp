@@ -152,7 +152,10 @@ void DisplayObject::SetSize(Size size)
 
 void DisplayObject::SetWidth(float value)
 {
-	if (localSize_.width == 0) return;
+	if (localSize_.width == 0)
+	{
+		return;
+	}
 	scale_.width = value / scale_.width;
 	_TransformApply();
 }

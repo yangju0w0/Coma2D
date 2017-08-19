@@ -47,9 +47,9 @@ void thread_loadResources(ResourceManager* manager, std::vector<Resource*> resou
 	{
 		if (resource)
 		{
-			if (!resource->isLoaded())
+			if (!resource->IsLoaded())
 			{
-				resource->loadResource();
+				resource->LoadResource();
 			}
 		}
 		loadedResourceNumbers++;
@@ -69,9 +69,9 @@ void thread_unloadResources(ResourceManager* manager, std::vector<Resource*> res
 	{
 		if (resource)
 		{
-			if (!resource->isLoaded())
+			if (!resource->IsLoaded())
 			{
-				resource->unloadResource();
+				resource->UnloadResource();
 			}
 		}
 		unloadedResourceNumbers++;

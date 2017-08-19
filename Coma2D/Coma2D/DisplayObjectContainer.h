@@ -20,13 +20,13 @@ public:
 	virtual void Update(double deltaTime);
 	virtual void Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime); // 자식 객체를 모두 그린다.
 
-	void AddChild(DisplayObject* object); //자식 객체 추가
-	void AddChildCenter(DisplayObject* object); // 자식객체 중앙에 추가
-	void RemoveChild(DisplayObject* object); //자식 객체 제거
+	void AddChild(DisplayObject* object);
+	void AddChildCenter(DisplayObject* object);
+	void RemoveChild(DisplayObject* object);
 
 	void _UpdateSize(); //자식 객체의 크기와 위치에 맞게 사이즈를 다시 조정한다.
 private:
-	std::vector<DisplayObject*> objectList;
+	std::vector<DisplayObject*> objectList_;
 protected:
 	virtual void DrawOutline(ID2D1HwndRenderTarget* renderTarget);
 };

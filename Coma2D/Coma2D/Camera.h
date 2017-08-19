@@ -23,7 +23,7 @@ public:
 
 	void On();
 	void Off();
-	bool IsCameraOn();
+	bool IsCameraOn() const;
 
 	Matrix3x2 GetMatrix();
 	bool _RegisterParent(DisplayObjectContainer* parent);

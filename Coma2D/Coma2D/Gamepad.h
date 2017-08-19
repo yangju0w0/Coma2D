@@ -33,69 +33,68 @@ class Gamepad :
 	public EventDispatcher
 {
 public:
-	explicit Gamepad(UINT controllerIndex);
+	explicit Gamepad(UINT controllerIndex_);
 	virtual ~Gamepad();
 
 public:
 	void Update(double deltaTime);
-	void updateConntected();
+	void UpdateConntected();
 
+	void VibrateLeft(float speed, float time);
+	void VibrateRight(float speed, float time);
+	void VibrateRawLeft(WORD speed, float time);
+	void VibrateRawRight(WORD speed, float time);
 
-	void vibrateLeft(float speed, float time);
-	void vibrateRight(float speed, float time);
-	void vibrateRawLeft(WORD speed, float time);
-	void vibrateRawRight(WORD speed, float time);
+	bool IsConnected() const { return connected_; }
+	XINPUT_STATE GetState() const { return state_; }
 
-	bool isConnected(){ return connected; }
-	XINPUT_STATE getState(){ return state; }
+	bool GetDpadUp() const { return ((state_.Gamepad.wButtons&GAMEPAD_DPAD_UP) != 0); }
+	bool GetDpadDown() const { return ((state_.Gamepad.wButtons&GAMEPAD_DPAD_DOWN) != 0); }
+	bool GetDpadLeft() const { return ((state_.Gamepad.wButtons&GAMEPAD_DPAD_LEFT) != 0); }
+	bool GetDpadRight()	const { return ((state_.Gamepad.wButtons&GAMEPAD_DPAD_RIGHT) != 0); }
+	bool GetStartButton() const { return ((state_.Gamepad.wButtons&GAMEPAD_START_BUTTON) != 0); }
+	bool GetBackButton() const { return ((state_.Gamepad.wButtons&GAMEPAD_BACK_BUTTON) != 0); }
+	bool GetLeftThumb() const { return ((state_.Gamepad.wButtons&GAMEPAD_LEFT_THUMB) != 0); }
+	bool GetRightThumb() const { return ((state_.Gamepad.wButtons&GAMEPAD_RIGHT_THUMB) != 0); }
+	bool GetLeftShoulder() const { return ((state_.Gamepad.wButtons&GAMEPAD_LEFT_SHOULDER) != 0); }
+	bool GetRightShoulder() const { return ((state_.Gamepad.wButtons&GAMEPAD_RIGHT_SHOULDER) != 0); }
+	bool GetA() const { return ((state_.Gamepad.wButtons&GAMEPAD_A) != 0); }
+	bool GetB() const { return ((state_.Gamepad.wButtons&GAMEPAD_B) != 0); }
+	bool GetX() const { return ((state_.Gamepad.wButtons&GAMEPAD_X) != 0); }
+	bool GetY() const { return ((state_.Gamepad.wButtons&GAMEPAD_Y) != 0); }
 
-	bool getDpadUp()		{ return ((state.Gamepad.wButtons&GAMEPAD_DPAD_UP) != 0); }
-	bool getDpadDown()		{ return ((state.Gamepad.wButtons&GAMEPAD_DPAD_DOWN) != 0); }
-	bool getDpadLeft()		{ return ((state.Gamepad.wButtons&GAMEPAD_DPAD_LEFT) != 0); }
-	bool getDpadRight()		{ return ((state.Gamepad.wButtons&GAMEPAD_DPAD_RIGHT) != 0); }
-	bool getStartButton()	{ return ((state.Gamepad.wButtons&GAMEPAD_START_BUTTON) != 0); }
-	bool getBackButton()	{ return ((state.Gamepad.wButtons&GAMEPAD_BACK_BUTTON) != 0); }
-	bool getLeftThumb()		{ return ((state.Gamepad.wButtons&GAMEPAD_LEFT_THUMB) != 0); }
-	bool getRightThumb()	{ return ((state.Gamepad.wButtons&GAMEPAD_RIGHT_THUMB) != 0); }
-	bool getLeftShoulder()	{ return ((state.Gamepad.wButtons&GAMEPAD_LEFT_SHOULDER) != 0); }
-	bool getRightShoulder()	{ return ((state.Gamepad.wButtons&GAMEPAD_RIGHT_SHOULDER) != 0); }
-	bool getA()				{ return ((state.Gamepad.wButtons&GAMEPAD_A) != 0); }
-	bool getB()				{ return ((state.Gamepad.wButtons&GAMEPAD_B) != 0); }
-	bool GetX()				{ return ((state.Gamepad.wButtons&GAMEPAD_X) != 0); }
-	bool GetY()				{ return ((state.Gamepad.wButtons&GAMEPAD_Y) != 0); }
+	BYTE GetRawLeftTrigger();
+	BYTE GetRawRightTrigger();
+	SHORT GetRawLeftThumbX();
+	SHORT GetRawLeftThumbY();
+	SHORT GetRawRightThumbX();
+	SHORT GetRawRightThumbY();
 
-	BYTE	getRawLeftTrigger();
-	BYTE	getRawRightTrigger();
-	SHORT	getRawLeftThumbX();
-	SHORT	getRawLeftThumbY();
-	SHORT	getRawRightThumbX();
-	SHORT	getRawRightThumbY();
-
-	float	getLeftTrigger()		{ return getRawLeftTrigger() / 255.f; }
-	float	getRightTrigger()		{ return getRawRightTrigger() / 255.f; }
-	float	getLeftThumbX()			{ return getRawLeftThumbX() / 32767.f; }
-	float	getLeftThumbY()			{ return getRawLeftThumbY() / 32767.f; }
-	float	getRightThumbX()		{ return getRawRightThumbX() / 32767.f; }
-	float	getRightThumbY()		{ return getRawRightThumbY() / 32767.f; }
-	Point	getLeftThumbPosition()	{ return Point{ getLeftThumbX(), getLeftThumbY() }; }
-	Point	getRightThumbPosition()	{ return Point{ getRightThumbX(), getRightThumbY() }; }
-
-private:
-	void vibrateController(double frameTime);
-	void createEvent();
+	float GetLeftTrigger() { return GetRawLeftTrigger() / 255.f; }
+	float GetRightTrigger() { return GetRawRightTrigger() / 255.f; }
+	float GetLeftThumbX() { return GetRawLeftThumbX() / 32767.f; }
+	float GetLeftThumbY() { return GetRawLeftThumbY() / 32767.f; }
+	float GetRightThumbX() { return GetRawRightThumbX() / 32767.f; }
+	float GetRightThumbY() { return GetRawRightThumbY() / 32767.f; }
+	Point GetLeftThumbPosition() { return Point{ GetLeftThumbX(), GetLeftThumbY() }; }
+	Point GetRightThumbPosition() { return Point{ GetRightThumbX(), GetRightThumbY() }; }
 
 private:
-	UINT				controllerIndex;
+	void VibrateController(double frameTime);
+	void CreateEvent();
 
-	XINPUT_STATE        state;
-	XINPUT_VIBRATION    vibration;
-	float               vibrateTimeLeft;
-	float               vibrateTimeRight;
-	bool                connected;
-	float				vibrateReadyTime; // 진동을 줄 때, 일정 시간정도의 대기시간이 필요하다.
+private:
+	UINT controllerIndex_;
 
-	bool				buttonArray[14];
-	DWORD*				indexData;
+	XINPUT_STATE state_;
+	XINPUT_VIBRATION vibration_;
+	float vibrateTimeLeft_;
+	float vibrateTimeRight_;
+	bool connected_;
+	float vibrateReadyTime_; // 진동을 줄 때, 일정 시간정도의 대기시간이 필요하다.
+
+	bool buttonArray_[14];
+	DWORD* indexData_;
 
 };
 

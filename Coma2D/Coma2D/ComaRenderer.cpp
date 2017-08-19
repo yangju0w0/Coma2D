@@ -34,12 +34,13 @@ bool ComaRenderer::InitRenderer(HWND hWnd)
 	{
 		return false;
 	}
+
 	if (!CreateRenderTarget(hWnd))
 	{
 		return false;
 	}
 
-	timer_->reset();
+	timer_->Reset();
 
 	targetWindow_ = hWnd;
 	initialized_ = true;
@@ -78,11 +79,12 @@ bool ComaRenderer::Run()
 		return false;
 	}
 
-	timer_->start();
+	timer_->Start();
 	running_ = true;
 	DispatchEvent(new RendererEvent(RendererEvent::RUN, this));
 	return true;
 }
+
 bool ComaRenderer::Pause()
 {
 	if (!initialized_ || !running_)
@@ -90,11 +92,12 @@ bool ComaRenderer::Pause()
 		return false;
 	}
 
-	timer_->stop();
+	timer_->Stop();
 	running_ = false;
 	DispatchEvent(new RendererEvent(RendererEvent::PAUSED, this));
 	return true;
 }
+
 bool ComaRenderer::Update()
 {
 	if (!initialized_ || !running_)
@@ -103,8 +106,8 @@ bool ComaRenderer::Update()
 	}
 
 	//Time Process
-	timer_->tick();
-	deltaTime_ = timer_->getDeltaTime();
+	timer_->Tick();
+	deltaTime_ = timer_->GetDeltaTime();
 	
 	if (deltaTime_ > maxFrameTime_)
 	{
@@ -138,6 +141,7 @@ bool ComaRenderer::Update()
 	frameCount_++;
 	return true;
 }
+
 bool ComaRenderer::ResetSize()
 {
 	if (!initialized_)
@@ -149,6 +153,7 @@ bool ComaRenderer::ResetSize()
 
 	return renderTarget_->Resize(D2D1::SizeU(rect.right, rect.bottom)) == S_OK;
 }
+
 void ComaRenderer::RestoreDevice()
 {
 	Pause();

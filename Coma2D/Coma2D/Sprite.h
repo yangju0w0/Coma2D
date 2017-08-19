@@ -19,32 +19,32 @@ public:
 	virtual void Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
 	virtual void Update(double deltaTime);
 
-	void stop();
-	void play();
-	void gotoAndStop(unsigned int frame);
-	void gotoAndPlay(unsigned int frame);
-	void nextFrame();
-	void prevFrame();
+	void Stop();
+	void Play();
+	void GotoAndStop(unsigned int frame);
+	void GotoAndPlay(unsigned int frame);
+	void NextFrame();
+	void PrevFrame();
 
-	void setAutoReplay(bool value){ autoReplay = value; }
-	void setFrameChangeTime(float time){ frameChangeTime = time; }
+	void SetAutoReplay(bool value){ autoReplay_ = value; }
+	void SetFrameChangeTime(float time){ frameChangeTime_ = time; }
 
-	bool isPlaying(){ return playing; }
-	unsigned int getCurrentFrame(){ return currentFrame; }
-	unsigned int getTotalFrame(){ return totalFrame; }
+	bool IsPlaying(){ return playing_; }
+	unsigned int GetCurrentFrame(){ return currentFrame_; }
+	unsigned int GetTotalFrame(){ return totalFrame_; }
 
 private:
-	Size tileSize;
-	unsigned int currentFrame;
-	unsigned int tempFrame;
-	unsigned int totalFrame;
-	unsigned int widthNumber;
-	unsigned int heightNumber;
-	bool autoReplay;
-	float frameChangeTime;
-	float timeCount;
+	Size tileSize_;
+	unsigned int currentFrame_;
+	unsigned int tempFrame_;
+	unsigned int totalFrame_;
+	unsigned int widthNumber_;
+	unsigned int heightNumber_;
+	bool autoReplay_;
+	float frameChangeTime_;
+	float timeCount_;
 	
-	bool playing;
+	bool playing_;
 };
 
 COMA_END

@@ -10,12 +10,16 @@
 COMA_USING_NS
 
 Sprite::Sprite(Bitmap* bitmap, Size imageSize, Size tileSize, unsigned int widthNumber, unsigned int heightNumber, int tileNumber, float frameChangeTime, bool autoReplay)
-	:Image(bitmap, imageSize), tileSize(tileSize), widthNumber(widthNumber), heightNumber(heightNumber), frameChangeTime(frameChangeTime), autoReplay(autoReplay), playing(true), currentFrame(1)
+	:Image(bitmap, imageSize), tileSize_(tileSize), widthNumber_(widthNumber), heightNumber_(heightNumber), frameChangeTime_(frameChangeTime), autoReplay_(autoReplay), playing_(true), currentFrame_(1)
 {
 	if (tileNumber == 0)
-		totalFrame = widthNumber*heightNumber;
+	{
+		totalFrame_ = widthNumber*heightNumber;
+	}
 	else
-		totalFrame = tileNumber;
+	{
+		totalFrame_ = tileNumber;
+	}
 }
 
 
@@ -24,72 +28,84 @@ Sprite::~Sprite()
 
 void Sprite::Update(double deltaTime)
 {
-	if (isPlaying())
-		timeCount += deltaTime;
-	currentFrame = ((int)(timeCount / frameChangeTime) % totalFrame) + 1;
-	if (currentFrame >= totalFrame && !autoReplay)
-		stop();
+	if (IsPlaying())
+		timeCount_ += deltaTime;
+	currentFrame_ = ((int)(timeCount_ / frameChangeTime_) % totalFrame_) + 1;
+	if (currentFrame_ >= totalFrame_ && !autoReplay_)
+		Stop();
 	DisplayObject::Update(deltaTime);
 
-	if (tempFrame != currentFrame)
+	if (tempFrame_ != currentFrame_)
 	{
-		tempFrame = currentFrame;
+		tempFrame_ = currentFrame_;
 		DispatchEvent(new SpriteEvent(SpriteEvent::ENTER_FRAME, this));
 	}
 }
+
 void Sprite::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
 	DisplayObject::Render(renderTarget, deltaTime);
 	if (!IsVisible())
 		return;
-	if (bitmap->isLoaded())
+	if (bitmap_->IsLoaded())
 	{
 		renderTarget->SetTransform(GetScreenMatrix());
 		D2D1_RECT_F size = { 0, 0, GetLocalSize().width, GetLocalSize().height };
 		D2D1_RECT_F resSize = {
-			((currentFrame - 1) % widthNumber)*tileSize.width,
-			((currentFrame - 1) / widthNumber)*tileSize.height,
-			((currentFrame - 1) % widthNumber)*tileSize.width + tileSize.width,
-			((currentFrame - 1) / widthNumber)*tileSize.height + tileSize.height };
-		renderTarget->DrawBitmap(bitmap->getResource(), size, GetScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, resSize);
+			((currentFrame_ - 1) % widthNumber_)*tileSize_.width,
+			((currentFrame_ - 1) / widthNumber_)*tileSize_.height,
+			((currentFrame_ - 1) % widthNumber_)*tileSize_.width + tileSize_.width,
+			((currentFrame_ - 1) / widthNumber_)*tileSize_.height + tileSize_.height };
+		renderTarget->DrawBitmap(bitmap_->GetResource(), size, GetScreenAlpha(), D2D1_BITMAP_INTERPOLATION_MODE_LINEAR, resSize);
 	}
 }
 
-void Sprite::stop()
+void Sprite::Stop()
 {
-	if (!isPlaying())
+	if (!IsPlaying())
+	{
 		return;
-	playing = false;
-	timeCount = frameChangeTime * (currentFrame - 1) + frameChangeTime*0.05f;
+	}
+	playing_ = false;
+	timeCount_ = frameChangeTime_ * (currentFrame_ - 1) + frameChangeTime_*0.05f;
 	DispatchEvent(new SpriteEvent(SpriteEvent::STOPPED, this));
 }
-void Sprite::play()
+
+void Sprite::Play()
 {
-	if (isPlaying())
+	if (IsPlaying())
 		return;
-	playing = true;
-	timeCount = frameChangeTime * (currentFrame - 1) + frameChangeTime*0.05f;
+	playing_ = true;
+	timeCount_ = frameChangeTime_ * (currentFrame_ - 1) + frameChangeTime_*0.05f;
 	DispatchEvent(new SpriteEvent(SpriteEvent::PLAY, this));
 }
-void Sprite::gotoAndStop(unsigned int frame)
+
+void Sprite::GotoAndStop(unsigned int frame)
 {
-	currentFrame = frame;
-	timeCount = frameChangeTime * (frame - 1) + frameChangeTime*0.05f;
-	stop();
+	currentFrame_ = frame;
+	timeCount_ = frameChangeTime_ * (frame - 1) + frameChangeTime_*0.05f;
+	Stop();
 }
-void Sprite::gotoAndPlay(unsigned int frame)
+
+void Sprite::GotoAndPlay(unsigned int frame)
 {
-	currentFrame = frame;
-	timeCount = frameChangeTime * (frame - 1) + frameChangeTime*0.05f;
-	play();
+	currentFrame_ = frame;
+	timeCount_ = frameChangeTime_ * (frame - 1) + frameChangeTime_*0.05f;
+	Play();
 }
-void Sprite::nextFrame()
+
+void Sprite::NextFrame()
 {
-	if (currentFrame < totalFrame)
-		currentFrame++;
+	if (currentFrame_ < totalFrame_)
+	{
+		currentFrame_++;
+	}
 }
-void Sprite::prevFrame()
+
+void Sprite::PrevFrame()
 {
-	if (currentFrame > 1)
-		currentFrame--;
+	if (currentFrame_ > 1)
+	{
+		currentFrame_--;
+	}
 }

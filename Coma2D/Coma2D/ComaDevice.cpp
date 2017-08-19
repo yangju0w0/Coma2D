@@ -246,7 +246,7 @@ bool ComaDevice::InitManagers()
 
 bool ComaDevice::InitOthers()
 {
-	Bitmap::setRenderer(renderer_);
+	Bitmap::SetRenderer(renderer_);
 	return true;
 }
 

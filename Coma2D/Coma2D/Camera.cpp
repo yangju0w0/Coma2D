@@ -36,7 +36,7 @@ void Camera::Render(ID2D1HwndRenderTarget* renderTarget)
 	{
 		return;
 	}
-		
+
 	if (!cameraBrush_)
 	{
 		renderTarget->CreateSolidColorBrush(D2D1::ColorF(0.8f, 0.1f, 0.1f, GetAlpha()), &cameraBrush_);
@@ -45,9 +45,20 @@ void Camera::Render(ID2D1HwndRenderTarget* renderTarget)
 	renderTarget->DrawRectangle(Rect{ 0, 0, GetLocalSize().width, GetLocalSize().height }, cameraBrush_);
 }
 
-void Camera::On() { cameraOn_ = true; }
-void Camera::Off() { cameraOn_ = false; }
-bool Camera::IsCameraOn() { return cameraOn_; }
+void Camera::On()
+{
+	cameraOn_ = true;
+}
+
+void Camera::Off()
+{
+	cameraOn_ = false;
+}
+
+bool Camera::IsCameraOn() const
+{
+	return cameraOn_;
+}
 
 Matrix3x2 Camera::GetMatrix()
 {
@@ -58,11 +69,14 @@ Matrix3x2 Camera::GetMatrix()
 	return Matrix3x2::Identity();
 }
 
-bool Camera::_RegisterParent(DisplayObjectContainer* parent) {
+bool Camera::_RegisterParent(DisplayObjectContainer* parent)
+{
 	if (!GetParent() && parent)
 	{
 		if (!DisplayObject::_RegisterParent(parent))
+		{
 			return false;
+		}
 		ref_++;
 	}
 	return true;
@@ -74,7 +88,9 @@ bool Camera::_UnregisterParent()
 	if (ref_ <= 0)
 	{
 		if (!DisplayObject::_UnregisterParent())
+		{
 			return false;
+		}
 	}
 	return true;
 }

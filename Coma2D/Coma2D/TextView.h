@@ -23,22 +23,22 @@ public:
 
 	virtual void Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime);
 
-	void setColor(Color color);
-	void setColor(float r, float g, float b);
-	void setText(const std::wstring& text);
+	void SetColor(Color color);
+	void SetColor(float r, float g, float b);
+	void SetText(const std::wstring& text);
 
 private:
 	static IDWriteFactory* factory;
-	static void initFactory();
+	static void InitFactory();
 	static bool factoryAvailable;
 
-	IDWriteTextFormat* format;
+	IDWriteTextFormat* format_;
 	ID2D1SolidColorBrush* textBrush_;
 
-	std::wstring text;
-	Color color;
-	float tempScreenAlpha;
-	int textAlign;
+	std::wstring text_;
+	Color color_;
+	float tempScreenAlpha_;
+	int textAlign_;
 };
 
 COMA_END

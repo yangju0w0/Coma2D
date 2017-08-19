@@ -24,7 +24,7 @@ void PhysicsManager::InitBox2D(Vector gravity)
 		return;
 	}
 	world_ = new b2World(gravity);
-	GameObject::setPhysicsWorld(world_);
+	GameObject::SetPhysicsWorld(world_);
 }
 
 b2World* PhysicsManager::GetWorld() const
@@ -45,7 +45,7 @@ bool PhysicsManager::SetGravity(Vector gravity) const
 void PhysicsManager::SetPixelPerMeter(float pixels)
 {
 	pixelPerMeter_ = pixels;
-	GameObject::setPixelPerMeter(pixels);
+	GameObject::SetPixelPerMeter(pixels);
 }
 
 void PhysicsManager::NextStep(double deltaTime) const

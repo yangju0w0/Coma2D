@@ -12,24 +12,26 @@ IDWriteFactory* TextView::factory = 0;
 bool TextView::factoryAvailable = false;
 
 TextView::TextView(Size layoutSize, const std::wstring& text, const std::wstring& fontName, float fontSize, const Color& color, int textAlign)
-	:format(nullptr), textBrush_(nullptr), text(text), color(color), tempScreenAlpha(0.0f), textAlign(textAlign)
+	:format_(nullptr), textBrush_(nullptr), text_(text), color_(color), tempScreenAlpha_(0.0f), textAlign_(textAlign)
 {
 	if (!factoryAvailable)
-		initFactory();
-	
-	factory->CreateTextFormat(fontName.c_str(), 0, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, fontSize, L"ko", &format);
+	{
+		InitFactory();
+	}
+
+	factory->CreateTextFormat(fontName.c_str(), 0, DWRITE_FONT_WEIGHT_REGULAR, DWRITE_FONT_STYLE_NORMAL, DWRITE_FONT_STRETCH_NORMAL, fontSize, L"ko", &format_);
 	SetLocalSize(layoutSize);
-	this->color.a = GetScreenAlpha();
+	this->color_.a = GetScreenAlpha();
 	switch (textAlign)
 	{
 	case ALIGN_LEFT:
-		format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
+		format_->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_LEADING);
 		break;
 	case ALIGN_RIGHT:
-		format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
+		format_->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_TRAILING);
 		break;
 	case ALIGN_CENTER:
-		format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
+		format_->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER);
 		break;
 	}
 }
@@ -37,21 +39,21 @@ TextView::TextView(Size layoutSize, const std::wstring& text, const std::wstring
 
 TextView::~TextView()
 {
-	if(factory) factory->Release();
+	if (factory) factory->Release();
 	factoryAvailable = false;
-	if (format)format->Release();
+	if (format_)format_->Release();
 	if (textBrush_) textBrush_->Release();
 }
 
 
-void TextView::initFactory()
+void TextView::InitFactory()
 {
 	HRESULT hr;
 	hr = DWriteCreateFactory(
 		DWRITE_FACTORY_TYPE_SHARED,
 		__uuidof(IDWriteFactory),
 		(IUnknown**)&factory
-		);
+	);
 
 	if (FAILED(hr))
 		return;
@@ -62,36 +64,42 @@ void TextView::Render(ID2D1HwndRenderTarget* renderTarget, double deltaTime)
 {
 	DisplayObject::Render(renderTarget, deltaTime);
 	if (!IsVisible())
-		return;
-	if (std::roundf(GetScreenAlpha() * 1000) != tempScreenAlpha)
 	{
-		tempScreenAlpha = std::roundf(GetScreenAlpha() * 1000);
-		color.a = GetScreenAlpha();
+		return;
+	}
+
+	if (std::roundf(GetScreenAlpha() * 1000) != tempScreenAlpha_)
+	{
+		tempScreenAlpha_ = std::roundf(GetScreenAlpha() * 1000);
+		color_.a = GetScreenAlpha();
 		if (textBrush_)textBrush_->Release();
 		textBrush_ = nullptr;
 	}
+
 	if (!textBrush_)
 	{
-		renderTarget->CreateSolidColorBrush(color, &textBrush_);
+		renderTarget->CreateSolidColorBrush(color_, &textBrush_);
 	}
-	
+
 	renderTarget->SetTransform(GetScreenMatrix());
 	Rect rect = { 0, 0, GetLocalSize().width, GetLocalSize().height };
-	renderTarget->DrawTextW(text.c_str(), text.length(), format, rect, textBrush_);
+	renderTarget->DrawTextW(text_.c_str(), text_.length(), format_, rect, textBrush_);
 }
 
-void TextView::setColor(Color color)
+void TextView::SetColor(Color color)
 {
-	this->color = color;
+	this->color_ = color;
 	color.a = GetScreenAlpha();
 	if (textBrush_) textBrush_->Release();
 	textBrush_ = nullptr;
 }
-void TextView::setColor(float r, float g, float b)
+
+void TextView::SetColor(float r, float g, float b)
 {
-	setColor(Color{ r, g, b });
+	SetColor(Color{ r, g, b });
 }
-void TextView::setText(const std::wstring& text)
+
+void TextView::SetText(const std::wstring& text)
 {
-	this->text = text;
+	this->text_ = text;
 }

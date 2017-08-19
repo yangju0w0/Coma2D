@@ -21,15 +21,15 @@ GamepadEvent::GamepadEvent(const std::string& type, Gamepad* target, DWORD butto
 {
 	if (left)
 	{
-		trigger_ = target->getLeftTrigger();
-		thumbX_ = target->getLeftThumbX();
-		thumbY_ = target->getLeftThumbY();
+		trigger_ = target->GetLeftTrigger();
+		thumbX_ = target->GetLeftThumbX();
+		thumbY_ = target->GetLeftThumbY();
 	}
 	else if (right)
 	{
-		trigger_ = target->getRightTrigger();
-		thumbX_ = target->getRightThumbX();
-		thumbY_ = target->getRightThumbY();
+		trigger_ = target->GetRightTrigger();
+		thumbX_ = target->GetRightThumbX();
+		thumbY_ = target->GetRightThumbY();
 	}
 }
 

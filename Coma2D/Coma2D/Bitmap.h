@@ -15,51 +15,52 @@ class Bitmap :
 	public Resource
 {
 private:
-	Bitmap(ComaRenderer* renderer, IWICBitmapDecoder* decoder, bool load = false) :renderer(renderer), decoder(decoder), reload(false)
+	Bitmap(ComaRenderer* renderer, IWICBitmapDecoder* decoder, bool load = false)
+		:renderer_(renderer), decoder_(decoder), reload_(false)
 	{
 		if (load)
-			loadResource();
-		renderer->SetEventListener(RendererEvent::LOAD_RESOURCE_REQ,	BIND(Bitmap::loadReqListener), this);
-		renderer->SetEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::unloadReqListener), this);
-	}
+		{
+			LoadResource();
+		}
 
-//======================== Static Mathods ====================
+		renderer_->SetEventListener(RendererEvent::LOAD_RESOURCE_REQ, BIND(Bitmap::LoadReqListener), this);
+		renderer_->SetEventListener(RendererEvent::UNLOAD_RESOURCES_REQ, BIND(Bitmap::UnloadReqListener), this);
+	}
 
 public:
 	virtual ~Bitmap();
-	static Bitmap* createBitmap(TCHAR* filename);
-	static Bitmap* createBitmap(IStream* stream);
-	static Bitmap* createBitmap(ComaRenderer* renderer, TCHAR* filename);
-	static Bitmap* createBitmap(ComaRenderer* renderer, IStream* stream);
+	static Bitmap* CreateBitmap(TCHAR* filename);
+	static Bitmap* CreateBitmap(IStream* stream);
+	static Bitmap* CreateBitmap(ComaRenderer* renderer, TCHAR* filename);
+	static Bitmap* CreateBitmap(ComaRenderer* renderer, IStream* stream);
 
-	static Bitmap* createBitmapAndLoad(TCHAR* filename);
-	static Bitmap* createBitmapAndLoad(IStream* stream);
-	static Bitmap* createBitmapAndLoad(ComaRenderer* renderer, TCHAR* filename);
-	static Bitmap* createBitmapAndLoad(ComaRenderer* renderer, IStream* stream);
+	static Bitmap* CreateBitmapAndLoad(TCHAR* filename);
+	static Bitmap* CreateBitmapAndLoad(IStream* stream);
+	static Bitmap* CreateBitmapAndLoad(ComaRenderer* renderer, TCHAR* filename);
+	static Bitmap* CreateBitmapAndLoad(ComaRenderer* renderer, IStream* stream);
 
-	static void setRenderer(ComaRenderer* renderer);
+	static void SetRenderer(ComaRenderer* renderer);
 private:
-	static IWICBitmapDecoder* createBitmapDecoderFromFile(TCHAR* filename);
-	static IWICBitmapDecoder* createBitmapDecoderFromStream(IStream* stream);
-	static ID2D1Bitmap* createID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderTarget, IWICBitmapDecoder* decoder);
+	static IWICBitmapDecoder* CreateBitmapDecoderFromFile(TCHAR* filename);
+	static IWICBitmapDecoder* CreateBitmapDecoderFromStream(IStream* stream);
+	static ID2D1Bitmap* CreateID2D1BitmapFromDecoder(ID2D1HwndRenderTarget* renderTarget, IWICBitmapDecoder* decoder);
 	static IWICImagingFactory* factory;
 	static ComaRenderer* mainRenderer;
-//============================================================
 
 public:
-	ID2D1Bitmap* getResource(){ return bitmap; }
-	bool isLoaded();
-	bool loadResource();
-	bool unloadResource();
+	ID2D1Bitmap* GetResource() const { return bitmap_; }
+	bool IsLoaded();
+	bool LoadResource();
+	bool UnloadResource();
 
 private:
-	ComaRenderer* renderer;
-	ID2D1Bitmap* bitmap;
-	IWICBitmapDecoder* decoder;
-	bool reload;
-	
-	void loadReqListener(const Event* event);
-	void unloadReqListener(const Event* event);
+	ComaRenderer* renderer_;
+	ID2D1Bitmap* bitmap_;
+	IWICBitmapDecoder* decoder_;
+	bool reload_;
+
+	void LoadReqListener(const Event* event);
+	void UnloadReqListener(const Event* event);
 };
 
 COMA_END
